@@ -12,8 +12,6 @@ Este repositório contém o desenvolvimento da aplicação **BLANK**, um projeto
 - [Relatório v3 em PDF]() 
 - [Manual De Utilizador]() 
 - [Protótipo Figma]()  
-- [ClickUp]()  
-- [Servidor Privado Discord]()
   
 ## Estrutura
 - **/Documentos** → Relatório, PDF e .md, imagens, manual de utilizador e apresentações
