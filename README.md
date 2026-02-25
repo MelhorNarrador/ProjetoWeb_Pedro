@@ -1,7 +1,7 @@
 # ProjetoWeb_Pedro
-# BLANK – Aplicação Web
+# FloralQ – Aplicação Web
 
-Este repositório contém o desenvolvimento da aplicação **BLANK**, um projeto da UC de Projeto Web – 4º semestre (2025/2026).
+Este repositório contém o desenvolvimento da aplicação **FloralQ**, um projeto da UC de Projeto Web – 4º semestre (2025/2026).
 
 ## Links Importantes
 - [Relatório v1 em Markdown]()
@@ -11,7 +11,6 @@ Este repositório contém o desenvolvimento da aplicação **BLANK**, um projeto
 - [Relatório v3 em Markdown]()
 - [Relatório v3 em PDF]() 
 - [Manual De Utilizador]() 
-- [Protótipo Figma]()  
   
 ## Estrutura
 - **/Documentos** → Relatório, PDF e .md, imagens, manual de utilizador e apresentações
