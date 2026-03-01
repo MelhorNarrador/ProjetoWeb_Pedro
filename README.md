@@ -13,6 +13,6 @@ Este repositório contém o desenvolvimento da aplicação WEB **FloralQ**, um p
 - [Manual De Utilizador]() 
   
 ## Estrutura
-- **/Documentos** → Relatório, PDF e .md, imagens, manual de utilizador e apresentações
+- **/Documentos** → Relatórios (Individuais e de Projeto), PDF e .md, imagens, manual de utilizador e apresentações
 - **/Src** → Código da aplicação
 - **/sql** → Ficheiros para creação da base de dados com, create, populate e queries de exemplo
