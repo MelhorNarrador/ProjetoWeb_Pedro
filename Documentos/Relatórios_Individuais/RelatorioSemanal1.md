@@ -69,8 +69,9 @@ O trabalho desenvolvido centrou-se principalmente na definição conceptual do p
 
 ### 2.3 Tarefas em Atraso
 
-A implementação do backend ainda não foi iniciada como era pretendido, estando prevista para a próxima fase do projeto.
 Não existem atrasos críticos nesta fase.
+No entanto, a implementação do backend ainda não foi iniciada como era pretendido, estando prevista para a próxima fase do projeto.
+
 
 ---
 
