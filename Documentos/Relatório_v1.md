@@ -230,3 +230,11 @@ Esta arquitetura permite separar claramente as responsabilidades entre recolha d
 ![Gantt Chart do Projeto](Imgs/Gantt_08_03.png)
 
 ---
+
+# 8. Conclusão
+
+a **FloralQ** pretende demonstrar como a integração de **tecnologias IoT com aplicações web** pode facilitar a monitorização de plantas e melhorar a sua manutenção.
+
+A combinação de sensores físicos com um dashboard web permitirá aos utilizadores acompanhar o estado das suas plantas de forma simples e informada.
+
+Nas fases seguintes do projeto será desenvolvido um **protótipo funcional**, se possível, incluindo a integração dos dispositivos IoT com o backend da aplicação.
