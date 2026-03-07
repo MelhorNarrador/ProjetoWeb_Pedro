@@ -8,7 +8,7 @@
 
 ---
 
-![Logo FloraIQ](imgs/logo_floraiq.png)
+![Logo FloraIQ](Imgs/FloralQ_Logo.png)
 
 ---
 
