@@ -227,6 +227,6 @@ Esta arquitetura permite separar claramente as responsabilidades entre recolha d
 
 ## Grafico de Gantt (08/03/2026)
 
-![Gantt Chart do Projeto](imgs/Gantt_08_03.png)
+![Gantt Chart do Projeto](Documentos/Imgs/Gantt_08_03.png)
 
 ---
