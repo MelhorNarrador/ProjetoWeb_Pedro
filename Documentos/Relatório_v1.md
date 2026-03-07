@@ -74,7 +74,7 @@ O **FloraIQ** diferencia-se por integrar **sensores físicos** num **sistema ace
 
 # 5. Guiões de Teste
 
-### Guião 1 – Monitorizar uma planta
+### Guião 1 – Registar uma planta
 
 1. O utilizador cria uma conta na plataforma.  
 2. Regista uma nova planta no sistema.  
