@@ -83,7 +83,7 @@ O **FloraIQ** diferencia-se por integrar **sensores físicos** num **sistema ace
 4. O dispositivo envia leituras de humidade para o servidor.  
 5. O dashboard apresenta os dados da planta.
 
-**Resultado esperado**: O utilizador consegue acompanhar o estado da planta.
+**Resultado esperado**: O utilizador consegue registar uma planta.
 
 ---
 
@@ -91,7 +91,7 @@ O **FloraIQ** diferencia-se por integrar **sensores físicos** num **sistema ace
 
 1. O utilizador acede ao dashboard.  
 2. Seleciona uma planta registada.  
-3. Visualiza o histórico de humidade do solo.  
+3. Visualiza a humidade do solo e verifica.  
 4. Consulta a localização da planta no mapa.
 
 **Resultado esperado**: O utilizador compreende facilmente o estado da planta.
