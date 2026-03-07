@@ -21,7 +21,6 @@ IoT, sensores ambientais, monitorização de plantas, geolocalização, dashboar
 
 O cuidado de plantas e espaços verdes é frequentemente baseado em observação manual e experiência empírica.  
 Muitas pessoas têm dificuldade em perceber **quando regar uma planta**, o que pode levar a problemas como excesso ou falta de água.
-
 Além disso, a monitorização de plantas em jardins ou espaços urbanos não é normalmente acompanhada por dados objetivos em tempo real.
 
 A **FloralQ** pretende resolver este problema através de uma plataforma que combina **sensores físicos de humidade do solo e localização GPS** com uma **aplicação web**, permitindo monitorizar o estado das plantas e analisar dados ao longo do tempo.
