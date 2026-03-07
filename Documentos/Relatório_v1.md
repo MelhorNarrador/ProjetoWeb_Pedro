@@ -66,10 +66,9 @@ O projeto dirige-se a diferentes perfis de utilizadores:
 
 | Plataforma | Pontos fortes | Pontos fracos | Oportunidade para FloraIQ |
 |------------|---------------|-----------|---------------------------|
-| Planta App | Interface intuitiva Recomendações personalizadas Identificação por imagem | Não utiliza sensores físicos, Baseia-se apenas em inputs manuais | Integração de sensores reais com dados automáticos |
-| Plantum | Identificação por imagem | Sem monitorização contínua | Monitorização em tempo real |
-| Weenat | Sensores ambientais avançados | Focado na agricultura profissional | Solução mais simples e acessível |
+| Planta App | Interface intuitiva, Recomendações personalizadas, Identificação por imagem | Não utiliza sensores físicos, Baseia-se apenas em inputs manuais | Integração de sensores reais com dados automáticos |
+| Weenat | Monitorização com sensores reais, Dados ambientais detalhados | Foco exclusivo na agricultura profissional, Sistema complexo e pouco acessível ao utilizador comum | Solução mais simples e acessível |
 
-O **FloraIQ** diferencia-se por integrar **sensores físicos de baixo custo** com uma aplicação web simples.
+O **FloraIQ** diferencia-se por integrar **sensores físicos** num **sistema acessível** a **utilizadores domesticos e urbanos** permitindo monitorizar niveis de **humidade em tempo real** com **localização GPS**.
 
 ---
