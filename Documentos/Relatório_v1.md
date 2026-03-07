@@ -86,7 +86,7 @@ O **FloraIQ** diferencia-se por integrar **sensores físicos** num **sistema ace
 
 ---
 
-### Guião 2 – Visualizar dados da planta
+### Guião 2 – Monitorizar uma planta
 
 1. O utilizador acede ao dashboard.  
 2. Seleciona uma planta registada.  
@@ -232,7 +232,7 @@ Esta arquitetura permite separar claramente as responsabilidades entre recolha d
 
 # 8. Conclusão
 
-a **FloralQ** pretende demonstrar como a integração de **tecnologias IoT com aplicações web** pode facilitar a monitorização de plantas e melhorar a sua manutenção.
+A **FloralQ** pretende demonstrar como a integração de **tecnologias IoT com aplicações web** pode facilitar a monitorização de plantas e melhorar a sua manutenção.
 
 A combinação de sensores físicos com um dashboard web permitirá aos utilizadores acompanhar o estado das suas plantas de forma simples e informada.
 
