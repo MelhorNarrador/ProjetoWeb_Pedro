@@ -41,3 +41,6 @@ CREATE TABLE sensor_reading (
     sensor_reading_recorded_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 	CHECK (sensor_reading_moisture_percent BETWEEN 0 AND 100)
 );
+
+CREATE INDEX idx_sensor_device_time
+ON sensor_reading (device_id, sensor_reading_recorded_at DESC);
