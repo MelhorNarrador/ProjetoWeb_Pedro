@@ -4,8 +4,8 @@
 Este repositório contém o desenvolvimento da aplicação WEB **FloralQ**, um projeto da UC de Projeto Web – 4º semestre (2025/2026).
 
 ## Links Importantes
-- [Relatório v1 em Markdown]()
-- [Relatório v1 em PDF]()
+- [Relatório v1 em Markdown](Documentos/Relatório_v1.md)
+- [Relatório v1 em PDF](Documentos/Relatório_v1.pdf)
 - [Relatório v2 em Markdown]()
 - [Relatório v2 em PDF]()
 - [Relatório v3 em Markdown]()
