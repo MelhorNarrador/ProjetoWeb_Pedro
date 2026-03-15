@@ -15,11 +15,36 @@ if (!$device_code) {
     exit;
 }
 
+define("SENSOR_TIMEOUT", 600);
+
+function formatLastReading($seconds)
+{
+    if ($seconds < 60) {
+        return $seconds . " segundos";
+    }
+
+    $minutes = floor($seconds / 60);
+
+    if ($minutes < 60) {
+        return $minutes . " minutos";
+    }
+
+    $hours = floor($minutes / 60);
+    $minutes = $minutes % 60;
+
+    if ($minutes == 0) {
+        return $hours . " horas";
+    }
+
+    return $hours . " hora(s) e " . $minutes . " minuto(s)";
+}
+
 try {
 
 $stmt = $pdo->prepare("
 SELECT
 sr.sensor_reading_moisture_percent,
+sr.sensor_reading_recorded_at,
 pt.plant_type_min_moisture,
 pt.plant_type_max_moisture
 FROM sensor_reading sr
@@ -38,35 +63,58 @@ $stmt->execute([
 $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$data) {
-echo json_encode([
-"success" => false,
-"message" => "No data found"
-]);
-exit;
+    echo json_encode([
+        "success" => true,
+        "data" => [
+            "plant_status" => "unknown",
+            "sensor_status" => "offline"
+        ]
+    ]);
+    exit;
 }
 
 $moisture = $data["sensor_reading_moisture_percent"];
 $min = $data["plant_type_min_moisture"];
 $max = $data["plant_type_max_moisture"];
 
-$status = "healthy";
+$last_reading_time = strtotime($data["sensor_reading_recorded_at"]);
+$now = time();
 
-if ($moisture < $min) {
-$status = "dry";
+$seconds_since_last = $now - $last_reading_time;
+
+$sensor_status = "online";
+
+if ($seconds_since_last > SENSOR_TIMEOUT) {
+    $sensor_status = "offline";
 }
 
-if ($moisture > $max) {
-$status = "overwatered";
+$plant_status = "unknown";
+
+if ($sensor_status === "online") {
+
+    if ($moisture < $min) {
+        $plant_status = "dry";
+    } 
+    elseif ($moisture > $max) {
+        $plant_status = "overwatered";
+    } 
+    else {
+        $plant_status = "healthy";
+    }
+
 }
 
 echo json_encode([
-"success" => true,
-"data" => [
-"moisture" => $moisture,
-"min" => $min,
-"max" => $max,
-"status" => $status
-]
+    "success" => true,
+    "data" => [
+        "moisture" => $moisture,
+        "min" => $min,
+        "max" => $max,
+        "plant_status" => $plant_status,
+        "sensor_status" => $sensor_status,
+        "seconds_since_last_reading" => $seconds_since_last,
+        "last_reading_human" => formatLastReading($seconds_since_last)
+    ]
 ]);
 
 } catch (PDOException $e) {
