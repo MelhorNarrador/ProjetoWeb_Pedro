@@ -1,4 +1,4 @@
-**Estas respostas foram obtidas atravez de GET no postman com os dados simulados do ficheiro Inserts_teste_algoritmo.sql
+**Estas respostas foram obtidas atravez de GET no postman com os dados simulados do ficheiro Inserts_teste_algoritmo.sql**
 
 resposta 1)
 
