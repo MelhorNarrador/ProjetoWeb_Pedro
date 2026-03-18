@@ -36,11 +36,20 @@ try {
         "device_code" => $device_code
     ]);
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
-    // SUCESSO
+
+if (!$data) {
     echo json_encode([
         "success" => true,
-        "data" => $data
+        "data"    => null,
+        "message" => "No plant found for this device"
     ]);
+    exit;
+}
+    // SUCESSO
+echo json_encode([
+    "success" => true,
+    "data"    => $data
+]);
     // FAIL
 } catch (PDOException $e) {
     http_response_code(500);
