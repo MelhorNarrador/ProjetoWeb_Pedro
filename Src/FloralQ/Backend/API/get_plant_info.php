@@ -25,7 +25,7 @@ try {
         pt.plant_type_name,
         pt.plant_type_min_moisture,
         pt.plant_type_max_moisture,
-        d.device_is_professional  -- ← adiciona isto
+        d.device_is_professional
         FROM plant p
         JOIN device d ON p.device_id = d.device_id
         JOIN plant_type pt ON p.plant_type_id = pt.plant_type_id
