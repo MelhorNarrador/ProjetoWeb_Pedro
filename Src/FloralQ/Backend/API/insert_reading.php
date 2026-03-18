@@ -14,7 +14,7 @@ if (!$data) {
     ]);
     exit;
 }
-
+// VALIDAÇÃO DE CAMPOS
 $device_code = $data["device_code"] ?? null;
 $moisture = $data["moisture"] ?? null;
 $latitude = $data["latitude"] ?? null;
@@ -28,7 +28,6 @@ if (!$device_code || $moisture === null) {
     ]);
     exit;
 }
-
 try {
     $stmt = $pdo->prepare("
         SELECT device_id
@@ -41,7 +40,7 @@ try {
     ]);
 
     $device = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    // VER SE O DEVICE EXISTE
     if (!$device) {
         http_response_code(404);
         echo json_encode([
@@ -50,7 +49,7 @@ try {
         ]);
         exit;
     }
-
+    // INSERIR LEITURA
     $stmt = $pdo->prepare("
         INSERT INTO sensor_reading (
             device_id,
@@ -65,19 +64,19 @@ try {
             :longitude
         )
     ");
-
+    // SE LAT FOR NULL, METER NULL, SENAO METER VALOR
     $stmt->execute([
         "device_id" => $device["device_id"],
         "moisture" => $moisture,
         "latitude" => $latitude,
         "longitude" => $longitude
     ]);
-
+    // SUCESSIO
     echo json_encode([
         "success" => true,
         "message" => "Reading inserted successfully"
     ]);
-
+    // FAIL
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode([

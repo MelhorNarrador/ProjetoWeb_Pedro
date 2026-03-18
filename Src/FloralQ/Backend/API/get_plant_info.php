@@ -14,40 +14,37 @@ if (!$device_code) {
     ]);
     exit;
 }
-
+// SE O DEVICE EXISTE, MOSTRA PLAMTA
 try {
 
-$stmt = $pdo->prepare("
-SELECT
-p.plant_name,
-p.plant_location_label,
-pt.plant_type_name,
-pt.plant_type_min_moisture,
-pt.plant_type_max_moisture
-FROM plant p
-JOIN device d ON p.device_id = d.device_id
-JOIN plant_type pt ON p.plant_type_id = pt.plant_type_id
-WHERE d.device_code = :device_code
+    $stmt = $pdo->prepare("
+        SELECT
+        p.plant_name,
+        p.plant_location_label,
+        pt.plant_type_name,
+        pt.plant_type_min_moisture,
+        pt.plant_type_max_moisture,
+        d.device_is_professional  -- ← adiciona isto
+        FROM plant p
+        JOIN device d ON p.device_id = d.device_id
+        JOIN plant_type pt ON p.plant_type_id = pt.plant_type_id
+        WHERE d.device_code = :device_code
 ");
 
-$stmt->execute([
-"device_code" => $device_code
-]);
-
-$data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-echo json_encode([
-"success" => true,
-"data" => $data
-]);
-
+    $stmt->execute([
+        "device_code" => $device_code
+    ]);
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // SUCESSO
+    echo json_encode([
+        "success" => true,
+        "data" => $data
+    ]);
+    // FAIL
 } catch (PDOException $e) {
-
-http_response_code(500);
-
-echo json_encode([
-"success" => false,
-"message" => $e->getMessage()
-]);
-
+    http_response_code(500);
+    echo json_encode([
+        "success" => false,
+        "message" => $e->getMessage()
+    ]);
 }
