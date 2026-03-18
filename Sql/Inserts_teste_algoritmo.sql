@@ -89,8 +89,3 @@ INSERT INTO sensor_reading (device_id, sensor_reading_moisture_percent, sensor_r
 (1, 5,  NOW() - INTERVAL '30 minutes'),
 (1, 54, NOW() - INTERVAL '15 minutes'),
 (1, 52, NOW());
-
-
-CREATE INDEX idx_sensor_device_time
-ON sensor_reading (device_id, sensor_reading_recorded_at DESC);
-
