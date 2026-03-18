@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once "../Config/database.php";
+require_once "../Utils/init.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -12,6 +12,7 @@ if (!$device_code) {
     echo json_encode(["success" => false, "message" => "device_code required"]);
     exit;
 }
+validateDeviceCode($device_code);
 // REGISTA O DEVICE, IGNORA SE JÁ EXISTIR
 try {
     $stmt = $pdo->prepare("

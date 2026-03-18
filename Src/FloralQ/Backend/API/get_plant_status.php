@@ -2,7 +2,7 @@
 
 header('Content-Type: application/json');
 
-require_once "../Config/database.php";
+require_once "../Utils/init.php";
 
 $device_code = $_GET["device_code"] ?? null;
 
@@ -14,6 +14,7 @@ if (!$device_code) {
     ]);
     exit;
 }
+validateDeviceCode($device_code);
 
 define("SENSOR_TIMEOUT", 600);
 // FORMATAÇÃO DE TEMPO PARA HUMANO, VALOR QUE O USER PRECEBE

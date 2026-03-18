@@ -2,7 +2,7 @@
 
 header('Content-Type: application/json');
 
-require_once "../Config/database.php";
+require_once "../Utils/init.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -25,6 +25,15 @@ if (!$device_code || $moisture === null) {
     echo json_encode([
         "success" => false,
         "message" => "device_code and moisture are required"
+    ]);
+    exit;
+}
+validateDeviceCode($device_code);
+if (!is_numeric($moisture) || $moisture < 0 || $moisture > 100) {
+    http_response_code(400);
+    echo json_encode([
+        "success" => false,
+        "message" => "moisture must be a number between 0 and 100"
     ]);
     exit;
 }

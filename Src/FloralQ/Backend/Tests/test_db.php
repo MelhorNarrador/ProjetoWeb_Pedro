@@ -1,6 +1,6 @@
 <?php
 
-require_once "../Config/database.php";
+require_once "../Utils/init.php";
 
 $stmt = $pdo->query("SELECT NOW()");
 $row = $stmt->fetch();

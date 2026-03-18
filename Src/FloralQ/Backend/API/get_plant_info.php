@@ -2,7 +2,7 @@
 
 header('Content-Type: application/json');
 
-require_once "../Config/database.php";
+require_once "../Utils/init.php";
 
 $device_code = $_GET["device_code"] ?? null;
 
@@ -14,6 +14,7 @@ if (!$device_code) {
     ]);
     exit;
 }
+validateDeviceCode($device_code);
 // SE O DEVICE EXISTE, MOSTRA PLAMTA
 try {
 
@@ -34,7 +35,7 @@ try {
     $stmt->execute([
         "device_code" => $device_code
     ]);
-    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
     // SUCESSO
     echo json_encode([
         "success" => true,

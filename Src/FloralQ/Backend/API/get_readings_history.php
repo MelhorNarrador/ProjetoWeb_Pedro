@@ -2,11 +2,10 @@
 
 header('Content-Type: application/json');
 
-require_once "../Config/database.php";
+require_once "../Utils/init.php";
 $device_code = $_GET["device_code"] ?? null;
-$device_code = $_GET["device_code"] ?? null;
-$limit = $_GET["limit"] ?? 50;
-$limit = min((int)$limit, 200);
+$limit = $_GET["limit"] ?? 288;
+$limit = max(1, min((int)$limit, 2016));
 
 if (!$device_code) {
     http_response_code(400);
@@ -16,6 +15,7 @@ if (!$device_code) {
     ]);
     exit;
 }
+validateDeviceCode($device_code);
 try {
 
     $stmt = $pdo->prepare("

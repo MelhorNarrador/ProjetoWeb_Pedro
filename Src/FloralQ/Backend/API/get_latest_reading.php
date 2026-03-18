@@ -2,7 +2,7 @@
 
 header('Content-Type: application/json');
 
-require_once "../Config/database.php";
+require_once "../Utils/init.php";
 
 $device_code = $_GET["device_code"] ?? null;
 
@@ -14,6 +14,7 @@ if (!$device_code) {
     ]);
     exit;
 }
+validateDeviceCode($device_code);
 // OBTEM A LEITURA MAIS RECENTE DO DEVICE
 try {
 
@@ -35,10 +36,19 @@ try {
     ]);
 
     $reading = $stmt->fetch(PDO::FETCH_ASSOC);
+    // SE NAO HOUVER LEITURAS
+    if (!$reading) {
+        echo json_encode([
+            "success" => true,
+            "data"    => null,
+            "message" => "No readings found for this device"
+        ]);
+        exit;
+    }
     // SUCESSO
     echo json_encode([
         "success" => true,
-        "data" => $reading ?: null
+        "data"    => $reading
     ]);
     // FAIL
 } catch (PDOException $e) {

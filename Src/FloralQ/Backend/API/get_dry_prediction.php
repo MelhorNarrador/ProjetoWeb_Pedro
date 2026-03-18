@@ -1,7 +1,7 @@
 <?php
 
 header('Content-Type: application/json');
-require_once "../Config/database.php";
+require_once "../Utils/init.php";
 
 $device_code = $_GET["device_code"] ?? null;
 
@@ -13,6 +13,7 @@ if (!$device_code) {
     ]);
     exit;
 }
+validateDeviceCode($device_code);
 
 try {
 
@@ -41,9 +42,11 @@ try {
 
     if (count($filtered) < 3) {
         echo json_encode([
-            "success"    => true,
-            "prediction" => "insufficient_data",
-            "message"    => "At least 3 readings required"
+            "success" => true,
+            "data"    => [
+                "prediction" => "insufficient_data",
+                "message"    => "At least 3 readings required"
+            ]
         ]);
         exit;
     }
@@ -53,10 +56,12 @@ try {
 
     if ($spike >= 10) {
         echo json_encode([
-            "success"          => true,
-            "prediction"       => "recently_watered",
-            "spike_detected"   => round($spike, 1),
-            "cooldown_minutes" => 30
+            "success" => true,
+            "data"    => [
+                "prediction"       => "recently_watered",
+                "spike_detected"   => round($spike, 1),
+                "cooldown_minutes" => 30
+            ]
         ]);
         exit;
     }
@@ -83,9 +88,11 @@ try {
 
     if (count($filtered) < 3) {
         echo json_encode([
-            "success"    => true,
-            "prediction" => "insufficient_data",
-            "message"    => "At least 3 readings required"
+            "success" => true,
+            "data"    => [
+                "prediction" => "insufficient_data",
+                "message"    => "At least 3 readings required"
+            ]
         ]);
         exit;
     }
@@ -94,7 +101,6 @@ try {
 
     $n        = count($rows);
     $latest   = $rows[$n - 1];
-    $previous = $rows[$n - 2];
 
     $total   = array_sum(array_column($rows, "sensor_reading_moisture_percent"));
     $average = $total / $n;
@@ -118,11 +124,13 @@ try {
 
     $denominator = ($n * $sum_x2) - ($sum_x * $sum_x);
 
-    if ($denominator == 0) {
+    if (abs($denominator) < PHP_FLOAT_EPSILON) {
         echo json_encode([
-            "success"    => true,
-            "prediction" => "unstable_data",
-            "message"    => "Data without variation"
+            "success" => true,
+            "data"    => [
+                "prediction" => "unstable_data",
+                "message"    => "Data without variation"
+            ]
         ]);
         exit;
     }
@@ -147,19 +155,23 @@ try {
 
     if ($r_squared < 0.5) {
         echo json_encode([
-            "success"    => true,
-            "prediction" => "unstable_data",
-            "message"    => "Inconsistent trend (low R²)",
-            "r_squared"  => round($r_squared, 3)
+            "success" => true,
+            "data"    => [
+                "prediction" => "unstable_data",
+                "message"    => "Inconsistent trend (low R²)",
+                "r_squared"  => round($r_squared, 3)
+            ]
         ]);
         exit;
     }
     // HUMIDADE AUMENTA, SLOPE POSITIVO
     if ($slope > 0) {
         echo json_encode([
-            "success"    => true,
-            "prediction" => "increasing_moisture",
-            "r_squared"  => round($r_squared, 3)
+            "success" => true,
+            "data"    => [
+                "prediction" => "increasing_moisture",
+                "r_squared"  => round($r_squared, 3)
+            ]
         ]);
         exit;
     }
@@ -172,9 +184,11 @@ try {
 
     if ($seconds_until_dry <= 0 || $seconds_until_dry > 172800) {
         echo json_encode([
-            "success"    => true,
-            "prediction" => "unstable_data",
-            "message"    => "Prediction outside acceptable range"
+            "success" => true,
+            "data"    => [
+                "prediction" => "unstable_data",
+                "message"    => "Prediction outside acceptable range"
+            ]
         ]);
         exit;
     }
@@ -183,7 +197,9 @@ try {
     $hours        = (int)floor($seconds_int / 3600);
     $minutes      = (int)floor(($seconds_int % 3600) / 60);
     $dry_in_human = trim(($hours > 0 ? $hours . "h " : "") . $minutes . "m");
-    $dry_timestamp = time() + $seconds_int;
+    $newest_time   = strtotime($rows[$n - 1]["sensor_reading_recorded_at"]);
+    $dry_timestamp = $newest_time + $seconds_int;
+
     // CONFIANÇA DA PREVISÃO
     $oldest_time = strtotime($rows[0]["sensor_reading_recorded_at"]);
     $newest_time = strtotime($rows[$n - 1]["sensor_reading_recorded_at"]);
@@ -191,7 +207,7 @@ try {
 
     if ($n >= 8 && $span_hours >= 2 && $r_squared >= 0.75) {
         $confidence = "high";
-    } elseif ($n >= 5 || $span_hours >= 1) {
+    } elseif ($n >= 5 && $span_hours >= 1) {
         $confidence = "medium";
     } else {
         $confidence = "low";
@@ -200,6 +216,7 @@ try {
     echo json_encode([
         "success" => true,
         "data"    => [
+            "prediction" => "drying",
             "current_moisture" => $current_moisture,
             "min_moisture"     => $min_moisture,
             "average_moisture" => round($average, 1),
@@ -210,8 +227,7 @@ try {
             "r_squared"        => round($r_squared, 3),
             "confidence"       => $confidence,
             "data_points_used" => $n,
-            "span_hours"       => round($span_hours, 2),
-            "status"           => $slope < 0 ? "drying" : "stable"
+            "span_hours"       => round($span_hours, 2)
         ]
     ]);
 } catch (PDOException $e) {
