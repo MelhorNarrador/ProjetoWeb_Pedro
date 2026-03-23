@@ -19,7 +19,8 @@ CREATE TABLE plant_type (
 CREATE TABLE device (
     device_id SERIAL PRIMARY KEY,
     device_code VARCHAR(100) NOT NULL UNIQUE,
-    device_name VARCHAR(100)
+    device_name VARCHAR(100),
+	device_is_professional BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE plant (
