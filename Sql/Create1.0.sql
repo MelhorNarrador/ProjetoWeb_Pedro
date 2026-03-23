@@ -3,9 +3,9 @@ CREATE TABLE user_account (
     user_account_name VARCHAR(100) NOT NULL,
     user_account_email VARCHAR(255) NOT NULL UNIQUE,
     user_account_password_hash TEXT NOT NULL,
-	user_account_role VARCHAR(20) NOT NULL DEFAULT 'user',
+    user_account_role VARCHAR(20) NOT NULL DEFAULT 'user',
     user_created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	CHECK (user_account_role IN ('user','admin'))
+    CHECK (user_account_role IN ('user','admin'))
 );
 
 CREATE TABLE plant_type (
@@ -13,14 +13,16 @@ CREATE TABLE plant_type (
     plant_type_name VARCHAR(150) NOT NULL,
     plant_type_min_moisture INT NOT NULL,
     plant_type_max_moisture INT NOT NULL,
-	CHECK (plant_type_min_moisture <= plant_type_max_moisture)
+    CHECK (plant_type_min_moisture <= plant_type_max_moisture)
 );
 
 CREATE TABLE device (
     device_id SERIAL PRIMARY KEY,
     device_code VARCHAR(100) NOT NULL UNIQUE,
     device_name VARCHAR(100),
-	device_is_professional BOOLEAN NOT NULL DEFAULT FALSE
+    device_is_professional BOOLEAN NOT NULL DEFAULT FALSE,
+    activation_code VARCHAR(10) UNIQUE,
+    user_account_id INT REFERENCES user_account(user_account_id)
 );
 
 CREATE TABLE plant (
@@ -40,7 +42,7 @@ CREATE TABLE sensor_reading (
     sensor_reading_latitude DECIMAL(9,6),
     sensor_reading_longitude DECIMAL(9,6),
     sensor_reading_recorded_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-	CHECK (sensor_reading_moisture_percent BETWEEN 0 AND 100)
+    CHECK (sensor_reading_moisture_percent BETWEEN 0 AND 100)
 );
 
 CREATE INDEX idx_sensor_device_time
