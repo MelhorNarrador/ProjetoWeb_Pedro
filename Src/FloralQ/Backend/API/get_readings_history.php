@@ -3,19 +3,9 @@
 header('Content-Type: application/json');
 
 require_once "../Utils/init.php";
-$device_code = $_GET["device_code"] ?? null;
 $limit = $_GET["limit"] ?? 288;
 $limit = max(1, min((int)$limit, 2016));
-
-if (!$device_code) {
-    http_response_code(400);
-    echo json_encode([
-        "success" => false,
-        "message" => "device_code is required"
-    ]);
-    exit;
-}
-validateDeviceCode($device_code);
+$device_code = requireDeviceCode();
 try {
 
     $stmt = $pdo->prepare("

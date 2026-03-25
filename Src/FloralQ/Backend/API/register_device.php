@@ -1,18 +1,19 @@
 <?php
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
-
 $data = json_decode(file_get_contents("php://input"), true);
-
 $device_code = $data["device_code"] ?? null;
 $is_professional = $data["is_professional"] ?? false;
 
 if (!$device_code) {
     http_response_code(400);
-    echo json_encode(["success" => false, "message" => "device_code required"]);
+    echo json_encode([
+        "success" => false,
+        "message" => "device_code required"
+    ]);
+
     exit;
 }
-validateDeviceCode($device_code);
 // REGISTA O DEVICE, IGNORA SE JÁ EXISTIR
 try {
     $stmt = $pdo->prepare("

@@ -3,17 +3,7 @@
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
 
-$device_code = $_GET["device_code"] ?? null;
-
-if (!$device_code) {
-    http_response_code(400);
-    echo json_encode([
-        "success" => false,
-        "message" => "device_code required"
-    ]);
-    exit;
-}
-validateDeviceCode($device_code);
+$device_code = requireDeviceCode();
 
 try {
 
@@ -192,11 +182,11 @@ try {
         ]);
         exit;
     }
-    // FORMATAÇÃO PARA "HUMANO", VALOR AMIGAVEL PARA USER NÉ
+    // FORMATAÇÃO PARA VALOR AMIGAVEL PARA USER
     $seconds_int  = (int)round($seconds_until_dry);
     $hours        = (int)floor($seconds_int / 3600);
     $minutes      = (int)floor(($seconds_int % 3600) / 60);
-    $dry_in_human = trim(($hours > 0 ? $hours . "h " : "") . $minutes . "m");
+    $dry_in_friendly = trim(($hours > 0 ? $hours . "h " : "") . $minutes . "m");
     $newest_time   = strtotime($rows[$n - 1]["sensor_reading_recorded_at"]);
     $dry_timestamp = $newest_time + $seconds_int;
 
@@ -221,7 +211,7 @@ try {
             "min_moisture"     => $min_moisture,
             "average_moisture" => round($average, 1),
             "dry_in_hours"     => round($seconds_until_dry / 3600, 2),
-            "dry_in_human"     => $dry_in_human,
+            "dry_in_friendly"  => $dry_in_friendly,
             "dry_at"           => date("Y-m-d H:i:s", $dry_timestamp),
             "trend_per_hour"   => round($rate_per_second * 3600, 2),
             "r_squared"        => round($r_squared, 3),

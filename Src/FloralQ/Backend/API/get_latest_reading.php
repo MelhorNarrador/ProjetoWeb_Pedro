@@ -3,18 +3,7 @@
 header('Content-Type: application/json');
 
 require_once "../Utils/init.php";
-
-$device_code = $_GET["device_code"] ?? null;
-
-if (!$device_code) {
-    http_response_code(400);
-    echo json_encode([
-        "success" => false,
-        "message" => "device_code is required"
-    ]);
-    exit;
-}
-validateDeviceCode($device_code);
+$device_code = requireDeviceCode();
 // OBTEM A LEITURA MAIS RECENTE DO DEVICE
 try {
 

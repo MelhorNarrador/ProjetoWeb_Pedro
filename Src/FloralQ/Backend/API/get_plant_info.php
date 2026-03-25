@@ -1,20 +1,9 @@
 <?php
 
 header('Content-Type: application/json');
-
 require_once "../Utils/init.php";
+$device_code = requireDeviceCode();
 
-$device_code = $_GET["device_code"] ?? null;
-
-if (!$device_code) {
-    http_response_code(400);
-    echo json_encode([
-        "success" => false,
-        "message" => "device_code required"
-    ]);
-    exit;
-}
-validateDeviceCode($device_code);
 // SE O DEVICE EXISTE, MOSTRA PLAMTA
 try {
 
@@ -37,19 +26,19 @@ try {
     ]);
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (!$data) {
+    if (!$data) {
+        echo json_encode([
+            "success" => true,
+            "data"    => null,
+            "message" => "No plant found for this device"
+        ]);
+        exit;
+    }
+    // SUCESSO
     echo json_encode([
         "success" => true,
-        "data"    => null,
-        "message" => "No plant found for this device"
+        "data"    => $data
     ]);
-    exit;
-}
-    // SUCESSO
-echo json_encode([
-    "success" => true,
-    "data"    => $data
-]);
     // FAIL
 } catch (PDOException $e) {
     http_response_code(500);

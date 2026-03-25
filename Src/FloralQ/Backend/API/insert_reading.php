@@ -28,7 +28,6 @@ if (!$device_code || $moisture === null) {
     ]);
     exit;
 }
-validateDeviceCode($device_code);
 if (!is_numeric($moisture) || $moisture < 0 || $moisture > 100) {
     http_response_code(400);
     echo json_encode([

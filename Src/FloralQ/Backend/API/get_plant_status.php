@@ -3,43 +3,8 @@
 header('Content-Type: application/json');
 
 require_once "../Utils/init.php";
-
-$device_code = $_GET["device_code"] ?? null;
-
-if (!$device_code) {
-    http_response_code(400);
-    echo json_encode([
-        "success" => false,
-        "message" => "device_code is required"
-    ]);
-    exit;
-}
-validateDeviceCode($device_code);
-
 define("SENSOR_TIMEOUT", 600);
-// FORMATAÇÃO DE TEMPO PARA HUMANO, VALOR QUE O USER PRECEBE
-function formatLastReading($seconds)
-{
-    if ($seconds < 60) {
-        return $seconds . " segundos";
-    }
-
-    $minutes = floor($seconds / 60);
-
-    if ($minutes < 60) {
-        return $minutes . " minutos";
-    }
-
-    $hours = floor($minutes / 60);
-    $minutes = $minutes % 60;
-
-    if ($minutes == 0) {
-        return $hours . " horas";
-    }
-
-    return $hours . " hora(s) e " . $minutes . " minuto(s)";
-}
-
+$device_code = requireDeviceCode();
 try {
 
     $stmt = $pdo->prepare("
@@ -79,28 +44,18 @@ try {
     $max = $data["plant_type_max_moisture"];
 
     $last_reading_time = strtotime($data["sensor_reading_recorded_at"]);
-    $now = time();
-
-    $seconds_since_last = $now - $last_reading_time;
-
-    $sensor_status = "online";
-
-    if ($seconds_since_last > SENSOR_TIMEOUT) {
-        $sensor_status = "offline";
-    }
-
+    $seconds_since_last = time() - $last_reading_time;
+    $sensor_status = ($seconds_since_last > SENSOR_TIMEOUT) ? "offline" : "online";
     $plant_status = "unknown";
-
     if ($sensor_status === "online") {
-
-        if ($moisture < $min) {
-            $plant_status = "dry";
-        } elseif ($moisture > $max) {
-            $plant_status = "overwatered";
-        } else {
-            $plant_status = "healthy";
-        }
+        $plant_status =
+            getPlantStatus(
+                $data["sensor_reading_moisture_percent"],
+                $data["plant_type_min_moisture"],
+                $data["plant_type_max_moisture"]
+            );
     }
+
     // SUCESSO
     echo json_encode([
         "success" => true,
@@ -111,7 +66,7 @@ try {
             "plant_status" => $plant_status,
             "sensor_status" => $sensor_status,
             "seconds_since_last_reading" => $seconds_since_last,
-            "last_reading_human" => formatLastReading($seconds_since_last)
+            "last_reading_friendly" => formatLastReading($seconds_since_last)
         ]
     ]);
     // FAIL
