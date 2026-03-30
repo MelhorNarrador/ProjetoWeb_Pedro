@@ -3,7 +3,6 @@
 header('Content-Type: application/json');
 
 require_once "../Utils/init.php";
-define("SENSOR_TIMEOUT", 600);
 $device_code = requireDeviceCode();
 try {
 
@@ -27,7 +26,7 @@ try {
     ]);
 
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
-    //nÃO HÁ LEITURAS = UNKNOWN + OFFLINE
+    // SEM LEITURAS = PLANTA UNKNOWN + SENSOR OFFLINE
     if (!$data) {
         echo json_encode([
             "success" => true,
@@ -38,7 +37,7 @@ try {
         ]);
         exit;
     }
-    //SE HÁ LEITURAS, VERIFICA SE OSENSOR TA OINLINE, E VE PLANTA 
+    // SE HÁ LEITURAS, VERIFICA SE O SENSOR ESTÁ ONLINE E O ESTADO DA PLANTA
     $moisture = $data["sensor_reading_moisture_percent"];
     $min = $data["plant_type_min_moisture"];
     $max = $data["plant_type_max_moisture"];

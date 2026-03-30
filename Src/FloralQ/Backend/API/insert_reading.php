@@ -36,6 +36,17 @@ if (!is_numeric($moisture) || $moisture < 0 || $moisture > 100) {
     ]);
     exit;
 }
+// VALIDAÇÃO DE LATITUDE E LONGITUDE SE FOREM FORNECIDOS
+if ($latitude !== null && (!is_numeric($latitude) || $latitude < -90 || $latitude > 90)) {
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "latitude must be between -90 and 90"]);
+    exit;
+}
+if ($longitude !== null && (!is_numeric($longitude) || $longitude < -180 || $longitude > 180)) {
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "longitude must be between -180 and 180"]);
+    exit;
+}
 try {
     $stmt = $pdo->prepare("
         SELECT device_id
@@ -79,7 +90,7 @@ try {
         "latitude" => $latitude,
         "longitude" => $longitude
     ]);
-    // SUCESSIO
+    // SUCESSO
     echo json_encode([
         "success" => true,
         "message" => "Reading inserted successfully"

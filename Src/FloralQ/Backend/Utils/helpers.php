@@ -1,8 +1,11 @@
 <?php
+// TIMEOUT EM SEGUNDOS PARA CONSIDERAR O SENSOR OFFLINE
+define("SENSOR_TIMEOUT", 600);
+
 // VALIDA SE O DEVICE CODE EXISTE, E SE É VÁLIDO
 function requireDeviceCode()
 {
-    $device_code = $_REQUEST["device_code"] ?? null;
+    $device_code = $_GET["device_code"] ?? null;
     if (!$device_code) {
         http_response_code(400);
         echo json_encode([
@@ -22,27 +25,27 @@ function requireDeviceCode()
     return $device_code;
 }
 
-// FORMATAÇÃO DE TEMPO PARA VALOR QUE O USER PRECEBE
+// FORMATA SEGUNDOS PARA UM TEXTO LEGÍVEL
 function formatLastReading($seconds)
 {
     if ($seconds < 60) {
-        return $seconds . " segundos";
+        return $seconds . "s";
     }
 
     $minutes = floor($seconds / 60);
 
     if ($minutes < 60) {
-        return $minutes . " minutos";
+        return $minutes . "m";
     }
 
-    $hours = floor($minutes / 60);
+    $hours   = floor($minutes / 60);
     $minutes = $minutes % 60;
 
     if ($minutes == 0) {
-        return $hours . " horas";
+        return $hours . "h";
     }
 
-    return $hours . " hora(s) e " . $minutes . " minuto(s)";
+    return $hours . "h " . $minutes . "m";
 }
 
 // DETERMINA O STATUS DA PLANTA COM BASE NA UMIDADE ATUAL E NOS LIMITES DA PLANTA

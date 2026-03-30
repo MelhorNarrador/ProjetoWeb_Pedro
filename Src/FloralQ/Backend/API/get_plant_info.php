@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 require_once "../Utils/init.php";
 $device_code = requireDeviceCode();
 
-// SE O DEVICE EXISTE, MOSTRA PLAMTA
+// SE O DEVICE EXISTE, MOSTRA PLANTA
 try {
 
     $stmt = $pdo->prepare("

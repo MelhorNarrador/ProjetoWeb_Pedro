@@ -1,8 +1,16 @@
 <?php
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
+
 $data = json_decode(file_get_contents("php://input"), true);
-$device_code = $data["device_code"] ?? null;
+
+if (!$data) {
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Invalid JSON body"]);
+    exit;
+}
+
+$device_code     = $data["device_code"] ?? null;
 $is_professional = $data["is_professional"] ?? false;
 
 if (!$device_code) {
@@ -14,21 +22,31 @@ if (!$device_code) {
 
     exit;
 }
-// REGISTA O DEVICE, IGNORA SE JÁ EXISTIR
+// GERA UM CÓDIGO DE ATIVAÇÃO ÚNICO DE 8 CARACTERES
+$activation_code = strtoupper(bin2hex(random_bytes(4)));
+// REGISTA O DEVICE SE NÃO EXISTIR, OU ATUALIZA O is_professional SE JÁ EXISTIR
 try {
     $stmt = $pdo->prepare("
-        INSERT INTO device (device_code, device_is_professional)
-        VALUES (:device_code, :is_professional)
-        ON CONFLICT (device_code) DO NOTHING
-");
-    // SUCESSO
+        INSERT INTO device (device_code, device_is_professional, activation_code)
+        VALUES (:device_code, :is_professional, :activation_code)
+        ON CONFLICT (device_code) DO UPDATE SET
+            device_is_professional = EXCLUDED.device_is_professional,
+            activation_code = COALESCE(device.activation_code, EXCLUDED.activation_code)
+        RETURNING activation_code
+    ");
+
     $stmt->execute([
-        "device_code" => $device_code,
-        "is_professional" => $is_professional ? 1 : 0
+        "device_code"     => $device_code,
+        "is_professional" => $is_professional ? 1 : 0,
+        "activation_code" => $activation_code
     ]);
 
-    echo json_encode(["success" => true, "message" => "Device registered"]);
-    // FAIL
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    echo json_encode([
+        "success"         => true,
+        "activation_code" => $row["activation_code"]
+    ]);
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => $e->getMessage()]);

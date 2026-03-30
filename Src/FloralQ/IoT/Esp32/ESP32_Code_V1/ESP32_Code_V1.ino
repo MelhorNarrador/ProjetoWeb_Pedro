@@ -1,6 +1,9 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <TinyGPSPlus.h>
 #include "secrets.h"
+
+TinyGPSPlus gps;
 
 const char* ssid = WIFI_SSID;
 const char* password = WIFI_PASSWORD;
@@ -32,6 +35,11 @@ void registarDevice() {
     Serial.print("Register response: ");
     Serial.println(code);
 
+    if (code == 200) {
+        Serial.print("Activation code: ");
+        Serial.println(http.getString());
+    }
+
     http.end();
 }
 
@@ -47,8 +55,14 @@ void enviarLeitura() {
     Serial.println("%");
 
     String json = "{";
-    json += "\"device_code\":\"" + DEVICE_CODE + "\","; 
+    json += "\"device_code\":\"" + DEVICE_CODE + "\",";
     json += "\"moisture\":" + String(percent);
+
+    if (gps.location.isValid()) {
+        json += ",\"latitude\":"  + String(gps.location.lat(), 6);
+        json += ",\"longitude\":" + String(gps.location.lng(), 6);
+    }
+
     json += "}";
 
     Serial.print("Sending: ");
@@ -65,7 +79,10 @@ void enviarLeitura() {
 
     if (code != 200) {
         Serial.println("Retrying...");
+        http.end();
         delay(2000);
+        http.begin(serverReading);
+        http.addHeader("Content-Type", "application/json");
         int retryCode = http.POST(json);
         Serial.print("Retry Response: ");
         Serial.println(retryCode);
@@ -89,9 +106,15 @@ void setup() {
     Serial.print("IP: ");
     Serial.println(WiFi.localIP());
     registarDevice();
+
+    Serial2.begin(9600, SERIAL_8N1, 16, 17);
 }
 
 void loop() {
+    while (Serial2.available() > 0) {
+        gps.encode(Serial2.read());
+    }
+
     unsigned long now = millis();
 
     if (now - lastRead >= interval) {

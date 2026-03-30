@@ -87,22 +87,22 @@ try {
         exit;
     }
     // ORDENAR DO MAIS ANTIGO PARA O MAIS RECENTE
-    $rows = array_reverse($filtered);
+    $sorted_rows = array_reverse($filtered);
 
-    $n        = count($rows);
-    $latest   = $rows[$n - 1];
+    $n        = count($sorted_rows);
+    $latest   = $sorted_rows[$n - 1];
 
-    $total   = array_sum(array_column($rows, "sensor_reading_moisture_percent"));
+    $total   = array_sum(array_column($sorted_rows, "sensor_reading_moisture_percent"));
     $average = $total / $n;
 
-    $base_time = strtotime($rows[0]["sensor_reading_recorded_at"]);
+    $base_time = strtotime($sorted_rows[0]["sensor_reading_recorded_at"]);
 
     $sum_x  = 0.0;
     $sum_y  = 0.0;
     $sum_xy = 0.0;
     $sum_x2 = 0.0;
 
-    foreach ($rows as $r) {
+    foreach ($sorted_rows as $r) {
         $x = (float)(strtotime($r["sensor_reading_recorded_at"]) - $base_time);
         $y = (float)$r["sensor_reading_moisture_percent"];
 
@@ -132,7 +132,7 @@ try {
     $ss_tot = 0.0;
     $ss_res = 0.0;
 
-    foreach ($rows as $r) {
+    foreach ($sorted_rows as $r) {
         $x      = (float)(strtotime($r["sensor_reading_recorded_at"]) - $base_time);
         $y_real = (float)$r["sensor_reading_moisture_percent"];
         $y_pred = $slope * $x + $intercept;
@@ -187,12 +187,11 @@ try {
     $hours        = (int)floor($seconds_int / 3600);
     $minutes      = (int)floor(($seconds_int % 3600) / 60);
     $dry_in_friendly = trim(($hours > 0 ? $hours . "h " : "") . $minutes . "m");
-    $newest_time   = strtotime($rows[$n - 1]["sensor_reading_recorded_at"]);
+    $newest_time   = strtotime($sorted_rows[$n - 1]["sensor_reading_recorded_at"]);
     $dry_timestamp = $newest_time + $seconds_int;
 
     // CONFIANÇA DA PREVISÃO
-    $oldest_time = strtotime($rows[0]["sensor_reading_recorded_at"]);
-    $newest_time = strtotime($rows[$n - 1]["sensor_reading_recorded_at"]);
+    $oldest_time = strtotime($sorted_rows[0]["sensor_reading_recorded_at"]);
     $span_hours  = ($newest_time - $oldest_time) / 3600;
 
     if ($n >= 8 && $span_hours >= 2 && $r_squared >= 0.75) {
