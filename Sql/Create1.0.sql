@@ -32,6 +32,7 @@ CREATE TABLE plant (
     device_id INT UNIQUE REFERENCES device(device_id),
     plant_name VARCHAR(150) NOT NULL,
     plant_location_label VARCHAR(150),
+    plant_is_grown BOOLEAN NOT NULL DEFAULT FALSE,,
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
