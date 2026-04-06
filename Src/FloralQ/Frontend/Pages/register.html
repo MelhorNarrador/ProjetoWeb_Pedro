@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create an Account</title>
+    <link rel="stylesheet" href="../Assets/Css/login.css" />
+  </head>
+  <body>
+    <div class="left-panel">
+      <img src="../Assets/Img/FloralQ_Logo.png" alt="FloraIQ Logo" />
+      <p>Plataforma de Monitorização de Plantas</p>
+    </div>
+    <div class="right-panel">
+      <form id="register-form">
+        <h2>Create an Account</h2>
+        <div class="input-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <div class="input-group">
+          <label for="repeat-password">Repeat Password</label>
+          <input
+            type="password"
+            id="repeat-password"
+            name="repeat-password"
+            required
+          />
+        </div>
+        <p id="error-msg"></p>
+        <button type="submit">Create Account</button>
+        <div class="form-links">
+          <a href="login.html">Already have an account? Login</a>
+        </div>
+      </form>
+    </div>
+    <script src="../Assets/Js/register.js"></script>
+  </body>
+</html>

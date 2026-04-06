@@ -1,0 +1,130 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+/* ── Painel esquerdo ── */
+.left-panel {
+  width: 50%;
+  background-color: #1e4d2b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.left-panel img {
+  width: 220px;
+}
+
+.left-panel p {
+  color: #a8d96c;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+/* ── Painel direito ── */
+.right-panel {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9;
+}
+
+form {
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+form h2 {
+  font-size: 1.8rem;
+  color: #1e4d2b;
+  margin-bottom: 8px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.input-group input {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+  border-color: #1e4d2b;
+}
+
+button[type="submit"] {
+  padding: 12px;
+  background-color: #1e4d2b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button[type="submit"]:hover {
+  background-color: #2d6e3e;
+}
+
+#error-msg {
+  font-size: 0.85rem;
+  color: #c0392b;
+  min-height: 18px;
+}
+
+.form-links {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.form-links a {
+  color: #1e4d2b;
+  text-decoration: none;
+}
+
+.form-links a:hover {
+  text-decoration: underline;
+}
+
+/* ── Responsivo ── */
+@media (max-width: 768px) {
+  .left-panel {
+    display: none;
+  }
+
+  .right-panel {
+    width: 100%;
+    padding: 32px 24px;
+  }
+
+  form {
+    width: 100%;
+  }
+}

@@ -12,10 +12,14 @@ try {
     p.plant_location_label,
     p.plant_is_grown,
     d.device_id,
+    d.device_code,
     d.device_is_professional,
-    sr.sensor_reading_moisture_percent
+    sr.sensor_reading_moisture_percent,
+    pt.plant_type_min_moisture,
+    pt.plant_type_max_moisture
     FROM plant p
     JOIN device d ON p.device_id = d.device_id
+    JOIN plant_type pt ON p.plant_type_id = pt.plant_type_id
     LEFT JOIN sensor_reading sr ON sr.device_id = d.device_id
     AND sr.sensor_reading_recorded_at = (
         SELECT MAX(sensor_reading_recorded_at)

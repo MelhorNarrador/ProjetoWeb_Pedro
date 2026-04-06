@@ -3,7 +3,12 @@
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
 
-$device_code = requireDeviceCode();
+$device_id = $_GET["device_id"] ?? null;
+if (!$device_id || !is_numeric($device_id)) {
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "device_id required"]);
+    exit;
+}
 
 try {
 
@@ -13,15 +18,14 @@ try {
         sr.sensor_reading_recorded_at,
         pt.plant_type_min_moisture
         FROM sensor_reading sr
-        JOIN device d ON sr.device_id = d.device_id
-        JOIN plant p ON p.device_id = d.device_id
+        JOIN plant p ON p.device_id = sr.device_id
         JOIN plant_type pt ON p.plant_type_id = pt.plant_type_id
-        WHERE d.device_code = :device_code
+        WHERE sr.device_id = :device_id
         ORDER BY sr.sensor_reading_recorded_at DESC
         LIMIT 20
     ");
 
-    $stmt->execute(["device_code" => $device_code]);
+    $stmt->execute(["device_id" => (int)$device_id]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     // FILTRAR NULOS
     $filtered = array_values(array_filter(
