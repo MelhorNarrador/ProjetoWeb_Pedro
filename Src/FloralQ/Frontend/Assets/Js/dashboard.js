@@ -1,4 +1,4 @@
-// ── Abrir/fechar modals ──────────────────────────────────────────
+// Abrir/fechar modals
 
 document
   .getElementById("open-add-plant")
@@ -18,6 +18,7 @@ document.querySelectorAll(".modal-close").forEach(function (btn) {
   btn.addEventListener("click", function () {
     const targetId = btn.getAttribute("data-target");
     document.getElementById(targetId).classList.add("hidden");
+    clearModalData(targetId);
   });
 });
 
@@ -26,9 +27,25 @@ document.querySelectorAll("[id$='-modal-overlay']").forEach(function (overlay) {
   overlay.addEventListener("click", function (e) {
     if (e.target === overlay) {
       overlay.classList.add("hidden");
+      clearModalData(overlay.id);
     }
   });
 });
+
+// Limpar dados do modal quando fecha
+function clearModalData(modalId) {
+  if (modalId === "add-plant-modal-overlay") {
+    document.getElementById("plant-name").value = "";
+    document.getElementById("plant-location").value = "";
+    document.getElementById("plant-type").value = "";
+    document.getElementById("plant-device").value = "";
+    document.getElementById("plant-is-grown").checked = false;
+    document.getElementById("add-plant-error").textContent = "";
+  } else if (modalId === "redeem-modal-overlay") {
+    document.getElementById("activation-code").value = "";
+    document.getElementById("redeem-error").textContent = "";
+  }
+}
 
 // Logout
 
@@ -91,7 +108,12 @@ function createPlantCard(plant) {
 
   // Desenha o gráfico circular
   setTimeout(function () {
-    drawMoistureChart(plant.plant_id, moisture, plant.plant_type_max_moisture);
+    drawMoistureChart(
+      plant.plant_id,
+      moisture,
+      plant.plant_type_min_moisture,
+      plant.plant_type_max_moisture,
+    );
   }, 0);
 
   // Vai buscar a previsão de quando seca
@@ -112,34 +134,37 @@ function getMoistureStatus(moisture, min, max) {
 
 // Gráfico circular de humidade
 
-function drawMoistureChart(plantId, moisture, max) {
+function drawMoistureChart(plantId, moisture, min, max) {
   const ctx = document.getElementById("chart-" + plantId);
   if (!ctx) return;
 
   const raw = moisture === "--" ? 0 : parseFloat(moisture);
+  const minVal = parseFloat(min) || 0;
   const maxVal = parseFloat(max) || 100;
 
-  // Percentagem relativa ao máximo da planta (pode passar de 100%)
-  const relative = Math.round((raw / maxVal) * 100);
-  // Para o gráfico visual, limita a 100% para não quebrar o doughnut
-  const value = Math.min(relative, 100);
+  // O texto pode mostrar >100%
+  const range = maxVal - minVal;
+  const percent =
+    range > 0 ? Math.round(((raw - minVal) / range) * 100) : Math.round(raw);
+
+  // Para o gráfico visual, limita a 0-100
+  const value = Math.max(0, Math.min(percent, 100));
+  const isNoData = moisture === "--";
+  const displayValue = isNoData ? 0 : value === 0 ? 1 : value;
 
   const color =
-    relative > 100
-      ? "#5599e0"
-      : relative >= 50
-        ? "#a8d96c"
-        : relative >= 25
-          ? "#f0c040"
-          : "#e05555";
-  const label = moisture === "--" ? "--" : relative + "%";
+    percent <= 40 ? "#e05555"
+    : percent <= 80 ? "#a8d96c"
+    : percent <= 100 ? "#2d6e3e"
+    : "#5599e0";
+  const label = moisture === "--" ? "--" : Math.max(0, percent) + "%";
 
   new Chart(ctx, {
     type: "doughnut",
     data: {
       datasets: [
         {
-          data: [value, 100 - value],
+          data: [displayValue, 100 - displayValue],
           backgroundColor: [color, "#2a2a2a"],
           borderWidth: 0,
         },

@@ -1,3 +1,13 @@
+<?php
+// Verificar se o utilizador está autenticado
+session_start();
+
+if (empty($_SESSION["user_id"])) {
+    // Redirecionar para login se não autenticado
+    header("Location: login.html");
+    exit;
+}
+?>
 <!doctype html>
 <html lang="en">
   <head>

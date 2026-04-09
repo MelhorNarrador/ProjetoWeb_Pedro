@@ -17,7 +17,7 @@ document
       })
       .then(function (data) {
         if (data.success) {
-          window.location.href = "dashboard.html";
+          window.location.href = "dashboard.php";
         } else {
           errorMsg.textContent = data.message;
         }
