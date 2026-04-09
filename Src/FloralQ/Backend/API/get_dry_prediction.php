@@ -53,8 +53,7 @@ try {
             "success" => true,
             "data"    => [
                 "prediction"       => "recently_watered",
-                "spike_detected"   => round($spike, 1),
-                "cooldown_minutes" => 30
+                "spike_detected"   => round($spike, 1)
             ]
         ]);
         exit;
