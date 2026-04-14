@@ -5,7 +5,7 @@ Este repositório contém o desenvolvimento da aplicação WEB **FloralQ**, um p
 
 ## Links Importantes
 - [Protótipo Figma (Board)](https://www.figma.com/design/GiLb2rGhWcpfJnE8jnYILL/FloralQ-Mockup?node-id=0-1&t=8EhRP8wPOW9GNGTB-1)
-- [Protótipo Figma (Prototype)]([https://www.figma.com/design/GiLb2rGhWcpfJnE8jnYILL/FloralQ-Mockup?node-id=0-1&t=8EhRP8wPOW9GNGTB-1](https://www.figma.com/proto/GiLb2rGhWcpfJnE8jnYILL/FloralQ-Mockup?node-id=57-2681&p=f&t=bEdYHEH4cU2yoyTU-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1))
+- [Protótipo Figma (Prototype)](https://www.figma.com/proto/GiLb2rGhWcpfJnE8jnYILL/FloralQ-Mockup?node-id=57-2681&p=f&t=bEdYHEH4cU2yoyTU-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1)
 - [Relatório v1 em Markdown](Documentos/Relatório_v1.md)
 - [Relatório v1 em PDF](Documentos/Relatório_v1.pdf)
 - [Relatório v2 em Markdown]()
