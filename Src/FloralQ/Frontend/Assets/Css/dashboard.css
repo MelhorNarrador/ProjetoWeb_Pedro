@@ -11,7 +11,7 @@ body {
   min-height: 100vh;
 }
 
-/* ── Navbar ── */
+/* Navbar */
 #navbar {
   display: flex;
   align-items: center;
@@ -47,7 +47,7 @@ body {
   color: #121212;
 }
 
-/* ── Main ── */
+/* Main */
 main {
   padding: 32px;
 }
@@ -58,14 +58,14 @@ main h1 {
   margin-bottom: 24px;
 }
 
-/* ── Grelha de cards ── */
+/* Grelha de cards */
 #plants-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 24px;
 }
 
-/* ── Card individual ── */
+/* Card individual */
 .plant-card {
   background-color: #1e1e1e;
   border: 1px solid #2a2a2a;
@@ -94,9 +94,10 @@ main h1 {
   color: #888;
 }
 
-.status-healthy    { color: #a8d96c; font-size: 0.8rem; }
-.status-dry        { color: #e05555; font-size: 0.8rem; }
+.status-healthy     { color: #a8d96c; font-size: 0.8rem; }
+.status-dry         { color: #e05555; font-size: 0.8rem; }
 .status-overwatered { color: #5599e0; font-size: 0.8rem; }
+.status-no-data     { color: #888;    font-size: 0.8rem; }
 .status-no\ data   { color: #888;    font-size: 0.8rem; }
 
 .chart-container {
@@ -104,7 +105,7 @@ main h1 {
   height: 120px;
 }
 
-/* ── Overlay (fundo escuro de todas as modals) ── */
+/* Overlay */
 [id$="-modal-overlay"] {
   position: fixed;
   inset: 0;
@@ -115,13 +116,15 @@ main h1 {
   z-index: 100;
 }
 
-/* ── Modal (caixa branca/escura) ── */
+/* Modal */
 .modal {
   background-color: #1e1e1e;
   border-radius: 16px;
   padding: 32px;
   width: 90%;
   max-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
   position: relative;
 }
 
@@ -145,7 +148,7 @@ main h1 {
   color: #e0e0e0;
 }
 
-/* ── Formulários dentro das modals ── */
+/* Formulários dentro das modals */
 .input-group {
   display: flex;
   flex-direction: column;
@@ -206,7 +209,7 @@ main h1 {
   margin-bottom: 8px;
 }
 
-/* ── Detalhes da planta (modal) ── */
+/* Detalhes da planta (modal) */
 #plant-modal-body p {
   margin-bottom: 8px;
   font-size: 0.95rem;
@@ -225,12 +228,12 @@ main h1 {
   margin-top: 16px;
 }
 
-/* ── Utilitário ── */
+/* Utilitário */
 .hidden {
   display: none !important;
 }
 
-/* ── Responsivo ── */
+/* Responsivo */
 @media (max-width: 600px) {
   main {
     padding: 16px;

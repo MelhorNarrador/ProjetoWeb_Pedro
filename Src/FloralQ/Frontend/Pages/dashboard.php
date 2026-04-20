@@ -35,11 +35,35 @@ if (empty($_SESSION["user_id"])) {
       <div id="plants-grid"></div>
     </main>
 
+    <!-- template do card de planta -->
+    <template id="plant-card-template">
+      <div class="plant-card">
+        <div class="chart-container">
+          <canvas></canvas>
+        </div>
+        <h3 class="card-name"></h3>
+        <p class="card-status"></p>
+        <p class="card-prediction">Loading prediction...</p>
+      </div>
+    </template>
+
     <!-- card de detalhes da planta -->
     <div id="plant-modal-overlay" class="hidden">
       <div class="modal">
         <button class="modal-close" data-target="plant-modal-overlay">✕</button>
-        <div id="plant-modal-body"></div>
+        <div id="plant-modal-body">
+          <h2 class="modal-plant-name"></h2>
+          <p>Location: <span class="modal-location"></span></p>
+          <p>Status: <span class="modal-stage"></span></p>
+          <p>Device: <span class="modal-device"></span></p>
+          <p>Current moisture: <span class="modal-moisture"></span></p>
+          <p>Prediction: <span class="modal-prediction">--</span></p>
+          <p>Min moisture: <span class="modal-min-moisture">--</span></p>
+          <p>Runs dry at: <span class="modal-dry-at">--</span></p>
+          <p>Drying rate: <span class="modal-trend">--</span></p>
+          <p>Prediction confidence: <span class="modal-confidence">--</span></p>
+          <div class="modal-map"></div>
+        </div>
       </div>
     </div>
 
@@ -104,6 +128,6 @@ if (empty($_SESSION["user_id"])) {
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../Assets/Js/secrets.js"></script>
-    <script src="../Assets/Js/dashboard.js"></script>
+    <script type="module" src="../Assets/Js/dashboard/dashboard.js"></script>
   </body>
 </html>

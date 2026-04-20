@@ -10,7 +10,7 @@ body {
   font-family: sans-serif;
 }
 
-/* ── Painel esquerdo ── */
+/* Painel esquerdo */
 .left-panel {
   width: 50%;
   background-color: #1e4d2b;
@@ -31,7 +31,7 @@ body {
   letter-spacing: 1px;
 }
 
-/* ── Painel direito ── */
+/* Painel direito */
 .right-panel {
   width: 50%;
   display: flex;
@@ -113,7 +113,7 @@ button[type="submit"]:hover {
   text-decoration: underline;
 }
 
-/* ── Responsivo ── */
+/* Responsivo */
 @media (max-width: 768px) {
   .left-panel {
     display: none;
