@@ -14,6 +14,7 @@ if (!$data) {
 $device_id = $data["device_id"] ?? null;
 $plant_type_id = $data["plant_type_id"] ?? null;
 $plant_name = $data["plant_name"] ?? null;
+$plant_location_label = $data["plant_location_label"] ?? null;
 $plant_is_grown = $data["plant_is_grown"] ?? false;
 
 if (!$device_id || !$plant_type_id || !$plant_name) {
@@ -49,8 +50,8 @@ try {
     $stmt->execute([
         "device_id"     => $device["device_id"],
         "plant_type_id" => $plant_type_id,
-        "plant_location_label" => $data["plant_location_label"] ?? null,
-        "plant_name" => $data["plant_name"] ?? null,
+        "plant_location_label" => $plant_location_label,
+        "plant_name" => $plant_name,
         "user_account_id" => $user["user_id"],
         "plant_is_grown" => $plant_is_grown ? 1 : 0
     ]);
