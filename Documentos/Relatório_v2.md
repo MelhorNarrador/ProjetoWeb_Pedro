@@ -70,6 +70,16 @@ Flow:
 
 1. O utilizador entra no website e clica em "Create Account"
 2. Preenche o formulário de registo e faz login
-3. Seleciona "Redeem Device" e insere o código de ativação, o device fica ligado à sua conta
+3. Seleciona "Redeem Device" e insere o código de ativação, o dispositivo fica ligado à sua conta
 4. Clica em "+ Add Plant" e preenche o formulário
 5. A planta é criada e o card aparece no dashboard
+
+  #### 5.2.2 Verificar Predição de Secagem / Verificar Localização da Planta  
+  ![Wireframe1](Imgs/Wireframe1.jpeg)  
+  
+  Flow:  
+
+1. O utilizador pode ver no card da planta o tempo estimado para secar
+2. Se clicar, tem mais detalhes: hora/data prevista para secar, % de secagem por hora e confiança da predição
+3. Para ver a localização, o utilizador clica no card da planta que quer consultar
+4. Se o dispositivo for FloralQ Professional e existir pelo menos 1 leitura válida de GPS, o mapa aparece com pin no modal
