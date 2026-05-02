@@ -88,4 +88,4 @@ Flow:
 
 ## 6. Base de Dados
 A base de dados foi implementada em PostgreSQL, gerida com pgAdmin4.  
-Schema: [Schema Base de Dados FloralQ](ProjetoWeb_Pedro/Sql/Create1.0.sql)
+Schema: [Schema Base de Dados FloralQ](../Sql/Create1.0.sql)
