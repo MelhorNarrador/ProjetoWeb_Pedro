@@ -64,4 +64,4 @@ O ecrã do dispositivo apresenta uma mascote (estilo Tamagochi) cujo estado refl
 
 ### 5.2 User Stories / Storyboards  
   #### 5.2.1 Criar Conta / Criar Planta  
-![Wireframe2](Imgs/Wireframe2.jpg)
+![Wireframe2](Imgs/Wireframe2.jpeg)
