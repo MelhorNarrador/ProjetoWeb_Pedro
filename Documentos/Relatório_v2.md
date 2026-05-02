@@ -8,7 +8,7 @@
 
 ---
 
-<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="200">
+<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="2000">
 
 ---
 
