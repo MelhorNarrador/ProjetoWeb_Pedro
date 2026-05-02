@@ -64,4 +64,12 @@ O ecrã do dispositivo apresenta uma mascote (estilo Tamagochi) cujo estado refl
 
 ### 5.2 User Stories / Storyboards  
   #### 5.2.1 Criar Conta / Criar Planta  
-![Wireframe2](Imgs/Wireframe2.jpeg)
+![Wireframe2](Imgs/Wireframe2.jpeg)  
+
+Flow:  
+
+1. O utilizador entra no website e clica em "Create Account"
+2. Preenche o formulário de registo e faz login
+3. Seleciona "Redeem Device" e insere o código de ativação, o device fica ligado à sua conta
+4. Clica em "+ Add Plant" e preenche o formulário
+5. A planta é criada e o card aparece no dashboard
