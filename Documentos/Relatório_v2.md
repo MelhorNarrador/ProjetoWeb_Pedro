@@ -52,7 +52,7 @@ O frontend consome a mesma API para apresentar os dados ao utilizador.
 ## 5. User Flows e Wireframes
 
 ### 5.1 User Flow  
-![UserFlow](Documentos/Imgs/UserflowFloralQ.jpg)
+![UserFlow](Imgs/UserflowFloralQ.jpg)
 
 O user flow ilustra a navegação completa da aplicação. Após o login, o utilizador chega ao dashboard onde pode:
 
