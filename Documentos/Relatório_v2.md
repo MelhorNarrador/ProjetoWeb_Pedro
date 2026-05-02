@@ -83,3 +83,9 @@ Flow:
 2. Se clicar, tem mais detalhes: hora/data prevista para secar, % de secagem por hora e confiança da predição
 3. Para ver a localização, o utilizador clica no card da planta que quer consultar
 4. Se o dispositivo for FloralQ Professional e existir pelo menos 1 leitura válida de GPS, o mapa aparece com pin no modal
+
+---
+
+## 6. Base de Dados
+A base de dados foi implementada em PostgreSQL, gerida com pgAdmin4. 
+Schema: - [Schema Base de Daos FloralQ](Sql/Create1.0.sql)
