@@ -171,4 +171,4 @@ Os seguintes resultados foram obtidos via GET no Postman com dados simulados
 
 Inserts de teste: [Inserts DB Algoritmo FloralQ](../Sql/Inserts_teste_algoritmo.sql)  
 
-Resultados dos testes [Resultados DB Algoritmo FloralQ](../Sql/Inserts_teste_algoritmo.sql)  
+Resultados dos testes [Resultados DB Algoritmo FloralQ](../Sql/insert_results.md)  
