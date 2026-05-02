@@ -8,7 +8,7 @@
 
 ---
 
-![Logo FloraIQ](Imgs/FloralQ_Logo.svg)
+<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="200">
 
 ---
 
