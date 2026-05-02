@@ -122,3 +122,53 @@ Schema: [Schema Base de Dados FloralQ](../Sql/Create1.0.sql)
 | `sensor_reading` | `sensor_reading_latitude` | `DECIMAL(9,6)` | `NULLABLE` | Latitude GPS (null se sem sinal) |
 | `sensor_reading` | `sensor_reading_longitude` | `DECIMAL(9,6)` | `NULLABLE` | Longitude GPS (null se sem sinal) |
 | `sensor_reading` | `sensor_reading_recorded_at` | `TIMESTAMPTZ` | `DEFAULT NOW()` | Timestamp da leitura com fuso horário |
+
+---
+
+## 7. Documentação API REST  
+O backend da FloralQ é uma API REST implementada em PHP   
+A autenticação é feita via sessão PHP  
+Os endpoints IoT não requerem sessão mas validam o device_code  
+
+## 7. Documentação API REST
+
+O backend do FloralQ é uma API REST implementada em **PHP nativo**, sem frameworks. Todos os endpoints retornam JSON com a estrutura `{ "success": true|false, ... }`. A autenticação é feita via **sessão PHP**. Os endpoints IoT não requerem sessão mas validam o `device_code`.
+
+### 7.1 Autenticação
+
+| Método | Endpoint | Body (JSON) | Descrição |
+|--------|----------|-------------|-----------|
+| `POST` | `/Auth/register.php` | `{ name, email, password }` | Regista um novo utilizador |
+| `POST` | `/Auth/login.php` | `{ email, password }` | Autentica o utilizador e cria sessão PHP |
+| `POST` | `/Auth/logout.php` | — | Destrói a sessão atual |
+
+### 7.2 Plantas e Dispositivos (Requerem Sessão)
+
+| Método | Endpoint | Parâmetros | Descrição |
+|--------|----------|------------|-----------|
+| `GET` | `/API/get_user_plants.php` | — | Devolve todas as plantas do utilizador com última leitura de humidade |
+| `GET` | `/API/get_plant_types.php` | — | Lista todos os tipos de planta disponíveis |
+| `GET` | `/API/get_user_devices.php` | — | Lista dispositivos do utilizador sem planta associada |
+| `POST` | `/API/create_plant.php` | `{ device_id, plant_type_id, plant_name, plant_location_label, plant_is_grown }` | Cria uma nova planta associada a um dispositivo |
+| `POST` | `/API/redeem_device.php` | `{ activation_code }` | Vincula um dispositivo ao utilizador pelo código de ativação |
+| `GET` | `/API/get_dry_prediction.php` | `?device_id=N` | Devolve a previsão de secura com R², confiança e hora estimada |
+| `GET` | `/API/get_location.php` | `?device_code=X` | Última localização GPS válida do dispositivo |
+| `GET` | `/API/get_latest_reading.php` | `?device_code=X` | Leitura mais recente de humidade e GPS |
+| `GET` | `/API/get_readings_history.php` | `?device_code=X&limit=N` | Histórico de leituras (máx. 2016, default 288) |
+| `GET` | `/API/get_plant_status.php` | `?device_code=X` | Estado da planta (healthy/dry/overwatered) e do sensor (online/offline) |
+
+### 7.3 IoT (Sem Sessão)
+
+| Método | Endpoint | Body / Parâmetros | Descrição |
+|--------|----------|-------------------|-----------|
+| `POST` | `/API/register_device.php` | `{ device_code, is_professional }` | Regista o dispositivo e devolve o `activation_code` |
+| `POST` | `/API/insert_reading.php` | `{ device_code, moisture, latitude?, longitude? }` | Insere leitura de humidade e GPS (opcional) |
+| `GET` | `/API/get_plant_info.php` | `?device_code=X` | Informação da planta associada ao dispositivo |
+| `GET` | `/API/get_plant_status.php` | `?device_code=X` | Estado da planta para display no ecrã do dispositivo |
+
+### 7.4 Testes do Algoritmo Preditivo
+Os seguintes resultados foram obtidos via GET no Postman com dados simulados
+
+Inserts de teste: [Inserts DB Algoritmo FloralQ](../Sql/Inserts_teste_algoritmo.sql)  
+
+Resultados dos testes [Resultados DB Algoritmo FloralQ](../Sql/Inserts_teste_algoritmo.sql)  
