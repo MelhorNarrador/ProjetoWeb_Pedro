@@ -60,3 +60,8 @@ Aceitar o tutorial e ser guiado pelo website
 Adicionar uma nova planta preenchendo nome, localização, tipo, idade e associando um dispositivo
 Interagir com os cards de planta visualizando o gráfico de humidade, abrindo os detalhes e consultando o mapa GPS (caso o dispositivo tenha GPS)
 Editar ou remover uma planta a partir do modal de detalhes
+O ecrã do dispositivo apresenta uma mascote (estilo Tamagochi) cujo estado reflete o estado da planta, utilizado em dispositivos FloralQ Home
+
+### 5.2 User Stories / Storyboards  
+  #### 5.2.1 Criar Conta / Criar Planta  
+![Wireframe2](Imgs/Wireframe2.jpg)
