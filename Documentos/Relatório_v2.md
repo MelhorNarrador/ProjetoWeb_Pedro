@@ -88,4 +88,37 @@ Flow:
 
 ## 6. Base de Dados
 A base de dados foi implementada em PostgreSQL, gerida com pgAdmin4.  
-Schema: [Schema Base de Dados FloralQ](../Sql/Create1.0.sql)
+Schema: [Schema Base de Dados FloralQ](../Sql/Create1.0.sql)  
+
+### 6.2 Dicionário de Dados  
+
+| Tabela | Campo | Tipo | Constraints | Descrição |
+|--------|-------|------|-------------|-----------|
+| `user_account` | `user_account_id` | `SERIAL` | `PRIMARY KEY` | Identificador único do utilizador |
+| `user_account` | `user_account_name` | `VARCHAR(100)` | `NOT NULL` | Nome do utilizador |
+| `user_account` | `user_account_email` | `VARCHAR(255)` | `UNIQUE NOT NULL` | Email de login, único no sistema |
+| `user_account` | `user_account_password_hash` | `TEXT` | `NOT NULL` | Hash bcrypt da password |
+| `user_account` | `user_account_role` | `VARCHAR(20)` | `CHECK IN ('user','admin')` | Papel do utilizador no sistema |
+| `user_account` | `user_created_at` | `TIMESTAMP` | `DEFAULT NOW()` | Data de criação da conta |
+| `plant_type` | `plant_type_id` | `SERIAL` | `PRIMARY KEY` | Identificador único do tipo de planta |
+| `plant_type` | `plant_type_name` | `VARCHAR(150)` | `NOT NULL` | Nome do tipo de planta (ex: Suculenta) |
+| `plant_type` | `plant_type_min_moisture` | `INT` | `NOT NULL` | Limiar mínimo de humidade (%) |
+| `plant_type` | `plant_type_max_moisture` | `INT` | `NOT NULL` | Limiar máximo de humidade (%) |
+| `device` | `device_id` | `SERIAL` | `PRIMARY KEY` | Identificador único do dispositivo |
+| `device` | `device_code` | `VARCHAR(100)` | `UNIQUE NOT NULL` | Identificador físico do ESP32 |
+| `device` | `device_is_professional` | `BOOLEAN` | `DEFAULT FALSE` | Indica se o dispositivo tem GPS |
+| `device` | `activation_code` | `VARCHAR(10)` | `UNIQUE` | Código de 8 chars para vincular ao utilizador |
+| `device` | `user_account_id` | `INT` | `FK → user_account` | Utilizador proprietário do dispositivo |
+| `plant` | `plant_id` | `SERIAL` | `PRIMARY KEY` | Identificador único da planta |
+| `plant` | `user_account_id` | `INT` | `NOT NULL FK → user_account` | Utilizador dono da planta |
+| `plant` | `plant_type_id` | `INT` | `NOT NULL FK → plant_type` | Tipo de planta associado |
+| `plant` | `device_id` | `INT` | `UNIQUE FK → device` | Relação 1:1 planta ↔ dispositivo |
+| `plant` | `plant_name` | `VARCHAR(150)` | `NOT NULL` | Nome dado pelo utilizador à planta |
+| `plant` | `plant_location_label` | `VARCHAR(150)` | — | Etiqueta de localização (ex: "Sala") |
+| `plant` | `plant_is_grown` | `BOOLEAN` | `DEFAULT FALSE` | Indica se a planta é adulta ou em crescimento |
+| `sensor_reading` | `sensor_reading_id` | `SERIAL` | `PRIMARY KEY` | Identificador único da leitura |
+| `sensor_reading` | `device_id` | `INT` | `NOT NULL FK → device` | Dispositivo que gerou a leitura |
+| `sensor_reading` | `sensor_reading_moisture_percent` | `INT` | `CHECK 0–100` | Percentagem de humidade lida pelo sensor |
+| `sensor_reading` | `sensor_reading_latitude` | `DECIMAL(9,6)` | `NULLABLE` | Latitude GPS (null se sem sinal) |
+| `sensor_reading` | `sensor_reading_longitude` | `DECIMAL(9,6)` | `NULLABLE` | Longitude GPS (null se sem sinal) |
+| `sensor_reading` | `sensor_reading_recorded_at` | `TIMESTAMPTZ` | `DEFAULT NOW()` | Timestamp da leitura com fuso horário |
