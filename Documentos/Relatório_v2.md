@@ -18,6 +18,7 @@ IoT, sensores ambientais, monitorização de plantas, geolocalização, dashboar
 ---
 
 ## 1. Introdução  
+
 A **FloralQ** é uma plataforma web de monitorização de plantas que combina sensores IoT com uma interface web, permitindo aos utilizadores acompanhar o estado das suas plantas em tempo real.
 Na **primeira entrega**, foram definidos o **conceito**, o **público-alvo** e a **arquitetura geral** do sistema. Foi também implementada a primeira versão da **base de dados** e iniciado o desenvolvimento do backend.
 Nesta **segunda entrega**, o foco foi o **desenvolvimento do protótipo funcional**, incluindo a implementação completa da **API**, a integração com o **hardware**, o **algoritmo preditivo** de secagem e os mockups das interfaces finais.
@@ -25,6 +26,7 @@ Nesta **segunda entrega**, o foco foi o **desenvolvimento do protótipo funciona
 ---
 
 ## 2. Enquadramento e Problema  
+
 O cuidado de plantas e espaços verdes é frequentemente baseado em observação manual e experiência empírica. Muitas pessoas têm dificuldade em perceber **quando regar uma planta**, o que pode levar a problemas como excesso ou falta de água. Além disso, a monitorização de plantas em jardins ou espaços urbanos não é normalmente acompanhada por dados objetivos.
 A **FloralQ** pretende resolver este problema através de uma plataforma que combina sensores físicos de humidade do solo e localização GPS com uma aplicação web, permitindo monitorizar o estado das plantas e analisar dados ao longo do tempo.
 
@@ -37,6 +39,7 @@ A **FloralQ** pretende resolver este problema através de uma plataforma que com
 ---
 
 ## 4. Arquitetura e Tecnologias  
+
 A arquitetura do sistema segue um modelo Cliente–Servidor em quatro camadas:
 
 Dispositivo IoT: ESP32 com sensor de humidade do solo e módulo GPS. O dispositivo FloralQ Home incluirá também um ecrã com uma mascote estilo Tamagochi que reflete o estado da planta *(funcionalidade prevista para a terceira entrega)*.  
@@ -64,7 +67,7 @@ O ecrã do dispositivo apresenta uma mascote (estilo Tamagochi) cujo estado refl
 
 ### 5.2 User Stories / Storyboards  
   #### 5.2.1 Criar Conta / Criar Planta  
-![Wireframe2](Imgs/Wireframe2.jpeg)  
+![Wireframe Criar Conta](Imgs/Wireframe2.jpeg)  
 
 Flow:  
 
@@ -75,7 +78,7 @@ Flow:
 5. A planta é criada e o card aparece no dashboard
 
   #### 5.2.2 Verificar Predição de Secagem / Verificar Localização da Planta  
-  ![Wireframe1](Imgs/Wireframe1.jpeg)  
+  ![Wireframe Predição](Imgs/Wireframe1.jpeg)  
   
   Flow:  
 
@@ -86,7 +89,8 @@ Flow:
 
 ---
 
-## 6. Base de Dados
+## 6. Base de Dados  
+
 A base de dados foi implementada em PostgreSQL, gerida com pgAdmin4.  
 Schema: [Schema Base de Dados FloralQ](../Sql/Create1.0.sql)  
 
@@ -103,7 +107,7 @@ Schema: [Schema Base de Dados FloralQ](../Sql/Create1.0.sql)
 | `plant_type` | `plant_type_id` | `SERIAL` | `PRIMARY KEY` | Identificador único do tipo de planta |
 | `plant_type` | `plant_type_name` | `VARCHAR(150)` | `NOT NULL` | Nome do tipo de planta (ex: Suculenta) |
 | `plant_type` | `plant_type_min_moisture` | `INT` | `NOT NULL` | Limiar mínimo de humidade (%) |
-| `plant_type` | `plant_type_max_moisture` | `INT` | `NOT NULL` | Limiar máximo de humidade (%) |
+| `plant_type` | `plant_type_max_moisture` | `INT` | `NOT NULL, CHECK (min ≤ max)` | Limiar máximo de humidade (%) |
 | `device` | `device_id` | `SERIAL` | `PRIMARY KEY` | Identificador único do dispositivo |
 | `device` | `device_code` | `VARCHAR(100)` | `UNIQUE NOT NULL` | Identificador físico do ESP32 |
 | `device` | `device_is_professional` | `BOOLEAN` | `DEFAULT FALSE` | Indica se o dispositivo tem GPS |
@@ -126,6 +130,7 @@ Schema: [Schema Base de Dados FloralQ](../Sql/Create1.0.sql)
 ---
 
 ## 7. Documentação API REST  
+
 O backend da FloralQ é uma API REST implementada em PHP   
 A autenticação é feita via sessão PHP  
 Os endpoints IoT não requerem sessão mas validam o device_code  
@@ -135,7 +140,7 @@ Os endpoints IoT não requerem sessão mas validam o device_code
 | Método | Endpoint | Body (JSON) | Descrição |
 |--------|----------|-------------|-----------|
 | `POST` | `/Auth/register.php` | `{ name, email, password }` | Regista um novo utilizador |
-| `POST` | `/Auth/login.php` | `{ email, password }` | Autentica o utilizador e cria sessão PHP |
+| `POST` | `/Auth/login.php` | `{ email, password }` | Autentica o utilizador, cria sessão PHP e devolve { success: true, user: { id, name, email, role } }|
 | `POST` | `/Auth/logout.php` | — | Destrói a sessão atual |
 
 ### 7.2 Plantas e Dispositivos (Requerem Sessão)
@@ -171,6 +176,7 @@ Resultados dos testes [Resultados DB Algoritmo FloralQ](../Sql/insert_results.md
 ---
 
 ## 8. UI Assets, Design System e Interfaces Finais  
+
 O processo de design da FloralQ foi documentado em dois momentos distintos, uma investigação UX que incluiu entrevistas a utilizadores, definição de personas, cenários de utilização e jornada de utilizador e de seguida, foi desenvolvido um Web Style Guide completo com paleta de cores, tipografia, iconografia, componentes de UI e regras de utilização do logótipo, tanto em light mode como em dark mode.
 Toda a documentação de design está disponível nos seguintes documentos:  
 [UX Case Study](UI_Assets_&_Design_System/FloralQ_Fase1_ESTRATÉGIA_E_PESQUISA_PedroAntónio_20241273.pdf)  
@@ -178,7 +184,20 @@ Toda a documentação de design está disponível nos seguintes documentos:
 
 ---
 
-## 9. Esquema da Solução Técnica
-O sistema da FloralQ é composto por quatro camadas que comunicam entre si: o dispositivo IoT, o backend PHP, a base de dados PostgreSQL e o frontend web.  
+## 9. Esquema da Solução Técnica  
 
-Fluxo IoT: No arranque, o ESP32 regista-se automaticamente enviando o seu **device_code** para o backend, que gera e devolve um **activation_code** único. A partir daí, de **5 em 5 minutos**, o dispositivo lê o sensor de humidade do solo, obtém as coordenadas GPS (se disponível) e envia esses dados via **HTTP POST** para o endpoint **insert_reading.php**. O backend valida os dados e persiste a leitura na tabela **sensor_reading**.
+O sistema da **FloralQ** é composto por quatro camadas que comunicam entre si: o dispositivo IoT, o backend PHP, a base de dados PostgreSQL e o frontend web.  
+
+Fluxo IoT: No arranque, o ESP32 regista-se automaticamente enviando o seu **device_code** para o backend, que gera e devolve um **activation_code** único. A partir daí, de **5 em 5 minutos**, o dispositivo lê o sensor de humidade do solo, obtém as coordenadas GPS (se disponível) e envia esses dados via **HTTP POST** para o endpoint **insert_reading.php**. O backend valida os dados e persiste a leitura na tabela **sensor_reading**.  
+
+Fluxo Web: O utilizador **autentica-se** através da página de login, que cria uma **sessão PHP server-side**. Todas as **páginas e endpoints** protegidos **verificam esta sessão** através do middleware **requireAuth()**. O dashboard **consome os endpoints** REST **via JavaScript**, apresentando os dados em **gráficos de humidade (Chart.js)** e **mapas de localização (Google Maps embed)**. **Ações** como adicionar plantas ou resgatar dispositivos **são feitas** através de **modais** que comunicam diretamente com a API.  
+
+Segurança: As **passwords** são armazenadas com **hash bcrypt**. Todos os **acessos à base de dados** usam **prepared statements PDO** para prevenção de **SQL Injection**. A separação entre endpoints públicos (IoT e Auth) e protegidos (API) é garantida pelo middleware.  
+
+---
+
+## 10. Planeamento e Execução  
+
+O desenvolvimento da FloralQ foi organizado em quatro fases ao longo de 15 semanas, documentadas no gráfico de Gantt abaixo.
+
+<img src="Imgs/Gantt_27_04.jpg" alt="Gantt 27/04" width="200">
