@@ -52,7 +52,7 @@ O modelo de domínio representa as cinco entidades centrais do sistema e as suas
 A arquitetura do sistema segue um modelo Cliente–Servidor em quatro camadas:
 
 Dispositivo IoT: ESP32 com **sensor de humidade** do solo e **módulo GPS**. O dispositivo **FloralQ Home** incluirá também um **ecrã** com uma mascote estilo Tamagochi que reflete o estado da planta *(funcionalidade prevista para a terceira entrega)*.  
-Backend: **API REST** em **PHP** responsável por receber, validar e processar dados  	
+Backend: **API REST** em **PHP** responsável por receber, validar e processar dados  
 Base de Dados: **PostgreSQL**  
 Frontend Web: Interface desenvolvida em **HTML**, **CSS** e **JavaScript**  
   
