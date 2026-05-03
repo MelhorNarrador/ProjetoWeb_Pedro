@@ -38,8 +38,12 @@ A **FloralQ** pretende resolver este problema através de uma plataforma que com
 <img src="Imgs/Diagrama_casos_de_uso_FloralQ.jpeg" alt="Casos De Uso" width="500">  
 
 O sistema da **FloralQ** tem **quatro atores**: o **utilizador Anónimo** (pode registar-se e fazer login), o **utilizador Registado** (gere plantas e dispositivos), o **utilizador Registado com dispositivo profissional** (tem acesso adicional à localização GPS da planta) e o **Admin** (gere utilizadores e plantas via backoffice). O **Sistema** é responsável por **emitir alertas**.
-As funcionalidades de **tutorial de onboarding** e **definição de alertas** estão previstas para a **terceira entrega**.
+As funcionalidades de **tutorial de onboarding** e **definição de alertas** estão previstas para a **terceira entrega**.  
 
+## 3.2 Modelo de Domínio
+<img src="Imgs/UML_FloralQ.jpg" alt="UML" width="500">  
+
+O modelo de domínio representa as cinco entidades centrais do sistema e as suas relações
 ---
 
 ## 4. Arquitetura e Tecnologias  
