@@ -18,15 +18,15 @@ IoT, sensores ambientais, monitorização de plantas, geolocalização, dashboar
 ---
 
 ## 1. Introdução  
-A FloralQ é uma plataforma web de monitorização de plantas que combina sensores IoT com uma interface web, permitindo aos utilizadores acompanhar o estado das suas plantas em tempo real.
-Na primeira entrega, foram definidos o conceito, o público-alvo e a arquitetura geral do sistema. Foi também implementada a primeira versão da base de dados e iniciado o desenvolvimento do backend.
-Nesta segunda entrega, o foco foi o desenvolvimento do protótipo funcional, incluindo a implementação completa da API, a integração com o hardware, o algoritmo preditivo de secagem e os mockups das interfaces finais.
+A **FloralQ** é uma plataforma web de monitorização de plantas que combina sensores IoT com uma interface web, permitindo aos utilizadores acompanhar o estado das suas plantas em tempo real.
+Na **primeira entrega**, foram definidos o **conceito**, o **público-alvo** e a **arquitetura geral** do sistema. Foi também implementada a primeira versão da **base de dados** e iniciado o desenvolvimento do backend.
+Nesta **segunda entrega**, o foco foi o **desenvolvimento do protótipo funcional**, incluindo a implementação completa da **API**, a integração com o **hardware**, o **algoritmo preditivo** de secagem e os mockups das interfaces finais.
 
 ---
 
 ## 2. Enquadramento e Problema  
-O cuidado de plantas e espaços verdes é frequentemente baseado em observação manual e experiência empírica. Muitas pessoas têm dificuldade em perceber quando regar uma planta, o que pode levar a problemas como excesso ou falta de água. Além disso, a monitorização de plantas em jardins ou espaços urbanos não é normalmente acompanhada por dados objetivos.
-A FloralQ pretende resolver este problema através de uma plataforma que combina sensores físicos de humidade do solo e localização GPS com uma aplicação web, permitindo monitorizar o estado das plantas e analisar dados ao longo do tempo.
+O cuidado de plantas e espaços verdes é frequentemente baseado em observação manual e experiência empírica. Muitas pessoas têm dificuldade em perceber **quando regar uma planta**, o que pode levar a problemas como excesso ou falta de água. Além disso, a monitorização de plantas em jardins ou espaços urbanos não é normalmente acompanhada por dados objetivos.
+A **FloralQ** pretende resolver este problema através de uma plataforma que combina sensores físicos de humidade do solo e localização GPS com uma aplicação web, permitindo monitorizar o estado das plantas e analisar dados ao longo do tempo.
 
 ---
 
@@ -39,7 +39,7 @@ A FloralQ pretende resolver este problema através de uma plataforma que combina
 ## 4. Arquitetura e Tecnologias  
 A arquitetura do sistema segue um modelo Cliente–Servidor em quatro camadas:
 
-Dispositivo IoT: ESP32 com sensor de humidade do solo, módulo GPS e ecrã 1.69"
+Dispositivo IoT: ESP32 com sensor de humidade do solo e módulo GPS. O dispositivo FloralQ Home incluirá também um ecrã com uma mascote estilo Tamagochi que reflete o estado da planta *(funcionalidade prevista para a terceira entrega)*.  
 Backend: API REST em PHP responsável por receber, validar e processar dados
 Base de Dados: PostgreSQL
 Frontend Web: Interface desenvolvida em HTML, CSS e JavaScript
@@ -56,7 +56,7 @@ O frontend consome a mesma API para apresentar os dados ao utilizador.
 
 O user flow ilustra a navegação completa da aplicação. Após o login, o utilizador chega ao dashboard onde pode:
 
-Aceitar o tutorial e ser guiado pelo website
+Aceitar o tutorial e ser guiado pelo website *(funcionalidade prevista para a terceira entrega)*
 Adicionar uma nova planta preenchendo nome, localização, tipo, idade e associando um dispositivo
 Interagir com os cards de planta visualizando o gráfico de humidade, abrindo os detalhes e consultando o mapa GPS (caso o dispositivo tenha GPS)
 Editar ou remover uma planta a partir do modal de detalhes
@@ -130,10 +130,6 @@ O backend da FloralQ é uma API REST implementada em PHP
 A autenticação é feita via sessão PHP  
 Os endpoints IoT não requerem sessão mas validam o device_code  
 
-## 7. Documentação API REST
-
-O backend do FloralQ é uma API REST implementada em **PHP nativo**, sem frameworks. Todos os endpoints retornam JSON com a estrutura `{ "success": true|false, ... }`. A autenticação é feita via **sessão PHP**. Os endpoints IoT não requerem sessão mas validam o `device_code`.
-
 ### 7.1 Autenticação
 
 | Método | Endpoint | Body (JSON) | Descrição |
@@ -155,7 +151,7 @@ O backend do FloralQ é uma API REST implementada em **PHP nativo**, sem framewo
 | `GET` | `/API/get_location.php` | `?device_code=X` | Última localização GPS válida do dispositivo |
 | `GET` | `/API/get_latest_reading.php` | `?device_code=X` | Leitura mais recente de humidade e GPS |
 | `GET` | `/API/get_readings_history.php` | `?device_code=X&limit=N` | Histórico de leituras (máx. 2016, default 288) |
-| `GET` | `/API/get_plant_status.php` | `?device_code=X` | Estado da planta (healthy/dry/overwatered) e do sensor (online/offline) |
+| `GET` | `/API/get_plant_status.php` | `?device_code=X` | Estado da planta (healthy/dry/overwatered) e do sensor (online/offline). Utilizado tanto pelo dashboard web como pelo ecrã do dispositivo. |
 
 ### 7.3 IoT (Sem Sessão)
 
@@ -163,8 +159,7 @@ O backend do FloralQ é uma API REST implementada em **PHP nativo**, sem framewo
 |--------|----------|-------------------|-----------|
 | `POST` | `/API/register_device.php` | `{ device_code, is_professional }` | Regista o dispositivo e devolve o `activation_code` |
 | `POST` | `/API/insert_reading.php` | `{ device_code, moisture, latitude?, longitude? }` | Insere leitura de humidade e GPS (opcional) |
-| `GET` | `/API/get_plant_info.php` | `?device_code=X` | Informação da planta associada ao dispositivo |
-| `GET` | `/API/get_plant_status.php` | `?device_code=X` | Estado da planta para display no ecrã do dispositivo |
+| `GET` | `/API/get_plant_info.php` | `?device_code=X` | Informação da planta associada ao dispositivo |  
 
 ### 7.4 Testes do Algoritmo Preditivo
 Os seguintes resultados foram obtidos via GET no Postman com dados simulados
@@ -180,3 +175,10 @@ O processo de design da FloralQ foi documentado em dois momentos distintos, uma 
 Toda a documentação de design está disponível nos seguintes documentos:  
 [UX Case Study](UI_Assets_&_Design_System/FloralQ_Fase1_ESTRATÉGIA_E_PESQUISA_PedroAntónio_20241273.pdf)  
 [Web Style Guide](UI_Assets_&_Design_System/FloralQ_Fase2_ESTRUTURA_FUNCIONAL_&_VISUAL_PedroAntónio_20241273.pdf)  
+
+---
+
+## 9. Esquema da Solução Técnica
+O sistema da FloralQ é composto por quatro camadas que comunicam entre si: o dispositivo IoT, o backend PHP, a base de dados PostgreSQL e o frontend web.  
+
+Fluxo IoT: No arranque, o ESP32 regista-se automaticamente enviando o seu **device_code** para o backend, que gera e devolve um **activation_code** único. A partir daí, de **5 em 5 minutos**, o dispositivo lê o sensor de humidade do solo, obtém as coordenadas GPS (se disponível) e envia esses dados via **HTTP POST** para o endpoint **insert_reading.php**. O backend valida os dados e persiste a leitura na tabela **sensor_reading**.
