@@ -34,7 +34,11 @@ A **FloralQ** pretende resolver este problema através de uma plataforma que com
 
 ## 3. Casos de uso  
 
+### 3.1 Casos de Uso
+<img src="Imgs/Diagrama_casos_de_uso_FloralQ.jpeg" alt="Casos De Uso" width="2000">  
 
+O sistema da **FloralQ** tem **quatro atores**: o **utilizador Anónimo** (pode registar-se e fazer login), o **utilizador Registado** (gere plantas e dispositivos), o **utilizador Registado com dispositivo profissional** (tem acesso adicional à localização GPS da planta) e o **Admin** (gere utilizadores e plantas via backoffice). O **Sistema** é responsável por **emitir alertas**.
+As funcionalidades de **tutorial de onboarding** e **definição de alertas** estão previstas para a **terceira entrega**.
 
 ---
 
@@ -201,3 +205,11 @@ Segurança: As **passwords** são armazenadas com **hash bcrypt**. Todos os **ac
 O desenvolvimento da FloralQ foi organizado em quatro fases ao longo de 15 semanas, documentadas no gráfico de Gantt abaixo.
 
 <img src="Imgs/Gantt_27_04.jpg" alt="Gantt 27/04" width="2000">
+
+---
+
+## 11. Conclusão
+
+Nesta **segunda entrega**, a **FloralQ** evoluiu de um conceito documentado para um **protótipo funcional**. O **backend** está completo com **todos os endpoints REST implementados e testados**, a **base de dados** está **finalizada com as relações e constraints definidos** e o **dashboard web** permite ao utilizador **gerir as suas plantas**.  
+O **algoritmo preditivo de secagem**, baseado em **regressão linear** com **filtragem de outliers** (IQR) e **cálculo de confiança**, é um dos pontos diferenciadores da plataforma e foi extensivamente **testado** com dados simulados no Postman.  
+Para a **terceira e última entrega**, o foco será a **implementação dos alertas de rega por In-App e email**, o **tutorial de onboarding**, o **backoffice de administração** e os **gráficos de histórico de humidade** ao longo do tempo. Como **trabalho adicional**, estão previstos o **dark/light mode**, a **customização da interface pelo utilizador** e a **recuperação de password via email**.
