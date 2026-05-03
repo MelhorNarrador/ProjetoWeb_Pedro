@@ -35,7 +35,7 @@ A **FloralQ** pretende resolver este problema através de uma plataforma que com
 ## 3. Casos de uso  
 
 ### 3.1 Casos de Uso
-<img src="Imgs/Diagrama_casos_de_uso_FloralQ.jpeg" alt="Casos De Uso" width="2000">  
+<img src="Imgs/Diagrama_casos_de_uso_FloralQ.jpeg" alt="Casos De Uso" width="500">  
 
 O sistema da **FloralQ** tem **quatro atores**: o **utilizador Anónimo** (pode registar-se e fazer login), o **utilizador Registado** (gere plantas e dispositivos), o **utilizador Registado com dispositivo profissional** (tem acesso adicional à localização GPS da planta) e o **Admin** (gere utilizadores e plantas via backoffice). O **Sistema** é responsável por **emitir alertas**.
 As funcionalidades de **tutorial de onboarding** e **definição de alertas** estão previstas para a **terceira entrega**.
