@@ -41,9 +41,10 @@ O sistema da **FloralQ** tem **quatro atores**: o **utilizador Anónimo** (pode 
 As funcionalidades de **tutorial de onboarding** e **definição de alertas** estão previstas para a **terceira entrega**.  
 
 ## 3.2 Modelo de Domínio
-<img src="Imgs/UML_FloralQ.jpg" alt="UML" width="500">  
+<img src="Imgs/UML_FloralQ.jpg" alt="UML" width="800">  
 
-O modelo de domínio representa as cinco entidades centrais do sistema e as suas relações
+O modelo de domínio representa as cinco entidades centrais do sistema e as suas relações  
+
 ---
 
 ## 4. Arquitetura e Tecnologias  
