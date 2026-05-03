@@ -200,4 +200,4 @@ Segurança: As **passwords** são armazenadas com **hash bcrypt**. Todos os **ac
 
 O desenvolvimento da FloralQ foi organizado em quatro fases ao longo de 15 semanas, documentadas no gráfico de Gantt abaixo.
 
-<img src="Imgs/Gantt_27_04.jpg" alt="Gantt 27/04" width="200">
+<img src="Imgs/Gantt_27_04.jpg" alt="Gantt 27/04" width="2000">
