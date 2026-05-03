@@ -172,3 +172,11 @@ Os seguintes resultados foram obtidos via GET no Postman com dados simulados
 Inserts de teste: [Inserts DB Algoritmo FloralQ](../Sql/Inserts_teste_algoritmo.sql)  
 
 Resultados dos testes [Resultados DB Algoritmo FloralQ](../Sql/insert_results.md)  
+
+---
+
+## 8. UI Assets, Design System e Interfaces Finais  
+O processo de design da FloralQ foi documentado em dois momentos distintos, uma investigação UX que incluiu entrevistas a utilizadores, definição de personas, cenários de utilização e jornada de utilizador e de seguida, foi desenvolvido um Web Style Guide completo com paleta de cores, tipografia, iconografia, componentes de UI e regras de utilização do logótipo, tanto em light mode como em dark mode.
+Toda a documentação de design está disponível nos seguintes documentos:
+[UX Case Study](UI_Assets_&_Design_System/FloralQ_Fase1_ESTRATÉGIA_E_PESQUISA_PedroAntónio_20241273.pdf)  
+[Web Style Guide](/UI_Assets_&_Design_System/FloralQ_Fase2_ESTRUTURA_FUNCIONAL_&_VISUAL_PedroAntónio_20241273.pdf)  
