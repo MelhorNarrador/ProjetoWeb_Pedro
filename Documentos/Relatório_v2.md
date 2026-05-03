@@ -92,7 +92,7 @@ Flow:
   Flow:  
 
 1. O utilizador pode ver no card da planta o tempo estimado para secar
-2. Se clicar, tem mais detalhes: hora/data prevista para secar, % de secagem por hora e confiança da predição
+2. Se clicar, tem mais detalhes: hora/data prevista para secar, % de secagem por hora e confiança da previsão
 3. Para ver a localização, o utilizador clica no card da planta que quer consultar
 4. Se o dispositivo for **FloralQ Professional** e existir pelo menos 1 leitura válida de GPS, o mapa aparece com pin no modal
 
