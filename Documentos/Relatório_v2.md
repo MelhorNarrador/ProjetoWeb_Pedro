@@ -68,11 +68,11 @@ O frontend consome a mesma API para apresentar os dados ao utilizador.
 
 O user flow ilustra a navegação completa da aplicação. Após o login, o utilizador chega ao dashboard onde pode:
 
-Aceitar o tutorial e ser guiado pelo website *(funcionalidade prevista para a terceira entrega)*
-Adicionar uma nova planta preenchendo nome, localização, tipo, idade e associando um dispositivo
-Interagir com os cards de planta visualizando o gráfico de humidade, abrindo os detalhes e consultando o mapa GPS (caso o dispositivo tenha GPS)
-Editar ou remover uma planta a partir do modal de detalhes
-O ecrã do dispositivo apresenta uma mascote (estilo Tamagochi) cujo estado reflete o estado da planta, utilizado em dispositivos **FloralQ Home**
+1. Aceitar o tutorial e ser guiado pelo website *(funcionalidade prevista para a terceira entrega)*  
+2. Adicionar uma nova planta preenchendo nome, localização, tipo, idade e associando um dispositivo  
+3. Interagir com os cards de planta visualizando o gráfico de humidade, abrindo os detalhes e consultando o mapa GPS (caso o dispositivo tenha GPS)  
+4. Editar ou remover uma planta a partir do modal de detalhes  
+5. O ecrã do dispositivo apresenta uma mascote (estilo Tamagochi) cujo estado reflete o estado da planta, utilizado em dispositivos **FloralQ Home**  
 
 ### 5.2 User Stories / Storyboards  
   #### 5.2.1 Criar Conta / Criar Planta  
@@ -80,11 +80,11 @@ O ecrã do dispositivo apresenta uma mascote (estilo Tamagochi) cujo estado refl
 
 Flow:  
 
-1. O utilizador entra no website e clica em "Create Account"
-2. Preenche o formulário de registo e faz login
-3. Seleciona "Redeem Device" e insere o código de ativação, o dispositivo fica ligado à sua conta
-4. Clica em "+ Add Plant" e preenche o formulário
-5. A planta é criada e o card aparece no dashboard
+1. O utilizador entra no website e clica em "Create Account"  
+2. Preenche o formulário de registo e faz login  
+3. Seleciona "Redeem Device" e insere o código de ativação, o dispositivo fica ligado à sua conta  
+4. Clica em "+ Add Plant" e preenche o formulário  
+5. A planta é criada e o card aparece no dashboard  
 
   #### 5.2.2 Verificar Predição de Secagem / Verificar Localização da Planta  
   ![Wireframe Predição](Imgs/Wireframe1.jpeg)  
