@@ -161,7 +161,7 @@ Os endpoints IoT não requerem sessão mas validam o device_code
 | `GET` | `/API/get_user_devices.php` | — | Lista dispositivos do utilizador sem planta associada |
 | `POST` | `/API/create_plant.php` | `{ device_id, plant_type_id, plant_name, plant_location_label, plant_is_grown }` | Cria uma nova planta associada a um dispositivo |
 | `POST` | `/API/redeem_device.php` | `{ activation_code }` | Vincula um dispositivo ao utilizador pelo código de ativação |
-| `GET` | `/API/get_dry_prediction.php` | `?device_id=N` | Devolve a previsão de secura com R², confiança e hora estimada |
+| `GET` | `/API/get_dry_prediction.php` | `?device_id=N` | Devolve a previsão de secagem com R², confiança e hora estimada |
 | `GET` | `/API/get_location.php` | `?device_code=X` | Última localização GPS válida do dispositivo |
 | `GET` | `/API/get_latest_reading.php` | `?device_code=X` | Leitura mais recente de humidade e GPS |
 | `GET` | `/API/get_readings_history.php` | `?device_code=X&limit=N` | Histórico de leituras (máx. 2016, default 288) |
@@ -197,9 +197,9 @@ Toda a documentação de design está disponível nos seguintes documentos:
 
 O sistema da **FloralQ** é composto por **quatro camadas** que comunicam entre si: o **dispositivo IoT**, o **backend PHP**, a **base de dados PostgreSQL** e o **frontend web**.  
 
-Fluxo IoT: No arranque, o ESP32 regista-se automaticamente enviando o seu **device_code** para o backend, que gera e devolve um **activation_code** único. A partir daí, de **5 em 5 minutos**, o dispositivo lê o sensor de humidade do solo, obtém as coordenadas GPS (se disponível) e envia esses dados via **HTTP POST** para o endpoint **insert_reading.php**. O backend valida os dados e persiste a leitura na tabela **sensor_reading**.  
+Fluxo IoT: No arranque, o ESP32 regista-se automaticamente enviando o seu **device_code** para o backend, que gera e devolve um **activation_code** único. A partir daí, de **5 em 5 minutos**, o dispositivo lê o sensor de humidade do solo, obtém as coordenadas GPS (se disponível) e envia esses dados via **HTTP POST** para o endpoint **insert_reading.php**. O backend valida os dados e insere a leitura na tabela **sensor_reading**.  
 
-Fluxo Web: O utilizador **autentica-se** através da página de login, que cria uma **sessão PHP server-side**. Todas as **páginas e endpoints** protegidos **verificam esta sessão** através do middleware **requireAuth()**. O dashboard **consome os endpoints** REST **via JavaScript**, apresentando os dados em **gráficos de humidade (Chart.js)** e **mapas de localização (Google Maps embed)**. **Ações** como adicionar plantas ou resgatar dispositivos **são feitas** através de **modais** que comunicam diretamente com a API.  
+Fluxo Web: O utilizador **autentica-se** através da página de login, que cria uma **sessão PHP server-side**. Todas as **páginas e endpoints** protegidos **verificam esta sessão** através do middleware **requireAuth()**. O dashboard **consome os endpoints** REST **via JavaScript**, apresentando os dados em **gráficos de humidade (Chart.js)** e **mapas de localização (Google Maps embed)**. **Ações** como adicionar plantas ou resgatar dispositivos **são feitas** através de **modals** que comunicam diretamente com a API.  
 
 Segurança: As **passwords** são armazenadas com **hash bcrypt**. Todos os **acessos à base de dados** usam **prepared statements PDO** para prevenção de **SQL Injection**. A separação entre endpoints públicos (IoT e Auth) e protegidos (API) é garantida pelo middleware.  
 
