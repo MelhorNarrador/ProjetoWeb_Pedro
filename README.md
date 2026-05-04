@@ -1,7 +1,7 @@
 # ProjetoWeb_Pedro
-# FloralQ – Aplicação Web
+# FloralQ - Aplicação Web
 
-Este repositório contém o desenvolvimento da aplicação WEB **FloralQ**, um projeto da UC de Projeto Web – 4º semestre (2025/2026).
+Este repositório contém o desenvolvimento da aplicação WEB **FloralQ**, um projeto da UC de Projeto Web - 4º semestre (2025/2026).
 
 ## Links Importantes
 - [Protótipo Figma (Board)](https://www.figma.com/design/GiLb2rGhWcpfJnE8jnYILL/FloralQ-Mockup?node-id=0-1&t=8EhRP8wPOW9GNGTB-1)
