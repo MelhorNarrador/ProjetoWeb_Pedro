@@ -11,6 +11,7 @@ try {
     p.plant_name,
     p.plant_location_label,
     p.plant_is_grown,
+    p.plant_type_id,
     d.device_id,
     d.device_code,
     d.device_is_professional,
@@ -39,6 +40,5 @@ try {
 
     echo json_encode(["success" => true, "plants" => $plants]);
 } catch (PDOException $e) {
-    http_response_code(500);
-    echo json_encode(["success" => false, "message" => $e->getMessage()]);
+    dbError($e);
 }

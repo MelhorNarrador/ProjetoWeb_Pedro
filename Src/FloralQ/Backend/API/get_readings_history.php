@@ -1,7 +1,8 @@
 <?php
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
-
+require_once "../Middleware/auth.php";
+$user = requireAuth();
 $device_code = requireDeviceCode();
 $range = $_GET["range"] ?? "24h";
 
@@ -33,7 +34,7 @@ try {
                 sensor_reading_recorded_at AS recorded_at
             FROM sensor_reading sr
             JOIN device d ON sr.device_id = d.device_id
-            WHERE d.device_code = :device_code
+            WHERE d.device_code = :device_code AND d.user_account_id = :user_id
               AND sr.sensor_reading_recorded_at > NOW() - INTERVAL '{$cfg['interval']}'
             ORDER BY sr.sensor_reading_recorded_at ASC
             LIMIT :limit
@@ -46,7 +47,7 @@ try {
                 DATE_TRUNC('{$cfg['bucket']}', sensor_reading_recorded_at) AS recorded_at
             FROM sensor_reading sr
             JOIN device d ON sr.device_id = d.device_id
-            WHERE d.device_code = :device_code
+            WHERE d.device_code = :device_code AND d.user_account_id = :user_id
               AND sr.sensor_reading_recorded_at > NOW() - INTERVAL '{$cfg['interval']}'
             GROUP BY recorded_at
             ORDER BY recorded_at ASC
@@ -56,6 +57,7 @@ try {
 
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(":device_code", $device_code);
+    $stmt->bindValue(":user_id", $user["user_id"], PDO::PARAM_INT);
     $stmt->bindValue(":limit", (int)$cfg["limit"], PDO::PARAM_INT);
     $stmt->execute();
 
@@ -65,6 +67,5 @@ try {
         "data"    => $stmt->fetchAll(PDO::FETCH_ASSOC),
     ]);
 } catch (PDOException $e) {
-    http_response_code(500);
-    echo json_encode(["success" => false, "message" => $e->getMessage()]);
+    dbError($e);
 }

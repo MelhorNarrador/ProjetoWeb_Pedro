@@ -1,21 +1,19 @@
-// Desenha um gráfico redondo para umidade usando Chart.js
-import { getNormalizedMoisture } from "./utils/moisture.js";
+// Desenha um gráfico redondo Chart.js
+import { getNormalizedMoisture, getMoistureColor } from "./utils/moisture.js";
 export function drawMoistureChart(canvas, moisture, min, max) {
   const isNoData = moisture === "--";
   const percent = isNoData ? 0 : getNormalizedMoisture(moisture, min, max);
   const displayValue = Math.max(0, Math.min(percent, 100)) || 1;
-  const color =
-    percent <= 40
-      ? "#e05555"
-      : percent <= 80
-        ? "#a8d96c"
-        : percent <= 100
-          ? "#2d6e3e"
-          : "#5599e0";
+  const color = getMoistureColor(moisture, min, max);
 
   const label = isNoData ? "--" : `${Math.max(0, percent)}%`;
 
-  new Chart(canvas, {
+  // Limpar gráfico anterior se existir
+  if (canvas._chartInstance) {
+    canvas._chartInstance.destroy();
+  }
+
+  canvas._chartInstance = new Chart(canvas, {
     type: "doughnut",
     data: {
       datasets: [

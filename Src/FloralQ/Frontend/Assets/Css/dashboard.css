@@ -542,6 +542,48 @@ main {
   stroke: var(--green-700);
 }
 
+.detail-actions {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.detail-actions .modal-close {
+  position: static;
+  width: 36px;
+  height: 36px;
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-cream);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.btn-icon:hover {
+  background: var(--bg-cream-hover);
+  color: var(--text-dark);
+}
+
+.btn-icon-danger:hover {
+  background: #e0555526;
+  color: var(--red);
+  border-color: var(--red);
+}
+
 .plant-detail-title h2 {
   font-family: "Playfair Display", serif;
   font-size: 1.4rem;
@@ -553,6 +595,64 @@ main {
   font-size: 0.85rem;
   color: var(--text-muted);
   margin-top: 4px;
+}
+
+/* Modal de confirmação */
+.modal-confirm {
+  max-width: 460px;
+  text-align: center;
+}
+
+.confirm-warning-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #e0555526;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px auto;
+  color: var(--red);
+}
+
+.confirm-warning-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.confirm-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.confirm-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Variantes do submit-btn */
+.btn-danger {
+  background: var(--red);
+}
+.btn-danger:hover {
+  background: #c83e3e;
+}
+
+.btn-cancel {
+  background: var(--bg-cream);
+  color: var(--text-dark);
+  border: 1px solid var(--border);
+}
+.btn-cancel:hover {
+  background: var(--bg-cream-hover);
+  color: var(--text-dark);
 }
 
 /* Grid 2 colunas com 4 linhas */
@@ -679,4 +779,54 @@ main {
   #plants-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Toasts */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast {
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-cream-card);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+  font-weight: 500;
+  min-width: 220px;
+  max-width: 360px;
+  opacity: 0;
+  transform: translateX(20px);
+  transition:
+    opacity 0.25s,
+    transform 0.25s;
+  pointer-events: auto;
+}
+
+.toast-show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toast-success {
+  border-left: 4px solid var(--green-700);
+  color: var(--green-700);
+}
+
+.toast-error {
+  border-left: 4px solid var(--red);
+  color: var(--red);
+}
+
+.toast-info {
+  border-left: 4px solid var(--blue);
+  color: var(--blue);
 }

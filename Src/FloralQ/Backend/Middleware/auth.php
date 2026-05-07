@@ -2,7 +2,9 @@
 // VERIFICA SE O UTILIZADOR ESTÁ AUTENTICADO
 function requireAuth(): array
 {
-    session_start();
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
     if (empty($_SESSION["user_id"])) {
         http_response_code(401);

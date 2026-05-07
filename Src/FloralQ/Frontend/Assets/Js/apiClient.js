@@ -3,8 +3,12 @@ const AUTH = "../../Backend/Auth";
 
 async function request(url, options = {}) {
   const response = await fetch(url, options);
-  if (!response.ok) throw new Error(`HTTP ${response.status}: ${url}`);
-  return response.json();
+  // Parsear o body
+  const body = await response.json().catch(() => null);
+  if (!response.ok) {
+    throw new Error(body?.message ?? `HTTP ${response.status}`);
+  }
+  return body;
 }
 
 export async function getPlants() {
@@ -67,4 +71,20 @@ export async function getReadingsHistory(deviceCode, range = "24h") {
   return request(
     `${BASE}/get_readings_history.php?device_code=${deviceCode}&range=${range}`,
   );
+}
+
+export async function deletePlant(plantId) {
+  return request(`${BASE}/delete_plant.php`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ plant_id: plantId }),
+  });
+}
+
+export async function updatePlant(body) {
+  return request(`${BASE}/update_plant.php`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
 }

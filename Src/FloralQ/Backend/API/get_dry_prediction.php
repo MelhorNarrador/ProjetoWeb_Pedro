@@ -2,6 +2,8 @@
 
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
+require_once "../Middleware/auth.php";
+$user = requireAuth();
 
 $device_id = $_GET["device_id"] ?? null;
 if (!$device_id || !is_numeric($device_id)) {
@@ -20,12 +22,15 @@ try {
         FROM sensor_reading sr
         JOIN plant p ON p.device_id = sr.device_id
         JOIN plant_type pt ON p.plant_type_id = pt.plant_type_id
-        WHERE sr.device_id = :device_id
+        WHERE sr.device_id = :device_id AND p.user_account_id = :user_id
         ORDER BY sr.sensor_reading_recorded_at DESC
         LIMIT 20
     ");
 
-    $stmt->execute(["device_id" => (int)$device_id]);
+    $stmt->execute([
+        "device_id" => (int)$device_id,
+        "user_id"   => $user["user_id"]
+    ]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     // FILTRAR NULOS
     $filtered = array_values(array_filter(
@@ -223,10 +228,5 @@ try {
         ]
     ]);
 } catch (PDOException $e) {
-
-    http_response_code(500);
-    echo json_encode([
-        "success" => false,
-        "message" => $e->getMessage()
-    ]);
+    dbError($e);
 }

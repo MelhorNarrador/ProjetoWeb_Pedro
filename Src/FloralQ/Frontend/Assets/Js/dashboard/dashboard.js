@@ -1,4 +1,5 @@
 import * as api from "../apiClient.js";
+import { showToast } from "../toast.js";
 import { openModal, closeModal, setupModalClosers } from "./modalManager.js";
 import { buildPlantCard } from "./plantCard.js";
 import { drawMoistureChart } from "./chartController.js";
@@ -6,10 +7,97 @@ import {
   getPredictionLabel,
   getMoistureStatus,
   getNormalizedMoisture,
+  getMoistureColor,
 } from "./utils/moisture.js";
+
+// Cores do nível de confiança da previsão
+const CONFIDENCE_COLORS = {
+  high: "#2D6E3E",
+  medium: "#E0A555",
+  low: "#E05555",
+};
 
 // Cache em memória
 let plantsCache = [];
+
+// Estado da modal Add/Edit Plant
+let editingPlantId = null;
+
+// Carrega plant_types + devices disponíveis para os dropdowns da modal
+async function populateAddPlantDropdowns() {
+  const [typesData, devicesData] = await Promise.all([
+    api.getPlantTypes().catch(() => null),
+    api.getUserDevices().catch(() => null),
+  ]);
+
+  const typeSelect = document.getElementById("plant-type");
+  const deviceSelect = document.getElementById("plant-device");
+  typeSelect.innerHTML = "";
+  deviceSelect.innerHTML = "";
+
+  typesData?.plant_types?.forEach((t) => {
+    typeSelect.appendChild(
+      Object.assign(document.createElement("option"), {
+        value: t.plant_type_id,
+        textContent: t.plant_type_name,
+      }),
+    );
+  });
+
+  devicesData?.devices?.forEach((d) => {
+    deviceSelect.appendChild(
+      Object.assign(document.createElement("option"), {
+        value: d.device_id,
+        textContent: d.device_code,
+      }),
+    );
+  });
+}
+
+// Configura a modal Add Plant para modo "add" ou "edit"
+function setAddPlantMode(mode, plant = null) {
+  const modal = document.getElementById("add-plant-modal-overlay");
+  const title = modal.querySelector("h2");
+  const desc = modal.querySelector(".modal-desc");
+  const submitBtn = modal.querySelector(".submit-btn");
+  const deviceSelect = document.getElementById("plant-device");
+
+  if (mode === "edit" && plant) {
+    editingPlantId = plant.plant_id;
+    title.textContent = "Edit Plant";
+    desc.textContent = "Update plant details.";
+    submitBtn.textContent = "Save Changes";
+
+    // Device não pode ser alterado: mostra só o atual, disabled
+    deviceSelect.innerHTML = "";
+    deviceSelect.appendChild(
+      Object.assign(document.createElement("option"), {
+        value: plant.device_id,
+        textContent: plant.device_code,
+      }),
+    );
+    deviceSelect.disabled = true;
+
+    // Pré-preencher campos
+    document.getElementById("plant-name").value = plant.plant_name;
+    document.getElementById("plant-location").value =
+      plant.plant_location_label ?? "";
+    document.getElementById("plant-type").value = plant.plant_type_id;
+    document.getElementById("plant-is-grown").checked = !!plant.plant_is_grown;
+  } else {
+    editingPlantId = null;
+    title.textContent = "Add Plant";
+    desc.textContent = "Associate a new plant with one of your devices.";
+    submitBtn.textContent = "Create Plant";
+    deviceSelect.disabled = false;
+
+    // Limpar campos para começar em branco
+    document.getElementById("plant-name").value = "";
+    document.getElementById("plant-location").value = "";
+    document.getElementById("plant-is-grown").checked = false;
+    document.getElementById("add-plant-error").textContent = "";
+  }
+}
 
 // Grid de plantas
 async function loadPlants() {
@@ -108,8 +196,13 @@ async function openPlantModal(plant) {
     plant.plant_type_min_moisture,
     plant.plant_type_max_moisture,
   );
-  body.querySelector(".modal-moisture").textContent =
-    normalized === null ? "--" : `${normalized}%`;
+  const moistureEl = body.querySelector(".modal-moisture");
+  moistureEl.textContent = normalized === null ? "--" : `${normalized}%`;
+  moistureEl.style.color = getMoistureColor(
+    moisture,
+    plant.plant_type_min_moisture,
+    plant.plant_type_max_moisture,
+  );
 
   const predictionEl = body.querySelector(".modal-prediction");
   const minMoistureEl = body.querySelector(".modal-min-moisture");
@@ -132,7 +225,8 @@ async function openPlantModal(plant) {
     if (d.prediction === "drying") {
       dryAtEl.textContent = d.dry_at;
       trendEl.textContent = `${d.trend_per_hour}% per hour`;
-      confidenceEl.textContent = d.confidence;
+      confidenceEl.textContent = d.confidence.toUpperCase();
+      confidenceEl.style.color = CONFIDENCE_COLORS[d.confidence] ?? "";
     }
   }
 
@@ -147,40 +241,48 @@ async function openPlantModal(plant) {
       </iframe>`;
     }
   }
+  // Edit plant: reutiliza a modal Add Plant em modo edit
+  document.getElementById("edit-plant-btn").onclick = async () => {
+    await populateAddPlantDropdowns();
+    setAddPlantMode("edit", plant);
+    closeModal("plant-modal-overlay");
+    openModal("add-plant-modal-overlay");
+  };
+
+  // Delete plant, abre modal de confirmação
+  document.getElementById("delete-plant-btn").onclick = () => {
+    // Preencher o modal com info da planta
+    document.getElementById("confirm-plant-name").textContent =
+      plant.plant_name;
+    document.getElementById("confirm-plant-subtitle").textContent =
+      `${plant.plant_location_label} · ${plant.device_is_professional ? "FloraIQ Professional" : "FloraIQ Home"}`;
+
+    // Quando carrega "Yes, Remove"
+    document.getElementById("confirm-yes-btn").onclick = async () => {
+      const res = await api.deletePlant(plant.plant_id).catch((err) => ({
+        success: false,
+        message: err.message,
+      }));
+      if (res?.success) {
+        closeModal("confirm-modal-overlay");
+        closeModal("plant-modal-overlay");
+        showToast("Plant deleted", "success");
+        loadPlants();
+      } else {
+        showToast(res?.message ?? "Could not delete plant", "error");
+      }
+    };
+
+    openModal("confirm-modal-overlay");
+  };
 }
 
 // Formulário adicionar planta
 document
   .getElementById("open-add-plant")
   .addEventListener("click", async () => {
-    const [typesData, devicesData] = await Promise.all([
-      api.getPlantTypes().catch(() => null),
-      api.getUserDevices().catch(() => null),
-    ]);
-
-    const typeSelect = document.getElementById("plant-type");
-    const deviceSelect = document.getElementById("plant-device");
-    typeSelect.innerHTML = "";
-    deviceSelect.innerHTML = "";
-
-    typesData?.plant_types?.forEach((t) => {
-      typeSelect.appendChild(
-        Object.assign(document.createElement("option"), {
-          value: t.plant_type_id,
-          textContent: t.plant_type_name,
-        }),
-      );
-    });
-
-    devicesData?.devices?.forEach((d) => {
-      deviceSelect.appendChild(
-        Object.assign(document.createElement("option"), {
-          value: d.device_id,
-          textContent: d.device_code,
-        }),
-      );
-    });
-
+    await populateAddPlantDropdowns();
+    setAddPlantMode("add");
     openModal("add-plant-modal-overlay");
   });
 
@@ -195,13 +297,25 @@ document
       plant_name: document.getElementById("plant-name").value,
       plant_location_label: document.getElementById("plant-location").value,
       plant_type_id: parseInt(document.getElementById("plant-type").value),
-      device_id: parseInt(document.getElementById("plant-device").value),
       plant_is_grown: document.getElementById("plant-is-grown").checked,
     };
 
-    const data = await api.createPlant(body).catch(() => null);
+    const onErr = (err) => ({ success: false, message: err.message });
+    let data;
+    if (editingPlantId) {
+      body.plant_id = editingPlantId;
+      data = await api.updatePlant(body).catch(onErr);
+    } else {
+      body.device_id = parseInt(document.getElementById("plant-device").value);
+      data = await api.createPlant(body).catch(onErr);
+    }
+
     if (data?.success) {
       closeModal("add-plant-modal-overlay");
+      showToast(
+        editingPlantId ? "Plant updated" : "Plant created",
+        "success",
+      );
       loadPlants();
     } else {
       errorMsg.textContent = data?.message ?? "Something went wrong.";
@@ -222,9 +336,13 @@ document.getElementById("redeem-form").addEventListener("submit", async (e) => {
   errorMsg.textContent = "";
   const code = document.getElementById("activation-code").value;
 
-  const data = await api.redeemDevice(code).catch(() => null);
+  const data = await api.redeemDevice(code).catch((err) => ({
+    success: false,
+    message: err.message,
+  }));
   if (data?.success) {
     closeModal("redeem-modal-overlay");
+    showToast("Device redeemed successfully", "success");
     loadPlants();
   } else {
     errorMsg.textContent = data?.message ?? "Something went wrong.";
@@ -243,10 +361,7 @@ if (logoutBtn) {
 // Limpeza ao fechar modais
 function clearModal(id) {
   if (id === "add-plant-modal-overlay") {
-    document.getElementById("plant-name").value = "";
-    document.getElementById("plant-location").value = "";
-    document.getElementById("plant-is-grown").checked = false;
-    document.getElementById("add-plant-error").textContent = "";
+    setAddPlantMode("add");
   } else if (id === "redeem-modal-overlay") {
     document.getElementById("activation-code").value = "";
     document.getElementById("redeem-error").textContent = "";

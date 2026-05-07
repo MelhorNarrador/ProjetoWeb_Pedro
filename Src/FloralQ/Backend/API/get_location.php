@@ -3,6 +3,8 @@
 header('Content-Type: application/json');
 
 require_once "../Utils/init.php";
+require_once "../Middleware/auth.php";
+$user = requireAuth();
 $device_code = requireDeviceCode();
 
 try {
@@ -14,7 +16,7 @@ try {
         sr.sensor_reading_recorded_at
         FROM sensor_reading sr
         JOIN device d ON sr.device_id = d.device_id
-        WHERE d.device_code = :device_code
+        WHERE d.device_code = :device_code AND d.user_account_id = :user_id
         AND sr.sensor_reading_latitude IS NOT NULL
         AND sr.sensor_reading_longitude IS NOT NULL
         ORDER BY sr.sensor_reading_recorded_at DESC
@@ -22,7 +24,8 @@ try {
     ");
 
     $stmt->execute([
-        "device_code" => $device_code
+        "device_code" => $device_code,
+        "user_id"     => $user["user_id"]
     ]);
 
     $reading = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -47,9 +50,5 @@ try {
         ]
     ]);
 } catch (PDOException $e) {
-    http_response_code(500);
-    echo json_encode([
-        "success" => false,
-        "message" => $e->getMessage()
-    ]);
+    dbError($e);
 }

@@ -7,10 +7,11 @@ export function closeModal(id) {
 }
 
 export function setupModalClosers(onClose) {
-  // Botões ✕
-  document.querySelectorAll(".modal-close").forEach((btn) => {
+  // Botões ✕ e botões Cancel — qualquer elemento com data-target fecha o modal
+  document.querySelectorAll(".modal-close, .btn-cancel").forEach((btn) => {
     btn.addEventListener("click", () => {
       const id = btn.dataset.target;
+      if (!id) return;
       closeModal(id);
       onClose?.(id);
     });

@@ -1,9 +1,28 @@
+// Cores por estado de humidade
+const MOISTURE_COLORS = {
+  red: "#E05555",
+  greenLight: "#A8D96C",
+  greenDark: "#2D6E3E",
+  blue: "#5599E0",
+  gray: "#8A9480",
+};
+
 export function getMoistureStatus(moisture, min, max) {
-  if (moisture === "--") return "no-data";
-  const value = parseFloat(moisture);
-  if (value < parseFloat(min)) return "dry";
-  if (value > parseFloat(max)) return "overwatered";
+  const percent = getNormalizedMoisture(moisture, min, max);
+  if (percent === null) return "no-data";
+  if (percent <= 40) return "dry";
+  if (percent > 100) return "overwatered";
   return "healthy";
+}
+
+// Cor para gráficos: 4 tons (vermelho / verde claro / verde escuro / azul)
+export function getMoistureColor(moisture, min, max) {
+  const percent = getNormalizedMoisture(moisture, min, max);
+  if (percent === null) return MOISTURE_COLORS.gray;
+  if (percent <= 40) return MOISTURE_COLORS.red;
+  if (percent <= 80) return MOISTURE_COLORS.greenLight;
+  if (percent <= 100) return MOISTURE_COLORS.greenDark;
+  return MOISTURE_COLORS.blue;
 }
 
 export function getPredictionLabel(key) {

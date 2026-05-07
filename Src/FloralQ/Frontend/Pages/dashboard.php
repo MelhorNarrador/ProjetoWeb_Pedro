@@ -32,7 +32,12 @@ if (empty($_SESSION["user_id"])) {
       </button>
       <div class="settings-wrapper">
         <button class="nav-btn nav-btn-icon" id="settings-btn" aria-label="Settings">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
             <circle cx="12" cy="12" r="3" />
             <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
           </svg>
@@ -186,15 +191,33 @@ if (empty($_SESSION["user_id"])) {
       </div>
     </div>
   </template>
-  <div class="card-tabs">
 
-    <!-- card de detalhes da planta -->
-    <div id="plant-modal-overlay" class="hidden">
-      <div class="modal">
-        <button class="modal-close" data-target="plant-modal-overlay">✕</button>
-        <div id="plant-modal-body">
-          <div class="plant-detail-header">
-            <div class="plant-detail-icon">
+  <!-- card de detalhes da planta -->
+  <div id="plant-modal-overlay" class="hidden">
+    <div class="modal">
+      <div id="plant-modal-body">
+        <div class="plant-detail-header">
+          <div class="plant-detail-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3" />
+              <path d="M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4" />
+              <path d="M5 21h14" />
+            </svg>
+          </div>
+          <div class="plant-detail-title">
+            <h2 class="modal-plant-name"></h2>
+            <p class="plant-detail-subtitle">
+              <span class="modal-location"></span> · <span class="modal-device"></span>
+            </p>
+          </div>
+          <div class="detail-actions">
+            <button class="btn-icon" id="edit-plant-btn" aria-label="Edit">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -202,120 +225,171 @@ if (empty($_SESSION["user_id"])) {
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round">
-                <path d="M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3" />
-                <path d="M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4" />
-                <path d="M5 21h14" />
+                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
               </svg>
-            </div>
-            <div class="plant-detail-title">
-              <h2 class="modal-plant-name"></h2>
-              <p class="plant-detail-subtitle">
-                <span class="modal-location"></span> · <span class="modal-device"></span>
-              </p>
-            </div>
-          </div>
-
-          <div class="detail-grid">
-            <div class="detail-item">
-              <div class="detail-label">Current moisture</div>
-              <div class="detail-value modal-moisture">--</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-label">State</div>
-              <div class="detail-value modal-stage">--</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-label">Prediction</div>
-              <div class="detail-value modal-prediction">--</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-label">Dry at</div>
-              <div class="detail-value modal-dry-at">--</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-label">Min moisture</div>
-              <div class="detail-value modal-min-moisture">--</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-label">Drying rate</div>
-              <div class="detail-value modal-trend">--</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-label">Confidence</div>
-              <div class="detail-value modal-confidence">--</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-label">Growth</div>
-              <div class="detail-value modal-growth">--</div>
-            </div>
-          </div>
-
-          <div class="modal-map"></div>
-        </div>
-
-        <!--adicionar planta-->
-        <div id="add-plant-modal-overlay" class="hidden">
-          <div class="modal">
-            <button class="modal-close" data-target="add-plant-modal-overlay">
-              ✕
             </button>
-            <h2>Add Plant</h2>
-            <p class="modal-desc">Associate a new plant with one of your devices.</p>
-            <form id="add-plant-form">
-              <div class="input-group">
-                <label>Plant Name</label>
-                <input type="text" id="plant-name" required />
-              </div>
-              <div class="input-group">
-                <label>Location</label>
-                <input type="text" id="plant-location" required />
-              </div>
-              <div class="input-group">
-                <label>Plant Type</label>
-                <select id="plant-type"></select>
-              </div>
-              <div class="input-group">
-                <label>Device</label>
-                <select id="plant-device"></select>
-              </div>
-              <div class="input-group checkbox-group">
-                <label>
-                  <input type="checkbox" id="plant-is-grown" />
-                  Plant is already grown
-                </label>
-              </div>
-              <p id="add-plant-error" class="error-msg"></p>
-              <button type="submit" class="submit-btn">Create Plant</button>
-            </form>
-          </div>
-        </div>
-
-        <!--redeem de dispositivo-->
-        <div id="redeem-modal-overlay" class="hidden">
-          <div class="modal">
-            <button class="modal-close" data-target="redeem-modal-overlay">
-              ✕
+            <button class="btn-icon btn-icon-danger" id="delete-plant-btn" aria-label="Delete">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
+                <line x1="10" y1="11" x2="10" y2="17" />
+                <line x1="14" y1="11" x2="14" y2="17" />
+              </svg>
             </button>
-            <h2>Redeem Device</h2>
-            <p class="modal-desc">Enter the activation code that came with your sensor.</p>
-            <form id="redeem-form">
-              <div class="input-group">
-                <label>Activation Code</label>
-                <input
-                  type="text"
-                  id="activation-code"
-                  placeholder="Ex: 9F9573B0"
-                  required />
-              </div>
-              <p id="redeem-error" class="error-msg"></p>
-              <button type="submit" class="submit-btn">Redeem</button>
-            </form>
+            <button class="btn-icon modal-close" data-target="plant-modal-overlay" aria-label="Close">✕</button>
           </div>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="../Assets/Js/secrets.js"></script>
-        <script type="module" src="../Assets/Js/dashboard/dashboard.js"></script>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <div class="detail-label">Current moisture</div>
+            <div class="detail-value modal-moisture">--</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">State</div>
+            <div class="detail-value modal-stage">--</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Prediction</div>
+            <div class="detail-value modal-prediction">--</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Dry at</div>
+            <div class="detail-value modal-dry-at">--</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Min moisture</div>
+            <div class="detail-value modal-min-moisture">--</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Drying rate</div>
+            <div class="detail-value modal-trend">--</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Confidence</div>
+            <div class="detail-value modal-confidence">--</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Growth</div>
+            <div class="detail-value modal-growth">--</div>
+          </div>
+        </div>
+
+        <div class="modal-map"></div>
+      </div>
+    </div>
+  </div>
+
+  <!--adicionar planta-->
+  <div id="add-plant-modal-overlay" class="hidden">
+    <div class="modal">
+      <button class="modal-close" data-target="add-plant-modal-overlay">
+        ✕
+      </button>
+      <h2>Add Plant</h2>
+      <p class="modal-desc">Associate a new plant with one of your devices.</p>
+      <form id="add-plant-form">
+        <div class="input-group">
+          <label>Plant Name</label>
+          <input type="text" id="plant-name" required />
+        </div>
+        <div class="input-group">
+          <label>Location</label>
+          <input type="text" id="plant-location" required />
+        </div>
+        <div class="input-group">
+          <label>Plant Type</label>
+          <select id="plant-type"></select>
+        </div>
+        <div class="input-group">
+          <label>Device</label>
+          <select id="plant-device"></select>
+        </div>
+        <div class="input-group checkbox-group">
+          <label>
+            <input type="checkbox" id="plant-is-grown" />
+            Plant is already grown
+          </label>
+        </div>
+        <p id="add-plant-error" class="error-msg"></p>
+        <button type="submit" class="submit-btn">Create Plant</button>
+      </form>
+    </div>
+  </div>
+
+  <!--redeem de dispositivo-->
+  <div id="redeem-modal-overlay" class="hidden">
+    <div class="modal">
+      <button class="modal-close" data-target="redeem-modal-overlay">
+        ✕
+      </button>
+      <h2>Redeem Device</h2>
+      <p class="modal-desc">Enter the activation code that came with your sensor.</p>
+      <form id="redeem-form">
+        <div class="input-group">
+          <label>Activation Code</label>
+          <input
+            type="text"
+            id="activation-code"
+            placeholder="Ex: 9F9573B0"
+            required />
+        </div>
+        <p id="redeem-error" class="error-msg"></p>
+        <button type="submit" class="submit-btn">Redeem</button>
+      </form>
+    </div>
+  </div>
+  <!-- Modal de confirmação -->
+  <div id="confirm-modal-overlay" class="hidden">
+    <div class="modal modal-confirm">
+      <div class="plant-detail-header">
+        <div class="plant-detail-icon">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3" />
+            <path d="M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4" />
+            <path d="M5 21h14" />
+          </svg>
+        </div>
+        <div class="plant-detail-title">
+          <h2 id="confirm-plant-name"></h2>
+          <p class="plant-detail-subtitle" id="confirm-plant-subtitle"></p>
+        </div>
+        <button class="modal-close" data-target="confirm-modal-overlay" style="margin-left:auto">✕</button>
+      </div>
+
+      <div class="confirm-warning-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+      </div>
+
+      <h3 class="confirm-title" id="confirm-title">Remove Plant?</h3>
+      <p class="confirm-text" id="confirm-text">This action is irreversible. The plant and all reading history will be erased.</p>
+
+      <div class="confirm-actions">
+        <button class="submit-btn btn-danger" id="confirm-yes-btn">Yes, Remove</button>
+        <button class="submit-btn btn-cancel" data-target="confirm-modal-overlay">Cancel</button>
+      </div>
+    </div>
+  </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="../Assets/Js/dashboard/dashboard.js"></script>
 </body>
 
 </html>

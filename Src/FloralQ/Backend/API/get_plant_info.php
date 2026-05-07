@@ -2,6 +2,8 @@
 
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
+require_once "../Middleware/auth.php";
+$user = requireAuth();
 $device_code = requireDeviceCode();
 
 // SE O DEVICE EXISTE, MOSTRA PLANTA
@@ -18,11 +20,12 @@ try {
         FROM plant p
         JOIN device d ON p.device_id = d.device_id
         JOIN plant_type pt ON p.plant_type_id = pt.plant_type_id
-        WHERE d.device_code = :device_code
+        WHERE d.device_code = :device_code AND d.user_account_id = :user_id
 ");
 
     $stmt->execute([
-        "device_code" => $device_code
+        "device_code" => $device_code,
+        "user_id"     => $user["user_id"]
     ]);
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -41,9 +44,5 @@ try {
     ]);
     // FAIL
 } catch (PDOException $e) {
-    http_response_code(500);
-    echo json_encode([
-        "success" => false,
-        "message" => $e->getMessage()
-    ]);
+    dbError($e);
 }

@@ -62,3 +62,14 @@ function getSensorStatus($timestamp)
     $seconds_since_last = time() - strtotime($timestamp);
     return ($seconds_since_last > SENSOR_TIMEOUT) ? "offline" : "online";
 }
+
+// Trata erros de PDO sem expor detalhes da BD
+function dbError(PDOException $e)
+{
+    error_log("[DB ERROR] " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        "success" => false,
+        "message" => "Internal server error"
+    ]);
+}

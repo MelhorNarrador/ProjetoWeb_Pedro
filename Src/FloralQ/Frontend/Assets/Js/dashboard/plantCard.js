@@ -1,13 +1,10 @@
-import { getMoistureStatus, formatDryPrediction } from "./utils/moisture.js";
+import {
+  getMoistureStatus,
+  getMoistureColor,
+  formatDryPrediction,
+} from "./utils/moisture.js";
 import { getDryPrediction, getReadingsHistory } from "../apiClient.js";
 import { drawLineChart } from "./chartController.js";
-
-const STATUS_COLORS = {
-  healthy: "#1E4D2B",
-  dry: "#E05555",
-  overwatered: "#5599E0",
-  "no-data": "#8A9480",
-};
 
 export function buildPlantCard(plant) {
   const template = document.getElementById("plant-card-template");
@@ -19,7 +16,11 @@ export function buildPlantCard(plant) {
     plant.plant_type_min_moisture,
     plant.plant_type_max_moisture,
   );
-  const color = STATUS_COLORS[status];
+  const color = getMoistureColor(
+    moisture,
+    plant.plant_type_min_moisture,
+    plant.plant_type_max_moisture,
+  );
 
   card.dataset.plantId = plant.plant_id;
   card.classList.add(`status-${status}`);
