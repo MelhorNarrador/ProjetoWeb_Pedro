@@ -6,7 +6,7 @@ require_once "../Middleware/auth.php";
 $user = requireAuth();
 try {
     $stmt = $pdo->prepare("
-    SELECT 
+    SELECT
     p.plant_id,
     p.plant_name,
     p.plant_location_label,
@@ -15,6 +15,7 @@ try {
     d.device_code,
     d.device_is_professional,
     sr.sensor_reading_moisture_percent,
+    sr.sensor_reading_recorded_at,
     pt.plant_type_min_moisture,
     pt.plant_type_max_moisture
     FROM plant p
@@ -30,6 +31,11 @@ try {
 
     $stmt->execute(['user_id' => $user['user_id']]);
     $plants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Adiciona sensor_status calculado a cada planta
+    foreach ($plants as &$plant) {
+        $plant['sensor_status'] = getSensorStatus($plant['sensor_reading_recorded_at']);
+    }
 
     echo json_encode(["success" => true, "plants" => $plants]);
 } catch (PDOException $e) {

@@ -4,44 +4,88 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create an Account</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../Assets/Css/login.css" />
   </head>
   <body>
     <div class="left-panel">
-      <img src="../Assets/Img/FloralQ_Logo.png" alt="FloraIQ Logo" />
-      <p>Plant Monitoring Platform</p>
+      <img src="../Assets/Img/floralq_icon.svg" alt="FloralQ Icon" />
+      <h1 class="brand-title">Flora<span>lQ</span></h1>
+      <p class="brand-tagline">
+        Intelligent platform for plant monitoring and care.
+      </p>
+
+      <div class="features-list">
+        <div class="feature-item">
+          <div class="feature-icon">1</div>
+          Create your free account
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">2</div>
+          Redeem your sensor with the activation code
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">3</div>
+          Add your plants and start monitoring.
+        </div>
+      </div>
     </div>
+
     <div class="right-panel">
       <form id="register-form">
-        <h2>Create an Account</h2>
+        <h2>Create Account</h2>
+        <p class="form-subtitle">Fill in the details to get started</p>
+
         <div class="input-group">
           <label for="name">Name</label>
-          <input type="text" id="name" name="name" required />
+          <input type="text" id="name" placeholder="Your Name" required />
         </div>
+
         <div class="input-group">
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" required />
+          <input
+            type="email"
+            id="email"
+            placeholder="youremail@email.com"
+            required
+          />
         </div>
+
         <div class="input-group">
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" required />
+          <input
+            type="password"
+            id="password"
+            placeholder="••••••••"
+            required
+          />
+          <small class="input-hint">Minimum 6 characters</small>
         </div>
+
         <div class="input-group">
           <label for="repeat-password">Repeat Password</label>
           <input
             type="password"
             id="repeat-password"
-            name="repeat-password"
+            placeholder="••••••••"
             required
           />
         </div>
+
         <p id="error-msg"></p>
         <button type="submit">Create Account</button>
-        <div class="form-links">
-          <a href="login.html">Already have an account? Login</a>
-        </div>
+
+        <div class="divider">or</div>
+
+        <p class="signup-link">
+          Already have an account? <a href="login.html">Log In</a>
+        </p>
       </form>
     </div>
+
     <script type="module" src="../Assets/Js/register.js"></script>
   </body>
 </html>

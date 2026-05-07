@@ -62,3 +62,9 @@ export async function register(name, email, password) {
 export async function logout() {
   return fetch(`${AUTH}/logout.php`, { method: "POST" });
 }
+
+export async function getReadingsHistory(deviceCode, range = "24h") {
+  return request(
+    `${BASE}/get_readings_history.php?device_code=${deviceCode}&range=${range}`,
+  );
+}

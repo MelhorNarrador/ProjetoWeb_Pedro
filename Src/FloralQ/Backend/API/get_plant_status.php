@@ -42,9 +42,8 @@ try {
     $min = $data["plant_type_min_moisture"];
     $max = $data["plant_type_max_moisture"];
 
-    $last_reading_time = strtotime($data["sensor_reading_recorded_at"]);
-    $seconds_since_last = time() - $last_reading_time;
-    $sensor_status = ($seconds_since_last > SENSOR_TIMEOUT) ? "offline" : "online";
+    $seconds_since_last = time() - strtotime($data["sensor_reading_recorded_at"]);
+    $sensor_status = getSensorStatus($data["sensor_reading_recorded_at"]);
     $plant_status = "unknown";
     if ($sensor_status === "online") {
         $plant_status =

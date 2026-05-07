@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
@@ -8,27 +12,105 @@
   </head>
   <body>
     <div class="left-panel">
-      <img src="../Assets/Img/FloralQ_Logo.png" alt="FloraIQ Logo" />
-      <p>Plant Monitoring Platform</p>
+      <img src="../Assets/Img/floralq_icon.svg" alt="FloralQ Icon" />
+      <h1 class="brand-title">Flora<span>lQ</span></h1>
+      <p class="brand-tagline">
+        Intelligent platform for plant monitoring and care.
+      </p>
+
+      <div class="features-list">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 01-3.46 0" />
+            </svg>
+          </div>
+          Real-time humidity monitoring
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+              <path d="m19 9-5 5-4-4-3 3" />
+            </svg>
+          </div>
+          Intelligent watering forecasts
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
+          Customizable alerts
+        </div>
+      </div>
     </div>
 
     <div class="right-panel">
       <form id="login-form">
-        <h2>Login</h2>
+        <h2>Welcome Back</h2>
+        <p class="form-subtitle">
+          Log in to your account to monitor your plants.
+        </p>
+
         <div class="input-group">
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" required />
+          <input
+            type="email"
+            id="email"
+            placeholder="youremail@email.com"
+            required
+          />
         </div>
+
         <div class="input-group">
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" required />
+          <input
+            type="password"
+            id="password"
+            placeholder="••••••••"
+            required
+          />
         </div>
+
+        <div class="form-row">
+          <label class="remember-me">
+            <input type="checkbox" id="remember-me" />
+            Remember me
+          </label>
+          <a href="forgot_password.html" class="forgot-link"
+            >Forgot Password?</a
+          >
+        </div>
+
         <p id="error-msg"></p>
-        <button type="submit">Login</button>
-        <div class="form-links">
-          <a href="forgot_password.html">Forgot password?</a>
-          <a href="register.html">Create account</a>
-        </div>
+        <button type="submit">Log In</button>
+
+        <div class="divider">or</div>
+
+        <p class="signup-link">
+          Don't have an account? <a href="register.html">Create one</a>
+        </p>
       </form>
     </div>
 

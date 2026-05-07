@@ -55,3 +55,10 @@ function getPlantStatus($moisture, $min, $max)
     if ($moisture > $max) return "overwatered";
     return "healthy";
 }
+// Verifica se o sensor está online com base no timestamp da última leitura.
+function getSensorStatus($timestamp)
+{
+    if (!$timestamp) return "offline";
+    $seconds_since_last = time() - strtotime($timestamp);
+    return ($seconds_since_last > SENSOR_TIMEOUT) ? "offline" : "online";
+}

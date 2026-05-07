@@ -22,3 +22,12 @@ export function formatDryPrediction(data) {
   if (prediction === "drying") return `Runs dry in ~${data.dry_in_friendly}`;
   return getPredictionLabel(prediction);
 }
+
+export function getNormalizedMoisture(raw, min, max) {
+  if (raw === "--" || raw === null || raw === undefined) return null;
+  const r = parseFloat(raw);
+  const minVal = parseFloat(min) || 0;
+  const maxVal = parseFloat(max) || 100;
+  const range = maxVal - minVal;
+  return range > 0 ? Math.round(((r - minVal) / range) * 100) : Math.round(r);
+}
