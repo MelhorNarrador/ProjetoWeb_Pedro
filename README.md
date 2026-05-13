@@ -12,7 +12,8 @@ Este repositório contém o desenvolvimento da aplicação WEB **FloralQ**, um p
 - [Relatório v2 em PDF](Documentos/Relatório_v2.pdf)
 - [Relatório v3 em Markdown(WIP)]()
 - [Relatório v3 em PDF(WIP)]() 
-- [Manual De Utilizador(WIP)]() 
+- [Manual De Utilizador(WIP)]()
+- [Trello (Plataforma de organização)](https://trello.com/invite/b/69b6fef23d35228514453d2d/ATTI70d71e7036fd54914ceb179fae5fb9a9C4B7031A/floralq)
   
 ## Estrutura
 - **/Documentos** → Relatórios (Individuais e de Projeto), PDF e .md, imagens, manual de utilizador e apresentações
