@@ -1,5 +1,6 @@
 // Desenha um gráfico redondo Chart.js
 import { getNormalizedMoisture, getMoistureColor } from "./utils/moisture.js";
+import { getReadingsHistory } from "../apiClient.js";
 export function drawMoistureChart(canvas, moisture, min, max) {
   const isNoData = moisture === "--";
   const percent = isNoData ? 0 : getNormalizedMoisture(moisture, min, max);
@@ -21,6 +22,7 @@ export function drawMoistureChart(canvas, moisture, min, max) {
           data: [displayValue, 100 - displayValue],
           backgroundColor: [color, "#E0E0C0"],
           borderWidth: 0,
+          borderRadius: 12,
         },
       ],
     },
@@ -118,4 +120,20 @@ export function drawLineChart(canvas, dataPoints, color = "#1E4D2B") {
 function formatLabel(timestamp) {
   const d = new Date(timestamp);
   return d.toLocaleString();
+}
+
+// Vai buscar histórico ao backend e desenha
+export function loadHistoryChart(canvas, deviceCode, range, color, min, max) {
+  getReadingsHistory(deviceCode, range)
+    .then((res) => {
+      if (res.success && res.data.length > 0) {
+        // Normaliza cada leitura para % relativa ao range da planta
+        const normalized = res.data.map((p) => ({
+          recorded_at: p.recorded_at,
+          moisture: getNormalizedMoisture(p.moisture, min, max) ?? p.moisture,
+        }));
+        drawLineChart(canvas, normalized, color);
+      }
+    })
+    .catch(() => {});
 }

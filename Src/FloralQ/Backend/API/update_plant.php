@@ -12,15 +12,26 @@ if (!$data || !isset($data["plant_id"])) {
     exit;
 }
 
-$plant_id             = (int)$data["plant_id"];
-$plant_name           = $data["plant_name"] ?? null;
+$plant_id = (int)$data["plant_id"];
+$plant_name = $data["plant_name"] ?? null;
 $plant_location_label = $data["plant_location_label"] ?? null;
-$plant_type_id        = $data["plant_type_id"] ?? null;
-$plant_is_grown       = $data["plant_is_grown"] ?? false;
+$plant_type_id = $data["plant_type_id"] ?? null;
+$plant_is_grown = $data["plant_is_grown"] ?? false;
+$remove_image = $data["remove_image"] ?? false;
 
 if (!$plant_name || !$plant_type_id) {
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "plant_name and plant_type_id are required"]);
+    exit;
+}
+if (strlen($plant_name) > 30) {
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Plant name must be 30 characters or less"]);
+    exit;
+}
+if ($plant_location_label !== null && strlen($plant_location_label) > 50) {
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Location must be 50 characters or less"]);
     exit;
 }
 
@@ -32,7 +43,7 @@ try {
     ");
     $stmt->execute([
         "plant_id" => $plant_id,
-        "user_id"  => $user["user_id"]
+        "user_id" => $user["user_id"]
     ]);
 
     if (!$stmt->fetch()) {
@@ -41,15 +52,41 @@ try {
         exit;
     }
 
-    // Atualiza
-    $stmt = $pdo->prepare("
-        UPDATE plant
-        SET plant_name = :plant_name,
-            plant_location_label = :plant_location_label,
-            plant_type_id = :plant_type_id,
-            plant_is_grown = :plant_is_grown
-        WHERE plant_id = :plant_id
-    ");
+    // Remover imagem se pedido
+    if ($remove_image) {
+        // Buscar o path atual e apagar o ficheiro do disco
+        $stmt = $pdo->prepare("SELECT plant_image_path FROM plant WHERE plant_id = :plant_id");
+        $stmt->execute(["plant_id" => $plant_id]);
+        $current = $stmt->fetchColumn();
+
+        if ($current) {
+            $disk_path = __DIR__ . "/../../Frontend/Assets/Uploads/" . $current;
+            if (file_exists($disk_path)) {
+                @unlink($disk_path);
+            }
+        }
+
+        // Atualiza com image_path = NULL
+        $stmt = $pdo->prepare("
+            UPDATE plant
+            SET plant_name = :plant_name,
+                plant_location_label = :plant_location_label,
+                plant_type_id = :plant_type_id,
+                plant_is_grown = :plant_is_grown,
+                plant_image_path = NULL
+            WHERE plant_id = :plant_id
+        ");
+    } else {
+        $stmt = $pdo->prepare("
+            UPDATE plant
+            SET plant_name = :plant_name,
+                plant_location_label = :plant_location_label,
+                plant_type_id = :plant_type_id,
+                plant_is_grown = :plant_is_grown
+            WHERE plant_id = :plant_id
+        ");
+    }
+
     $stmt->execute([
         "plant_name"           => $plant_name,
         "plant_location_label" => $plant_location_label,

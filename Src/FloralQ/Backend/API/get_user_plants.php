@@ -12,6 +12,7 @@ try {
     p.plant_location_label,
     p.plant_is_grown,
     p.plant_type_id,
+    p.plant_image_path,
     d.device_id,
     d.device_code,
     d.device_is_professional,
@@ -28,7 +29,8 @@ try {
         FROM sensor_reading
         WHERE device_id = d.device_id
     )
-    WHERE p.user_account_id = :user_id");
+    WHERE p.user_account_id = :user_id
+    ORDER BY p.plant_id DESC");
 
     $stmt->execute(['user_id' => $user['user_id']]);
     $plants = $stmt->fetchAll(PDO::FETCH_ASSOC);

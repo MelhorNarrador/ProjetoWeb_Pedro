@@ -88,3 +88,41 @@ export async function updatePlant(body) {
     body: JSON.stringify(body),
   });
 }
+
+export async function getUserInfo() {
+  return request(`${BASE}/get_user_info.php`);
+}
+
+export async function confirmEmail() {
+  return request(`${BASE}/confirm_email.php`, { method: "POST" });
+}
+
+export async function changePassword(currentPassword, newPassword) {
+  return request(`${BASE}/change_password.php`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      current_password: currentPassword,
+      new_password: newPassword,
+    }),
+  });
+}
+
+export async function updateUserSettings(settings) {
+  return request(`${BASE}/update_user_settings.php`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(settings),
+  });
+}
+
+export async function uploadPlantImage(plantId, file) {
+  const formData = new FormData();
+  formData.append("plant_id", plantId);
+  formData.append("image", file);
+  // Sem Content-Type: o browser define multipart/form-data com o boundary
+  return request(`${BASE}/upload_plant_image.php`, {
+    method: "POST",
+    body: formData,
+  });
+}

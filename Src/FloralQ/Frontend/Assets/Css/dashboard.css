@@ -133,7 +133,7 @@ body {
 
 /* Main */
 main {
-  max-width: 1280px;
+  max-width: 1320px;
   margin: 0 auto;
   padding: 40px;
 }
@@ -221,8 +221,9 @@ main {
 /* Grelha de cards */
 #plants-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fill, 400px);
   gap: 20px;
+  justify-content: start;
 }
 
 /* Card */
@@ -327,17 +328,36 @@ main {
   flex-shrink: 0;
 }
 
+.card-image {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin-left: auto;
+  border: 2px solid var(--border);
+  background: var(--bg-cream-card);
+}
+
 .card-info {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  justify-content: center;
+  gap: 4px;
   min-width: 0;
+  flex: 1;
 }
 
 .card-name {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 700;
   color: var(--text-dark);
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .card-status {
@@ -542,6 +562,17 @@ main {
   stroke: var(--green-700);
 }
 
+.plant-detail-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.plant-detail-icon-img.hidden {
+  display: none;
+}
+
 .detail-actions {
   display: flex;
   gap: 6px;
@@ -692,6 +723,10 @@ main {
   border: 1px solid var(--border);
 }
 
+.modal-map:empty {
+  display: none;
+}
+
 /* Wrapper para posicionar o dropdown */
 .settings-wrapper {
   position: relative;
@@ -779,6 +814,219 @@ main {
   #plants-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Account modal */
+.account-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.account-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  background: var(--bg-cream);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.account-row-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-row-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.account-row-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.account-row-text strong {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+}
+
+.account-email {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.account-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+  font-size: 0.75rem;
+  font-weight: 500;
+  width: fit-content;
+}
+
+.account-badge-pending {
+  background: #e0a55526;
+  color: var(--orange);
+}
+
+.account-badge-verified {
+  background: var(--green-300-soft);
+  color: var(--green-700);
+}
+
+.account-row .submit-btn {
+  flex-shrink: 0;
+  width: auto;
+  height: auto;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-dark);
+  border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+  background: var(--bg-cream-hover);
+}
+
+/* File picker para imagem da planta */
+.image-picker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.image-picker-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--bg-cream-card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.image-picker-btn:hover {
+  background: var(--bg-cream-hover);
+  border-color: var(--green-700);
+  color: var(--green-700);
+}
+
+.image-picker-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.image-preview {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+
+.image-remove-btn {
+  background: transparent;
+  border: none;
+  color: var(--red);
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.image-remove-btn:hover {
+  text-decoration: underline;
+}
+
+.alert-threshold-select {
+  margin-left: 6px;
+  padding: 2px 24px 2px 8px;
+  background: var(--bg-cream-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--text-dark);
+  cursor: pointer;
+}
+
+.alert-email-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+/* Presentation Mode */
+.account-section-header {
+  margin-top: 8px;
+  padding: 0 4px;
+}
+
+.account-section-header strong {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+}
+
+.account-section-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.chart-position-option {
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.chart-position-option:hover {
+  background: var(--bg-cream-hover);
+}
+
+.chart-position-option.active {
+  border-color: var(--green-700);
+  background: var(--green-300-soft);
+}
+
+.chart-position-option.active .account-row-icon {
+  color: var(--green-700);
+}
+
+/* Histórico no modal de detalhes */
+.modal-history {
+  margin-top: 16px;
+}
+
+.modal-history.hidden {
+  display: none;
 }
 
 /* Toasts */

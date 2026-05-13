@@ -17,6 +17,7 @@ if (empty($_SESSION["user_id"])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard - FloraIQ</title>
   <link rel="stylesheet" href="../Assets/Css/dashboard.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.0/dist/driver.css" />
 </head>
 
 <body>
@@ -176,6 +177,7 @@ if (empty($_SESSION["user_id"])) {
             <span class="card-meta-text">--</span>
           </div>
         </div>
+        <img class="card-image" alt="" />
       </div>
 
       <div class="card-history">
@@ -199,6 +201,7 @@ if (empty($_SESSION["user_id"])) {
         <div class="plant-detail-header">
           <div class="plant-detail-icon">
             <svg
+              class="plant-detail-icon-svg"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -209,6 +212,7 @@ if (empty($_SESSION["user_id"])) {
               <path d="M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4" />
               <path d="M5 21h14" />
             </svg>
+            <img class="plant-detail-icon-img hidden" alt="" />
           </div>
           <div class="plant-detail-title">
             <h2 class="modal-plant-name"></h2>
@@ -283,6 +287,18 @@ if (empty($_SESSION["user_id"])) {
         </div>
 
         <div class="modal-map"></div>
+
+        <div class="modal-history hidden">
+          <div class="card-tabs">
+            <button class="modal-tab card-tab active" data-range="24h">24h</button>
+            <button class="modal-tab card-tab" data-range="week">Week</button>
+            <button class="modal-tab card-tab" data-range="month">Month</button>
+            <button class="modal-tab card-tab" data-range="year">Year</button>
+          </div>
+          <div class="card-line-chart">
+            <canvas class="modal-line-chart"></canvas>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -297,12 +313,28 @@ if (empty($_SESSION["user_id"])) {
       <p class="modal-desc">Associate a new plant with one of your devices.</p>
       <form id="add-plant-form">
         <div class="input-group">
+          <label>Plant Image (optional)</label>
+          <div class="image-picker">
+            <img id="plant-image-preview" class="image-preview hidden" alt="Preview" />
+            <label class="image-picker-btn" for="plant-image-file">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <path d="m21 15-5-5L5 21" />
+              </svg>
+              <span id="plant-image-label">Choose image</span>
+            </label>
+            <button type="button" id="plant-image-remove" class="image-remove-btn hidden">Remove</button>
+            <input type="file" id="plant-image-file" accept="image/jpeg,image/png,image/webp" hidden />
+          </div>
+        </div>
+        <div class="input-group">
           <label>Plant Name</label>
-          <input type="text" id="plant-name" required />
+          <input type="text" id="plant-name" maxlength="30" required />
         </div>
         <div class="input-group">
           <label>Location</label>
-          <input type="text" id="plant-location" required />
+          <input type="text" id="plant-location" maxlength="50" required />
         </div>
         <div class="input-group">
           <label>Plant Type</label>
@@ -385,6 +417,185 @@ if (empty($_SESSION["user_id"])) {
         <button class="submit-btn btn-danger" id="confirm-yes-btn">Yes, Remove</button>
         <button class="submit-btn btn-cancel" data-target="confirm-modal-overlay">Cancel</button>
       </div>
+    </div>
+  </div>
+
+  <!-- Welcome / Onboarding modal -->
+  <div id="welcome-modal-overlay" class="hidden">
+    <div class="modal modal-confirm">
+      <div class="plant-detail-header">
+        <div class="plant-detail-icon">
+          <img src="../Assets/Img/FloralQ_Icon.svg" alt="FloralQ Icon" />
+        </div>
+        <div class="plant-detail-title">
+          <h2>Welcome to FloralQ</h2>
+          <p class="plant-detail-subtitle">Let's take a quick tour of how it works.</p>
+        </div>
+      </div>
+
+      <p class="confirm-text" style="margin-top:16px">
+        We'll walk you through redeeming your sensor, adding your first plant, and configuring alerts.
+        It only takes a minute.
+      </p>
+
+      <div class="confirm-actions">
+        <button class="submit-btn" id="welcome-start-btn">Start Tour</button>
+        <button class="submit-btn btn-cancel" id="welcome-skip-btn">Skip</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Account modal -->
+  <div id="account-modal-overlay" class="hidden">
+    <div class="modal">
+      <div class="plant-detail-header">
+        <div class="plant-detail-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </div>
+        <div class="plant-detail-title">
+          <h2>Account</h2>
+          <p class="plant-detail-subtitle">Manage your account settings.</p>
+        </div>
+        <button class="modal-close" data-target="account-modal-overlay" style="margin-left:auto">✕</button>
+      </div>
+
+      <div class="account-rows">
+        <!-- Email -->
+        <div class="account-row">
+          <div class="account-row-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+          </div>
+          <div class="account-row-text">
+            <strong>Email</strong>
+            <p class="account-email" id="account-email">--</p>
+            <span class="account-badge" id="account-email-status"></span>
+          </div>
+          <button class="submit-btn" id="confirm-email-btn">Confirm Email</button>
+        </div>
+
+        <!-- Password -->
+        <div class="account-row">
+          <div class="account-row-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+          </div>
+          <div class="account-row-text">
+            <strong>Password</strong>
+            <p class="account-email">Change your login password</p>
+          </div>
+          <button class="submit-btn btn-outline" id="open-change-password">Change Password</button>
+        </div>
+
+        <!-- Alerts -->
+        <div class="account-row">
+          <div class="account-row-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 01-3.46 0" />
+            </svg>
+          </div>
+          <div class="account-row-text">
+            <strong>Alerts</strong>
+            <p class="account-email">
+              Alert when humidity drops to
+              <select id="alert-threshold" class="alert-threshold-select">
+                <option value="5">5%</option>
+                <option value="10">10%</option>
+                <option value="15">15%</option>
+                <option value="20">20%</option>
+                <option value="25">25%</option>
+                <option value="30">30%</option>
+                <option value="40">40%</option>
+                <option value="50">50%</option>
+              </select>
+            </p>
+            <label class="alert-email-toggle">
+              <input type="checkbox" id="alert-email-enabled" />
+              Also send email alerts
+            </label>
+          </div>
+        </div>
+
+        <!-- Presentation Mode -->
+        <div class="account-section-header">
+          <strong>Presentation Mode</strong>
+          <p class="account-section-desc">Choose where to display the history charts.</p>
+        </div>
+        <div class="account-row chart-position-option" data-value="card">
+          <div class="account-row-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
+          </div>
+          <div class="account-row-text">
+            <strong>Card</strong>
+            <p class="account-email">Show the history chart inside each plant card.</p>
+          </div>
+        </div>
+        <div class="account-row chart-position-option" data-value="modal">
+          <div class="account-row-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="16" rx="2" />
+              <line x1="3" y1="9" x2="21" y2="9" />
+              <line x1="9" y1="21" x2="15" y2="21" />
+            </svg>
+          </div>
+          <div class="account-row-text">
+            <strong>Modal</strong>
+            <p class="account-email">Show the chart only when you click a plant.</p>
+          </div>
+        </div>
+
+        <!-- Replay tutorial -->
+        <div class="account-row">
+          <div class="account-row-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+          </div>
+          <div class="account-row-text">
+            <strong>Tutorial</strong>
+            <p class="account-email">Replay the onboarding tour.</p>
+          </div>
+          <button class="submit-btn btn-outline" id="replay-tutorial-btn">Replay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change Password modal -->
+  <div id="change-password-modal-overlay" class="hidden">
+    <div class="modal">
+      <button class="modal-close" data-target="change-password-modal-overlay">✕</button>
+      <h2>Change Password</h2>
+      <p class="modal-desc">Enter your current password and your new password.</p>
+      <form id="change-password-form">
+        <div class="input-group">
+          <label>Current Password</label>
+          <input type="password" id="current-password" required />
+        </div>
+        <div class="input-group">
+          <label>New Password</label>
+          <input type="password" id="new-password" required minlength="6" />
+        </div>
+        <div class="input-group">
+          <label>Repeat New Password</label>
+          <input type="password" id="repeat-new-password" required minlength="6" />
+        </div>
+        <p id="change-password-error" class="error-msg"></p>
+        <button type="submit" class="submit-btn">Save Password</button>
+      </form>
     </div>
   </div>
   </div>

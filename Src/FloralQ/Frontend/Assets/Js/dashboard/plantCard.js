@@ -3,10 +3,10 @@ import {
   getMoistureColor,
   formatDryPrediction,
 } from "./utils/moisture.js";
-import { getDryPrediction, getReadingsHistory } from "../apiClient.js";
-import { drawLineChart } from "./chartController.js";
+import { getDryPrediction } from "../apiClient.js";
+import { loadHistoryChart } from "./chartController.js";
 
-export function buildPlantCard(plant) {
+export function buildPlantCard(plant, chartPosition = "card") {
   const template = document.getElementById("plant-card-template");
   const card = template.content.cloneNode(true).querySelector(".plant-card");
 
@@ -32,8 +32,18 @@ export function buildPlantCard(plant) {
 
   card.querySelector(".chart-wrap canvas").id = `chart-${plant.plant_id}`;
 
+  // Imagem da planta (ao lado direito)
+  const imgEl = card.querySelector(".card-image");
+  if (plant.plant_image_path) {
+    imgEl.src = `../Assets/Uploads/${plant.plant_image_path}`;
+  } else {
+    imgEl.style.display = "none";
+  }
+
   const metaEl = card.querySelector(".card-meta-text");
-  metaEl.textContent = formatTimeAgo(plant.sensor_reading_recorded_at);
+  const timeAgo = formatTimeAgo(plant.sensor_reading_recorded_at);
+  metaEl.textContent =
+    plant.sensor_status === "offline" ? `${timeAgo} · Sensor Offline` : timeAgo;
 
   const predictionEl = card.querySelector(".card-prediction");
   getDryPrediction(plant.device_id)
@@ -47,33 +57,36 @@ export function buildPlantCard(plant) {
       predictionEl.textContent = "Not enough data";
     });
 
-  // Gráfico de histórico
-  const lineCanvas = card.querySelector(".line-chart");
-  loadHistoryChart(lineCanvas, plant.device_code, "24h", color);
+  // Gráfico de histórico, só renderiza se o modo for "card"
+  const historySection = card.querySelector(".card-history");
+  if (chartPosition === "modal") {
+    historySection.style.display = "none";
+  } else {
+    const lineCanvas = card.querySelector(".line-chart");
+    const min = plant.plant_type_min_moisture;
+    const max = plant.plant_type_max_moisture;
+    loadHistoryChart(lineCanvas, plant.device_code, "24h", color, min, max);
 
-  // Tabs
-  card.querySelectorAll(".card-tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      card
-        .querySelectorAll(".card-tab")
-        .forEach((t) => t.classList.remove("active"));
-      tab.classList.add("active");
-      loadHistoryChart(lineCanvas, plant.device_code, tab.dataset.range, color);
+    // Tabs
+    card.querySelectorAll(".card-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        card
+          .querySelectorAll(".card-tab")
+          .forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
+        loadHistoryChart(
+          lineCanvas,
+          plant.device_code,
+          tab.dataset.range,
+          color,
+          min,
+          max,
+        );
+      });
     });
-  });
+  }
 
   return card;
-}
-
-// Vai buscar histórico ao backend e desenha
-function loadHistoryChart(canvas, deviceCode, range, color) {
-  getReadingsHistory(deviceCode, range)
-    .then((res) => {
-      if (res.success && res.data.length > 0) {
-        drawLineChart(canvas, res.data, color);
-      }
-    })
-    .catch(() => {});
 }
 
 function formatTimeAgo(timestamp) {
