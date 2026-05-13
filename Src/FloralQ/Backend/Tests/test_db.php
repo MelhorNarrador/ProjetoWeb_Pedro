@@ -1,4 +1,5 @@
 <?php
+// Smoke test: confirma que a ligação à BD está OK e devolve a hora do servidor
 
 require_once "../Utils/init.php";
 

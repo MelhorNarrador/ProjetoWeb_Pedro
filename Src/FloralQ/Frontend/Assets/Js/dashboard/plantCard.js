@@ -1,3 +1,5 @@
+// Constrói o card de uma planta a partir do template HTML
+// Recebe os dados da planta + se o gráfico de linhas deve aparecer no card ou só no modal
 import {
   getMoistureStatus,
   getMoistureColor,
@@ -7,9 +9,11 @@ import { getDryPrediction } from "../apiClient.js";
 import { loadHistoryChart } from "./chartController.js";
 
 export function buildPlantCard(plant, chartPosition = "card") {
+  // Clona o <template> do card para um novo elemento DOM
   const template = document.getElementById("plant-card-template");
   const card = template.content.cloneNode(true).querySelector(".plant-card");
 
+  // Calcula status e cor com base na última leitura
   const moisture = plant.sensor_reading_moisture_percent ?? "--";
   const status = getMoistureStatus(
     moisture,
@@ -22,14 +26,17 @@ export function buildPlantCard(plant, chartPosition = "card") {
     plant.plant_type_max_moisture,
   );
 
+  // Atributos e classes do card raiz
   card.dataset.plantId = plant.plant_id;
   card.classList.add(`status-${status}`);
   card.querySelector(".card-name").textContent = plant.plant_name;
 
+  // Pinta o label de status (Dry / Healthy / Overwatered)
   const statusEl = card.querySelector(".card-status");
   statusEl.textContent = status;
   statusEl.className = `card-status status-${status}`;
 
+  // Dá um id único ao canvas do doughnut para o chartController saber onde desenhar
   card.querySelector(".chart-wrap canvas").id = `chart-${plant.plant_id}`;
 
   // Imagem da planta (ao lado direito)
@@ -40,11 +47,13 @@ export function buildPlantCard(plant, chartPosition = "card") {
     imgEl.style.display = "none";
   }
 
+  // Texto "há X min" + indicação se o sensor está offline
   const metaEl = card.querySelector(".card-meta-text");
   const timeAgo = formatTimeAgo(plant.sensor_reading_recorded_at);
   metaEl.textContent =
     plant.sensor_status === "offline" ? `${timeAgo} · Sensor Offline` : timeAgo;
 
+  // Previsão de secagem: pede ao backend e preenche assincronamente
   const predictionEl = card.querySelector(".card-prediction");
   getDryPrediction(plant.device_id)
     .then((data) => {
@@ -67,7 +76,7 @@ export function buildPlantCard(plant, chartPosition = "card") {
     const max = plant.plant_type_max_moisture;
     loadHistoryChart(lineCanvas, plant.device_code, "24h", color, min, max);
 
-    // Tabs
+    // Tabs de range (24h / week / month / year) — redesenham o gráfico ao clicar
     card.querySelectorAll(".card-tab").forEach((tab) => {
       tab.addEventListener("click", () => {
         card
@@ -89,6 +98,7 @@ export function buildPlantCard(plant, chartPosition = "card") {
   return card;
 }
 
+// Converte um timestamp ISO em texto relativo ("5 min ago", "3h ago", ...)
 function formatTimeAgo(timestamp) {
   if (!timestamp) return "--";
   const seconds = Math.floor(

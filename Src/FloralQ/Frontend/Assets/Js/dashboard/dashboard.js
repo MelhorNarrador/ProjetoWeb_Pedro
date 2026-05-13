@@ -1,3 +1,5 @@
+// Controlador principal do dashboard
+// Coordena: carregamento de plantas, modais, charts, formulários e alertas
 import * as api from "../apiClient.js";
 import { showToast } from "../toast.js";
 import { openModal, closeModal, setupModalClosers } from "./modalManager.js";
@@ -18,17 +20,19 @@ const CONFIDENCE_COLORS = {
   low: "#E05555",
 };
 
-// Cache em memória
+// Cache em memória das plantas carregadas (usada pelo click handler dos cards)
 let plantsCache = [];
 
 // Estado da modal Add/Edit Plant
+// editingPlantId != null → modal está em modo Edit; senão é Add
 let editingPlantId = null;
-let selectedPlantImageFile = null;
-let removeImagePending = false;
+let selectedPlantImageFile = null;  // ficheiro escolhido pelo user (pendente de upload)
+let removeImagePending = false;     // user clicou em Remove e o submit ainda não ocorreu
 
 // Base path para servir imagens de plantas (relativo a Frontend/Pages/)
 const PLANT_IMAGE_BASE = "../Assets/Uploads/";
 
+// Limpa o estado do file picker e a UI associada (preview, label, botão Remove)
 function resetImagePicker() {
   selectedPlantImageFile = null;
   removeImagePending = false;
@@ -42,7 +46,7 @@ function resetImagePicker() {
   if (removeBtn) removeBtn.classList.add("hidden");
 }
 
-// Alertas de humidade
+// Threshold (%) abaixo do qual aparece toast a avisar que a planta precisa de água
 let userAlertThreshold = 30;
 
 // Posição do gráfico de histórico: "card" ou "modal"
@@ -51,6 +55,7 @@ let userChartPosition = "card";
 // Plantas conhecidas sem leituras, para detetar a chegada da primeira
 const plantsWithoutReadings = new Set();
 
+// Deteta plantas que recebem a primeira leitura entre carregamentos e mostra toast
 function checkFirstReadings(plants) {
   plants.forEach((plant) => {
     const hasReading = plant.sensor_reading_moisture_percent !== null;
@@ -64,6 +69,7 @@ function checkFirstReadings(plants) {
   });
 }
 
+// Percorre as plantas e mostra toast de alerta para as que estão abaixo do threshold
 function checkPlantAlerts(plants) {
   console.log(
     "[ALERTS] threshold:",
@@ -215,7 +221,7 @@ document
     document.getElementById("plant-image-remove").classList.add("hidden");
   });
 
-// Grid de plantas
+// Carrega todas as plantas do user e (re)constrói o grid de cards
 async function loadPlants() {
   const grid = document.getElementById("plants-grid");
   const data = await api.getPlants().catch(() => null);
@@ -255,6 +261,7 @@ async function loadPlants() {
     );
   });
 
+  // Conta plantas por estado para preencher os widgets de stats no topo
   let healthy = 0,
     dry = 0,
     overwatered = 0;
@@ -275,7 +282,8 @@ async function loadPlants() {
 
   checkPlantAlerts(data.plants);
 }
-// Event delegation
+// Event delegation: ouve clicks no grid e abre o modal da planta clicada
+// (ignora clicks nas tabs do gráfico para não disparar o modal sem querer)
 document.getElementById("plants-grid").addEventListener("click", (e) => {
   if (e.target.closest(".card-tab")) return;
 
@@ -285,7 +293,7 @@ document.getElementById("plants-grid").addEventListener("click", (e) => {
   if (plant) openPlantModal(plant);
 });
 
-// Modal de detalhes da planta
+// Modal de detalhes da planta: preenche o modal com toda a info e abre-o
 async function openPlantModal(plant) {
   const body = document.getElementById("plant-modal-body");
   const moisture = plant.sensor_reading_moisture_percent ?? "--";
@@ -444,7 +452,7 @@ async function openPlantModal(plant) {
   };
 }
 
-// Formulário adicionar planta
+// Abre a modal Add Plant em modo "add" (limpa campos + carrega dropdowns)
 document
   .getElementById("open-add-plant")
   .addEventListener("click", async () => {
@@ -453,6 +461,7 @@ document
     openModal("add-plant-modal-overlay");
   });
 
+// Submit do form: cria OU edita planta (conforme editingPlantId) + upload de imagem
 document
   .getElementById("add-plant-form")
   .addEventListener("submit", async (e) => {
@@ -509,7 +518,7 @@ document
     }
   });
 
-// Formulário redeem de dispositivo
+// Form para o user inserir o código de ativação e associar o sensor à conta
 const openRedeemBtn = document.getElementById("open-redeem");
 if (openRedeemBtn) {
   openRedeemBtn.addEventListener("click", () => {
@@ -546,7 +555,8 @@ if (logoutBtn) {
   });
 }
 
-// Account modal
+// Modal Account: gere email, password, alertas, modo de gráfico e replay do tutorial
+// Pinta o badge de email verified/pending conforme o estado vindo do backend
 function renderAccountEmailStatus(verified) {
   const statusEl = document.getElementById("account-email-status");
   const btn = document.getElementById("confirm-email-btn");
@@ -590,12 +600,14 @@ document.getElementById("open-account").addEventListener("click", async () => {
   }
 });
 
+// Marca a opção ativa no toggle Card/Modal do Presentation Mode
 function renderChartPositionSelection() {
   document.querySelectorAll(".chart-position-option").forEach((opt) => {
     opt.classList.toggle("active", opt.dataset.value === userChartPosition);
   });
 }
 
+// Click numa das opções de Presentation Mode: grava no backend e recarrega plantas
 document.querySelectorAll(".chart-position-option").forEach((opt) => {
   opt.addEventListener("click", async () => {
     const newValue = opt.dataset.value;
@@ -615,7 +627,7 @@ document.querySelectorAll(".chart-position-option").forEach((opt) => {
   });
 });
 
-// Save alert settings on change
+// Settings de alertas: gravam automaticamente quando o user muda o valor
 document
   .getElementById("alert-threshold")
   .addEventListener("change", async (e) => {
@@ -659,7 +671,7 @@ document
     }
   });
 
-// Change Password
+// Change Password: abre modal próprio (fora do Account modal para foco mais claro)
 document
   .getElementById("open-change-password")
   .addEventListener("click", () => {
@@ -700,7 +712,7 @@ document
     }
   });
 
-// Limpeza ao fechar modais
+// Callback do modalManager: limpa campos/erros conforme o modal que está a fechar
 function clearModal(id) {
   if (id === "add-plant-modal-overlay") {
     setAddPlantMode("add");
@@ -717,7 +729,7 @@ function clearModal(id) {
 
 setupModalClosers(clearModal);
 
-// Settings dropdown
+// Dropdown do botão de settings no canto superior direito
 const settingsBtn = document.getElementById("settings-btn");
 const settingsDropdown = document.getElementById("settings-dropdown");
 
@@ -734,7 +746,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// Init
+// Entry point: corre uma vez ao carregar a página
 async function initDashboard() {
   // Carrega settings do user para os alertas e modo de gráfico
   const userData = await api.getUserInfo().catch(() => null);
@@ -754,4 +766,5 @@ document.getElementById("replay-tutorial-btn").addEventListener("click", () => {
 });
 
 initDashboard();
+// Refresca o dashboard de 5 em 5 minutos para apanhar novas leituras dos sensores
 setInterval(loadPlants, 5 * 60 * 1000);

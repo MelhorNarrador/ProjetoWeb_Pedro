@@ -1,4 +1,6 @@
 <?php
+// Recebe um ficheiro de imagem (multipart/form-data) e guarda no disco
+// O path relativo fica gravado na BD em plant.plant_image_path
 
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
@@ -28,7 +30,7 @@ if ($file['size'] > 5 * 1024 * 1024) {
     exit;
 }
 
-// Validação do mime type real
+// Validação do mime type real (lê os bytes do ficheiro em vez de confiar na extensão)
 $info = getimagesize($file['tmp_name']);
 if ($info === false) {
     http_response_code(400);
@@ -69,7 +71,7 @@ try {
         exit;
     }
 
-    // Gerar nome único e paths
+    // Gerar nome único e paths (prefixo plant_id + 8 hex aleatórios para evitar colisões)
     $filename   = $plant_id . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
     $db_path    = "plants/$filename";
     $uploads_root = __DIR__ . "/../../Frontend/Assets/Uploads";

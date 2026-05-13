@@ -1,4 +1,5 @@
 <?php
+// Devolve a leitura mais recente (humidade + GPS + timestamp) de um sensor
 
 header('Content-Type: application/json');
 
@@ -6,7 +7,7 @@ require_once "../Utils/init.php";
 require_once "../Middleware/auth.php";
 $user = requireAuth();
 $device_code = requireDeviceCode();
-// OBTEM A LEITURA MAIS RECENTE DO DEVICE
+// OBTEM A LEITURA MAIS RECENTE DO DEVICE (filtrado por ownership)
 try {
 
     $stmt = $pdo->prepare("

@@ -1,3 +1,7 @@
+/* Estilos do dashboard
+   Organização: tokens → utilities → navbar → main/stats → cards → modais → settings → toasts */
+
+/* Tokens centrais (cores, raios, espaçamentos) */
 :root {
   /* Fundo */
   --bg-cream: #f5f5dc;
@@ -28,6 +32,8 @@
   --radius-sm: 10px;
   --radius-xs: 6px;
 }
+
+/* Cores rápidas para os valores de stats no topo */
 .stat-value-green {
   color: var(--green-600);
 }
@@ -38,13 +44,14 @@
   color: var(--blue);
 }
 
-/* Utilitário */
+/* Classe utilitária para esconder elementos (usada por modais e UI condicional) */
 .hidden {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
 }
 
+/* Reset global mínimo */
 * {
   margin: 0;
   padding: 0;
@@ -58,8 +65,7 @@ body {
   min-height: 100vh;
 }
 
-/* Navbar */
-/* Navbar */
+/* === Navbar (logo à esquerda + botões à direita, fica sticky no topo) === */
 #navbar {
   display: flex;
   align-items: center;
@@ -131,7 +137,7 @@ body {
   height: 18px;
 }
 
-/* Main */
+/* === Conteúdo principal (3 colunas de cards a 400px → max 1320px) === */
 main {
   max-width: 1320px;
   margin: 0 auto;
@@ -155,7 +161,7 @@ main {
   font-size: 0.9rem;
 }
 
-/* Stats bar */
+/* === Stats bar: 4 cards no topo (total / healthy / dry / overwatered) === */
 .stats-bar {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -218,7 +224,7 @@ main {
   margin-top: 4px;
 }
 
-/* Grelha de cards */
+/* === Grid de cards das plantas (auto-fill 400px → tantas colunas quantas caibam) === */
 #plants-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, 400px);
@@ -226,7 +232,7 @@ main {
   justify-content: start;
 }
 
-/* Card */
+/* === Card individual de planta === */
 .plant-card {
   background: var(--bg-cream-card);
   border: 1px solid var(--border);
@@ -238,6 +244,7 @@ main {
   overflow: hidden;
 }
 
+/* Barra de cor no topo do card (mostrada só em hover, varia com status) */
 .plant-card::before {
   content: "";
   position: absolute;
@@ -269,7 +276,7 @@ main {
   background: var(--blue);
 }
 
-/* Secção de histórico no card */
+/* Secção de histórico no card (gráfico de linhas + tabs de range) */
 .card-history {
   border-top: 1px solid var(--border);
   padding: 14px 20px 18px;
@@ -314,7 +321,7 @@ main {
   position: relative;
 }
 
-/* Top do card (chart + info) */
+/* Top do card: doughnut + info (nome/status/prediction/meta) + imagem da planta */
 .card-top {
   display: flex;
   align-items: center;
@@ -348,6 +355,7 @@ main {
   flex: 1;
 }
 
+/* Nome da planta: 1 linha máxima, "..." se for grande demais */
 .card-name {
   font-size: 1.05rem;
   font-weight: 700;
@@ -401,7 +409,8 @@ main {
   height: 13px;
 }
 
-/* Overlay */
+/* === Modais === */
+/* Overlay escurecido por trás dos modais (qualquer elemento com id terminado em -modal-overlay) */
 [id$="-modal-overlay"] {
   position: fixed;
   inset: 0;
@@ -417,7 +426,7 @@ main {
     visibility 0.25s;
 }
 
-/* Modal */
+/* Caixa branca central do modal */
 .modal {
   background-color: var(--bg-cream-card);
   border: 1px solid var(--border);
@@ -468,7 +477,7 @@ main {
   color: var(--text-dark);
 }
 
-/* Formulários dentro das modals */
+/* === Formulários dentro dos modais === */
 .input-group {
   display: flex;
   flex-direction: column;
@@ -536,8 +545,8 @@ main {
   margin-bottom: 8px;
 }
 
-/* Detalhes da planta (modal) */
-/* Header do modal de detalhes */
+/* === Modal de detalhes da planta === */
+/* Header: ícone/imagem + título + botões de ação (edit/delete/close) */
 .plant-detail-header {
   display: flex;
   align-items: center;
@@ -569,6 +578,7 @@ main {
   border-radius: 14px;
 }
 
+/* Override do .hidden global: aqui display: none para não ocupar espaço no flex */
 .plant-detail-icon-img.hidden {
   display: none;
 }
@@ -628,7 +638,7 @@ main {
   margin-top: 4px;
 }
 
-/* Modal de confirmação */
+/* === Modal de confirmação (ex.: apagar planta) === */
 .modal-confirm {
   max-width: 460px;
   text-align: center;
@@ -668,7 +678,7 @@ main {
   gap: 10px;
 }
 
-/* Variantes do submit-btn */
+/* Variantes do submit-btn (vermelho para acções destrutivas, transparente para cancelar) */
 .btn-danger {
   background: var(--red);
 }
@@ -686,7 +696,7 @@ main {
   color: var(--text-dark);
 }
 
-/* Grid 2 colunas com 4 linhas */
+/* Grid 2 colunas dentro do modal de detalhes (moisture / prediction / dry_at / etc.) */
 .detail-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -723,11 +733,12 @@ main {
   border: 1px solid var(--border);
 }
 
+/* Esconde a div do mapa quando o sensor não tem GPS (sem dados a inserir lá dentro) */
 .modal-map:empty {
   display: none;
 }
 
-/* Wrapper para posicionar o dropdown */
+/* === Dropdown de settings (Account / Tutorial / Logout) === */
 .settings-wrapper {
   position: relative;
 }
@@ -792,7 +803,7 @@ main {
   margin: 4px 8px;
 }
 
-/* Responsivo */
+/* === Responsivo para mobile (≤600px) === */
 @media (max-width: 600px) {
   main {
     padding: 16px;
@@ -816,7 +827,7 @@ main {
   }
 }
 
-/* Account modal */
+/* === Modal Account (email / password / alertas / presentation mode / tutorial) === */
 .account-rows {
   display: flex;
   flex-direction: column;
@@ -868,6 +879,7 @@ main {
   overflow-wrap: anywhere;
 }
 
+/* Badge ao lado do email (verificado/pendente) */
 .account-badge {
   display: inline-block;
   padding: 2px 8px;
@@ -895,6 +907,7 @@ main {
   font-size: 0.9rem;
 }
 
+/* Botão variante "outline" (sem fundo, só borda) */
 .btn-outline {
   background: transparent;
   color: var(--text-dark);
@@ -905,7 +918,7 @@ main {
   background: var(--bg-cream-hover);
 }
 
-/* File picker para imagem da planta */
+/* === File picker para imagem da planta (botão "Choose" + preview + Remove) === */
 .image-picker {
   display: flex;
   align-items: center;
@@ -961,6 +974,7 @@ main {
   text-decoration: underline;
 }
 
+/* Select da % de threshold de alerta (no Account modal) */
 .alert-threshold-select {
   margin-left: 6px;
   padding: 2px 24px 2px 8px;
@@ -983,7 +997,7 @@ main {
   cursor: pointer;
 }
 
-/* Presentation Mode */
+/* === Presentation Mode: toggle Card/Modal para a posição do gráfico de histórico === */
 .account-section-header {
   margin-top: 8px;
   padding: 0 4px;
@@ -1020,7 +1034,7 @@ main {
   color: var(--green-700);
 }
 
-/* Histórico no modal de detalhes */
+/* Secção de histórico no modal de detalhes (só visível em modo "modal") */
 .modal-history {
   margin-top: 16px;
 }
@@ -1029,7 +1043,7 @@ main {
   display: none;
 }
 
-/* Toasts */
+/* === Toasts (mensagens flutuantes no canto superior direito) === */
 #toast-container {
   position: fixed;
   top: 20px;
@@ -1059,11 +1073,13 @@ main {
   pointer-events: auto;
 }
 
+/* Estado "visível": adicionado por JS para acionar a transição CSS de slide-in */
 .toast-show {
   opacity: 1;
   transform: translateX(0);
 }
 
+/* Variantes por tipo (sucesso / erro / info) */
 .toast-success {
   border-left: 4px solid var(--green-700);
   color: var(--green-700);

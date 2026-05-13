@@ -1,4 +1,6 @@
 <?php
+// Endpoint chamado pelo próprio sensor (ESP32) na primeira ligação
+// Regista o device na BD e devolve um código de ativação para o user inserir no site
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
 

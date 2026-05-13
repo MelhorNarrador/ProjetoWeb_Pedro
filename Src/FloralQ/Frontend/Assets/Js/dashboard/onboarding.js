@@ -1,9 +1,12 @@
 // Onboarding tour usando driver.js
 // Tour action-driven: cada step avança quando o user faz a ação real
+// (em vez de carregar em Next), o que ensina o user a usar o site de verdade
 import { driver } from "https://cdn.jsdelivr.net/npm/driver.js@1.3.0/+esm";
 
+// Chave do localStorage que marca o tour como concluído (não voltar a mostrar)
 const STORAGE_KEY = "onboardingDone";
 
+// Instância partilhada do driver.js (criada na primeira chamada a startTour)
 let driverObj = null;
 
 // Definição dos passos do tour. Index = posição no array.
@@ -184,6 +187,7 @@ function attachClickToAdvance(el) {
   el.addEventListener("click", handler);
 }
 
+// Cria a instância do driver.js com os steps + opções globais
 function buildDriver() {
   driverObj = driver({
     showProgress: true,
@@ -201,10 +205,12 @@ function buildDriver() {
   });
 }
 
+// Marca o onboarding como concluído para não voltar a aparecer
 function finishOnboarding() {
   localStorage.setItem(STORAGE_KEY, "true");
 }
 
+// Inicia o tour. Define a flag global usada pelo dashboard para evitar fechar dropdowns
 function startTour() {
   if (!driverObj) buildDriver();
   window.__tutorialActive = true;
@@ -224,6 +230,7 @@ document.addEventListener("plant-created", () => {
   }
 });
 
+// Mostra o popup inicial com "Start tour" / "Skip" antes de começar o driver.js
 function showWelcomeModal() {
   const overlay = document.getElementById("welcome-modal-overlay");
   overlay.classList.remove("hidden");

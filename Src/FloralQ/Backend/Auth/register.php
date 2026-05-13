@@ -1,7 +1,9 @@
 <?php
+// Endpoint de registo: cria nova conta de utilizador
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
 
+// Lê o corpo JSON da request
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!$data) {
@@ -21,12 +23,14 @@ if (!$name || !$email || !$password) {
     exit;
 }
 
+// Email tem de ter formato válido
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Invalid email"]);
     exit;
 }
 
+// Password mínima de 6 caracteres
 if (strlen($password) < 6) {
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Password must be at least 6 characters"]);
@@ -44,7 +48,7 @@ try {
         exit;
     }
 
-    // CRIA A CONTA
+    // CRIA A CONTA (gera hash bcrypt da password)
     $hash = password_hash($password, PASSWORD_DEFAULT);
 
     $stmt = $pdo->prepare("

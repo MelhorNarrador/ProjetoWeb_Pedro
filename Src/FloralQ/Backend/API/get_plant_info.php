@@ -1,4 +1,6 @@
 <?php
+// Devolve a info estática da planta associada a um device
+// (nome, localização, espécie, limites de humidade)
 
 header('Content-Type: application/json');
 require_once "../Utils/init.php";

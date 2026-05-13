@@ -1,15 +1,18 @@
-// Desenha um gráfico redondo Chart.js
+// Controla os gráficos Chart.js do dashboard: doughnut (humidade atual) e line (histórico)
 import { getNormalizedMoisture, getMoistureColor } from "./utils/moisture.js";
 import { getReadingsHistory } from "../apiClient.js";
+
+// Desenha o gráfico doughnut com a humidade atual no centro
 export function drawMoistureChart(canvas, moisture, min, max) {
   const isNoData = moisture === "--";
   const percent = isNoData ? 0 : getNormalizedMoisture(moisture, min, max);
+  // Garantir valor entre 0 e 100 para o doughnut (e nunca 0 para não desaparecer)
   const displayValue = Math.max(0, Math.min(percent, 100)) || 1;
   const color = getMoistureColor(moisture, min, max);
 
   const label = isNoData ? "--" : `${Math.max(0, percent)}%`;
 
-  // Limpar gráfico anterior se existir
+  // Destrói gráfico anterior se já existia (evita memory leak ao re-render)
   if (canvas._chartInstance) {
     canvas._chartInstance.destroy();
   }
@@ -34,6 +37,7 @@ export function drawMoistureChart(canvas, moisture, min, max) {
       },
     },
     plugins: [
+      // Plugin custom que desenha o texto da % no centro do doughnut
       {
         id: "center-text",
         beforeDraw(chart) {
@@ -53,15 +57,17 @@ export function drawMoistureChart(canvas, moisture, min, max) {
   });
 }
 
-// Desenha um gráfico de linhas com Chart.js
+// Desenha o gráfico de linhas com o histórico de humidade
 export function drawLineChart(canvas, dataPoints, color = "#1E4D2B") {
-  // Limpar gráfico anterior se existir
+  // Limpar gráfico anterior se existir (evita memory leak)
   if (canvas._chartInstance) {
     canvas._chartInstance.destroy();
   }
 
   const labels = dataPoints.map((p) => formatLabel(p.recorded_at));
   const values = dataPoints.map((p) => parseFloat(p.moisture));
+
+  // Gradiente vertical (cor → transparente) para o fill da área debaixo da linha
   const ctx = canvas.getContext("2d");
   const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
   gradient.addColorStop(0, color + "40");
@@ -116,13 +122,14 @@ export function drawLineChart(canvas, dataPoints, color = "#1E4D2B") {
   });
 }
 
-// Formata o timestamp
+// Formata o timestamp ISO no formato local do browser
 function formatLabel(timestamp) {
   const d = new Date(timestamp);
   return d.toLocaleString();
 }
 
-// Vai buscar histórico ao backend e desenha
+// Vai buscar o histórico de leituras ao backend e desenha o gráfico de linhas
+// min/max são os limites da espécie, usados para normalizar para % relativa
 export function loadHistoryChart(canvas, deviceCode, range, color, min, max) {
   getReadingsHistory(deviceCode, range)
     .then((res) => {

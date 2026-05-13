@@ -1,4 +1,6 @@
 <?php
+// Endpoint chamado pelo user no site para associar um sensor à sua conta
+// O user introduz o activation_code que apareceu no ecrã do ESP32
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
 require_once "../Middleware/auth.php";
@@ -13,6 +15,7 @@ if (!$data) {
 $activation_code = $data["activation_code"] ?? null;
 
 try {
+    // Procura o device pelo activation_code
     $stmt = $pdo->prepare("
         SELECT device_id
         FROM device

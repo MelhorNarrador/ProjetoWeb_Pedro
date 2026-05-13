@@ -1,4 +1,5 @@
 <?php
+// Apaga uma planta e todas as suas leituras de sensor (numa só transação)
 
 header('Content-Type: application/json');
 require_once "../Utils/init.php";

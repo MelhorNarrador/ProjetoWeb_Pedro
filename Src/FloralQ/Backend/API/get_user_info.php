@@ -1,4 +1,6 @@
 <?php
+// Devolve a info da conta do user (usado pelo modal Account)
+// Inclui nome, email, flags de verificação e settings (threshold de alerta, posição do chart)
 
 header('Content-Type: application/json');
 require_once "../Utils/init.php";

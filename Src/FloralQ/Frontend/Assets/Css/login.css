@@ -1,3 +1,6 @@
+/* Estilos partilhados pelas páginas login.html e register.html */
+
+/* Paleta de cores e tokens centrais (verde + creme) */
 :root {
   --bg-cream: #f5f5dc;
   --bg-cream-card: #fffff0;
@@ -13,12 +16,15 @@
   --text-on-dark: #ffffff8c;
   --border: #e0e0c0;
 }
+
+/* Reset global mínimo */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Layout do body em 2 colunas (painel esquerdo verde + painel direito com form) */
 body {
   display: flex;
   height: 100vh;
@@ -26,7 +32,7 @@ body {
   background: var(--bg-cream);
 }
 
-/* Painel esquerdo */
+/* Painel esquerdo: branding (logo + tagline + features) sobre fundo verde */
 .left-panel {
   width: 50%;
   background: linear-gradient(225deg, #0f2f1a 20%, #1e4d2b 100%);
@@ -63,6 +69,7 @@ body {
   line-height: 1.5;
 }
 
+/* Lista de features (3 bullet points com ícone + texto) */
 .features-list {
   display: flex;
   flex-direction: column;
@@ -99,7 +106,7 @@ body {
   stroke: var(--green-300);
 }
 
-/* Painel direito */
+/* Painel direito: contém o formulário de login/registo */
 .right-panel {
   width: 50%;
   display: flex;
@@ -109,6 +116,7 @@ body {
   padding: 40px;
 }
 
+/* Container do formulário, largura limitada e empilhamento vertical */
 form {
   width: 100%;
   max-width: 380px;
@@ -131,6 +139,7 @@ form h2 {
   margin-bottom: 12px;
 }
 
+/* Cada label + input + hint (form fields) */
 .input-group {
   display: flex;
   flex-direction: column;
@@ -166,6 +175,7 @@ form h2 {
   box-shadow: 0 0 0 3px var(--green-700-soft);
 }
 
+/* Linha com "Remember me" à esquerda e "Forgot password" à direita */
 .form-row {
   display: flex;
   align-items: center;
@@ -191,6 +201,7 @@ form h2 {
   text-decoration: underline;
 }
 
+/* Separador "ou" com linhas horizontais a flanquear o texto */
 .divider {
   display: flex;
   align-items: center;
@@ -223,6 +234,7 @@ form h2 {
   text-decoration: underline;
 }
 
+/* Botão principal (Login / Register) */
 button[type="submit"] {
   padding: 12px;
   background-color: var(--green-700);
@@ -240,6 +252,7 @@ button[type="submit"]:hover {
   background-color: var(--green-500);
 }
 
+/* Mensagem de erro abaixo do form (min-height evita layout shift quando aparece) */
 #error-msg {
   font-size: 0.85rem;
   color: var(--red);
@@ -267,7 +280,7 @@ button[type="submit"]:hover {
   margin-top: 2px;
 }
 
-/* Responsivo */
+/* Responsivo: em telemóveis esconde o painel esquerdo e usa 100% para o form */
 @media (max-width: 768px) {
   .left-panel {
     display: none;

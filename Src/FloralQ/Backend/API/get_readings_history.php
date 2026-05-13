@@ -1,4 +1,6 @@
 <?php
+// Devolve o histórico de leituras de um sensor para o gráfico de linhas
+// Suporta vários ranges (24h sem agregação, semana/mês/ano agregados)
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
 require_once "../Middleware/auth.php";
@@ -6,7 +8,7 @@ $user = requireAuth();
 $device_code = requireDeviceCode();
 $range = $_GET["range"] ?? "24h";
 
-// Configuração por range
+// Configuração por range: bucket de agregação, janela temporal e limite de pontos
 $config = [
     "24h"   => ["bucket" => null,    "interval" => "24 hours", "limit" => 288],
     "week"  => ["bucket" => "hour",  "interval" => "7 days",   "limit" => 168],
@@ -14,6 +16,7 @@ $config = [
     "year"  => ["bucket" => "month", "interval" => "365 days", "limit" => 12],
 ];
 
+// Range tem de ser um dos suportados
 if (!isset($config[$range])) {
     http_response_code(400);
     echo json_encode([
@@ -27,7 +30,7 @@ $cfg = $config[$range];
 
 try {
     if ($cfg["bucket"] === null) {
-        // Sem agregação
+        // Sem agregação: devolve cada leitura individualmente
         $sql = "
             SELECT
                 sensor_reading_moisture_percent AS moisture,
@@ -40,7 +43,7 @@ try {
             LIMIT :limit
         ";
     } else {
-        // Agregação por hora/dia/mês
+        // Agregação por hora/dia/mês: calcula média de moisture por bucket
         $sql = "
             SELECT
                 ROUND(AVG(sensor_reading_moisture_percent)::numeric, 1) AS moisture,

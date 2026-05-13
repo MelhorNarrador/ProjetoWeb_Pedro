@@ -1,4 +1,7 @@
-// Cores por estado de humidade
+// Funções partilhadas para classificar/normalizar humidade
+// Source of truth dos thresholds — usado pelo card, modal, gráfico e status
+
+// Cores por estado de humidade (centralizadas para chart e status coincidirem)
 const MOISTURE_COLORS = {
   red: "#E05555",
   greenLight: "#A8D96C",
@@ -7,6 +10,7 @@ const MOISTURE_COLORS = {
   gray: "#8A9480",
 };
 
+// Devolve a categoria de estado da planta (dry/healthy/overwatered/no-data)
 export function getMoistureStatus(moisture, min, max) {
   const percent = getNormalizedMoisture(moisture, min, max);
   if (percent === null) return "no-data";
@@ -25,6 +29,7 @@ export function getMoistureColor(moisture, min, max) {
   return MOISTURE_COLORS.blue;
 }
 
+// Tradução das keys de previsão devolvidas pelo backend para texto legível
 export function getPredictionLabel(key) {
   const labels = {
     drying: "Drying",
@@ -36,12 +41,15 @@ export function getPredictionLabel(key) {
   return labels[key] ?? "Unknown";
 }
 
+// Formata o objeto de previsão completo para mostrar no card/modal
 export function formatDryPrediction(data) {
   const { prediction } = data;
   if (prediction === "drying") return `Runs dry in ~${data.dry_in_friendly}`;
   return getPredictionLabel(prediction);
 }
 
+// Converte humidade absoluta (0–100) para % relativa ao range da espécie
+// Ex.: min=20, max=60, raw=40 → 50% (a meio do range confortável da planta)
 export function getNormalizedMoisture(raw, min, max) {
   if (raw === "--" || raw === null || raw === undefined) return null;
   const r = parseFloat(raw);

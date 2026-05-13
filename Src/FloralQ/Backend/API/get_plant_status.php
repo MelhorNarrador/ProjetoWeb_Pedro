@@ -1,4 +1,6 @@
 <?php
+// Devolve o estado atual de uma planta: humidade + classificação (dry/healthy/overwatered)
+// e status do sensor (online/offline)
 
 header('Content-Type: application/json');
 
@@ -8,6 +10,7 @@ $user = requireAuth();
 $device_code = requireDeviceCode();
 try {
 
+    // Vai buscar a última leitura + os limites da espécie da planta
     $stmt = $pdo->prepare("
         SELECT
         sr.sensor_reading_moisture_percent,

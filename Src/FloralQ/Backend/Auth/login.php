@@ -1,7 +1,9 @@
 <?php
+// Endpoint de login: valida credenciais e abre sessão
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
 
+// Lê o corpo JSON da request
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!$data) {
@@ -13,6 +15,7 @@ if (!$data) {
 $email    = trim($data["email"] ?? "");
 $password = $data["password"] ?? "";
 
+// Campos obrigatórios
 if (!$email || !$password) {
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "email and password are required"]);
@@ -20,6 +23,7 @@ if (!$email || !$password) {
 }
 
 try {
+    // Procura o utilizador pelo email
     $stmt = $pdo->prepare("
         SELECT user_account_id, user_account_name, user_account_email,
                user_account_password_hash, user_account_role
@@ -29,7 +33,7 @@ try {
     $stmt->execute(["email" => $email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // MENSAGEM GENÉRICA
+    // MENSAGEM GENÉRICA (não revela se foi email ou password que falhou)
     if (!$user || !password_verify($password, $user["user_account_password_hash"])) {
         http_response_code(401);
         echo json_encode(["success" => false, "message" => "Invalid credentials"]);
@@ -41,6 +45,7 @@ try {
     $_SESSION["user_id"]   = $user["user_account_id"];
     $_SESSION["user_role"] = $user["user_account_role"];
 
+    // Devolve dados básicos do user (sem hash) para o frontend
     echo json_encode([
         "success" => true,
         "user"    => [

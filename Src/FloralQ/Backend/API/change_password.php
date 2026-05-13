@@ -1,4 +1,6 @@
 <?php
+// Endpoint para o user mudar a password
+// Pede a password atual + a nova, verifica a antiga e atualiza com novo hash
 
 header('Content-Type: application/json');
 require_once "../Utils/init.php";

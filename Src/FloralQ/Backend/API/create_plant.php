@@ -1,4 +1,6 @@
 <?php
+// Cria uma nova planta associada a um device do user
+// Devolve o plant_id criado (usado em seguida para upload da imagem)
 
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
@@ -34,6 +36,7 @@ if ($plant_location_label !== null && strlen($plant_location_label) > 50) {
 }
 
 try {
+    // Verifica que o device pertence ao user (não pode associar um device de outra pessoa)
     $stmt = $pdo->prepare("
         SELECT device_id
         FROM device

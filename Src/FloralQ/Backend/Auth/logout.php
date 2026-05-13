@@ -1,5 +1,5 @@
 <?php
-// SIMPLESMENTE DESTRÓI A SESSÃO ATUAL
+// Endpoint de logout: destrói a sessão atual
 header('Content-Type: application/json');
 session_start();
 session_destroy();

@@ -1,10 +1,12 @@
 <?php
+// Devolve a lista de espécies de planta (para o dropdown do form)
 
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
 require_once "../Middleware/auth.php";
 $user = requireAuth();
 try {
+    // Vai buscar todas as espécies disponíveis
     $stmt = $pdo->prepare("SELECT plant_type_id, plant_type_name FROM plant_type");
     $stmt->execute();
     $plant_types = $stmt->fetchAll(PDO::FETCH_ASSOC);

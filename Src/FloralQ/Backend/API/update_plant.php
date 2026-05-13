@@ -1,4 +1,6 @@
 <?php
+// Atualiza os dados de uma planta existente
+// Suporta também remover a imagem associada (flag remove_image)
 
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
@@ -52,7 +54,7 @@ try {
         exit;
     }
 
-    // Remover imagem se pedido
+    // Remover imagem se pedido: apaga ficheiro do disco e mete o path a NULL
     if ($remove_image) {
         // Buscar o path atual e apagar o ficheiro do disco
         $stmt = $pdo->prepare("SELECT plant_image_path FROM plant WHERE plant_id = :plant_id");

@@ -1,10 +1,13 @@
 <?php
+// Devolve todas as plantas do user com info para os cards do dashboard
+// (device, última leitura, limites da espécie, sensor_status calculado)
 
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
 require_once "../Middleware/auth.php";
 $user = requireAuth();
 try {
+    // Inclui um LEFT JOIN à leitura mais recente de cada device
     $stmt = $pdo->prepare("
     SELECT
     p.plant_id,

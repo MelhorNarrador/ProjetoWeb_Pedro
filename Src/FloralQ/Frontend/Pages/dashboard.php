@@ -1,5 +1,6 @@
 <?php
-// Verificar se o utilizador está autenticado
+// Página principal do dashboard
+// Server-side: garante que só users autenticados acedem (caso contrário → login)
 session_start();
 
 if (empty($_SESSION["user_id"])) {
@@ -21,7 +22,7 @@ if (empty($_SESSION["user_id"])) {
 </head>
 
 <body>
-  <!-- Navbar -->
+  <!-- Navbar sticky no topo: logo à esquerda, Add Plant + Settings à direita -->
   <nav id="navbar">
     <div class="nav-brand">
       <img src="../Assets/Img/FloralQ_Logo_Dark.svg" alt="FloralQ Logo" id="nav-logo">
@@ -44,6 +45,7 @@ if (empty($_SESSION["user_id"])) {
           </svg>
         </button>
 
+        <!-- Dropdown de settings (Redeem / Account / Dark Mode / Logout) -->
         <div class="settings-dropdown hidden" id="settings-dropdown">
           <button class="settings-item" id="open-redeem">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -78,12 +80,13 @@ if (empty($_SESSION["user_id"])) {
         </div>
       </div>
   </nav>
-  <!-- Main content -->
+  <!-- Conteúdo principal: header + stats bar + grid de plantas -->
   <main>
     <div class="page-header">
       <h1>My Plants</h1>
       <p class="page-subtitle" id="plants-subtitle">Loading...</p>
     </div>
+    <!-- Stats bar: 4 contadores (total / healthy / dry / overwatered) -->
     <div class="stats-bar">
       <div class="stat-card">
         <div class="stat-icon stat-icon-green">
@@ -155,10 +158,11 @@ if (empty($_SESSION["user_id"])) {
         </div>
       </div>
     </div>
+    <!-- Onde os cards das plantas são injetados via JS (plantCard.js) -->
     <div id="plants-grid"></div>
   </main>
 
-  <!-- template do card de planta -->
+  <!-- Template do card de planta: clonado pelo JS para cada planta -->
   <template id="plant-card-template">
     <div class="plant-card">
       <div class="card-top">
@@ -194,7 +198,7 @@ if (empty($_SESSION["user_id"])) {
     </div>
   </template>
 
-  <!-- card de detalhes da planta -->
+  <!-- Modal de detalhes da planta (abre ao clicar num card) -->
   <div id="plant-modal-overlay" class="hidden">
     <div class="modal">
       <div id="plant-modal-body">
@@ -303,7 +307,7 @@ if (empty($_SESSION["user_id"])) {
     </div>
   </div>
 
-  <!--adicionar planta-->
+  <!-- Modal Add/Edit Planta: o mesmo form é reusado nos 2 modos (Add ou Edit) -->
   <div id="add-plant-modal-overlay" class="hidden">
     <div class="modal">
       <button class="modal-close" data-target="add-plant-modal-overlay">
@@ -356,7 +360,7 @@ if (empty($_SESSION["user_id"])) {
     </div>
   </div>
 
-  <!--redeem de dispositivo-->
+  <!-- Modal Redeem Device: user introduz o código de ativação do sensor -->
   <div id="redeem-modal-overlay" class="hidden">
     <div class="modal">
       <button class="modal-close" data-target="redeem-modal-overlay">
@@ -378,7 +382,7 @@ if (empty($_SESSION["user_id"])) {
       </form>
     </div>
   </div>
-  <!-- Modal de confirmação -->
+  <!-- Modal de confirmação genérico (usado para confirmar apagar planta) -->
   <div id="confirm-modal-overlay" class="hidden">
     <div class="modal modal-confirm">
       <div class="plant-detail-header">
@@ -420,7 +424,7 @@ if (empty($_SESSION["user_id"])) {
     </div>
   </div>
 
-  <!-- Welcome / Onboarding modal -->
+  <!-- Modal de boas-vindas: aparece na primeira visita e oferece o tour -->
   <div id="welcome-modal-overlay" class="hidden">
     <div class="modal modal-confirm">
       <div class="plant-detail-header">
@@ -445,7 +449,7 @@ if (empty($_SESSION["user_id"])) {
     </div>
   </div>
 
-  <!-- Account modal -->
+  <!-- Modal Account: email, password, alertas, presentation mode, replay tutorial -->
   <div id="account-modal-overlay" class="hidden">
     <div class="modal">
       <div class="plant-detail-header">
@@ -574,7 +578,7 @@ if (empty($_SESSION["user_id"])) {
     </div>
   </div>
 
-  <!-- Change Password modal -->
+  <!-- Modal Change Password (separado do Account para foco mais claro) -->
   <div id="change-password-modal-overlay" class="hidden">
     <div class="modal">
       <button class="modal-close" data-target="change-password-modal-overlay">✕</button>
@@ -599,7 +603,9 @@ if (empty($_SESSION["user_id"])) {
     </div>
   </div>
   </div>
+  <!-- Chart.js (gráficos doughnut e line) carregado via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Entry point JS do dashboard (carrega todos os módulos via imports) -->
   <script type="module" src="../Assets/Js/dashboard/dashboard.js"></script>
 </body>
 

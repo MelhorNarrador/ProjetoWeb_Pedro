@@ -1,4 +1,6 @@
 <?php
+// Endpoint genérico para atualizar settings do user (threshold, email alerts, posição do chart)
+// Constrói o UPDATE dinamicamente conforme os campos que vierem no payload
 
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
@@ -19,6 +21,7 @@ $allowed = [
     "chart_position" => "user_account_chart_position",
 ];
 
+// Vai-se acumulando aqui o SET ... do SQL conforme os campos forem válidos
 $updates = [];
 $params  = ["user_id" => $user["user_id"]];
 
@@ -60,6 +63,7 @@ if (empty($updates)) {
 }
 
 try {
+    // Monta o UPDATE final juntando todas as colunas a atualizar
     $sql = "UPDATE user_account SET " . implode(", ", $updates) . " WHERE user_account_id = :user_id";
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);

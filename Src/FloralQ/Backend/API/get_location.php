@@ -1,4 +1,5 @@
 <?php
+// Devolve as últimas coordenadas GPS conhecidas de um sensor (para o mapa)
 
 header('Content-Type: application/json');
 

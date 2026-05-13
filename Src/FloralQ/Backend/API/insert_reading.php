@@ -1,4 +1,6 @@
 <?php
+// Endpoint chamado pelo sensor (ESP32) para gravar uma nova leitura na BD
+// Não exige auth de sessão; o sensor identifica-se pelo device_code
 
 header('Content-Type: application/json');
 

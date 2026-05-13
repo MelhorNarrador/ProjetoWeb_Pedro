@@ -1,4 +1,6 @@
 <?php
+// Calcula uma previsão de quanto tempo falta até a planta ficar seca,
+// usando regressão linear sobre as últimas 20 leituras + nível de confiança (R²)
 
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
@@ -14,6 +16,7 @@ if (!$device_id || !is_numeric($device_id)) {
 
 try {
 
+    // Vai buscar as últimas 20 leituras (ordem desc, depois invertemos)
     $stmt = $pdo->prepare("
         SELECT
         sr.sensor_reading_moisture_percent,
@@ -49,7 +52,8 @@ try {
         ]);
         exit;
     }
-    // REGA RECENTE
+    // REGA RECENTE: se houve um salto grande de humidade entre as 2 últimas leituras,
+    // não vale a pena prever — a planta foi regada agora mesmo
     $spike = (float)$filtered[0]["sensor_reading_moisture_percent"]
         - (float)$filtered[1]["sensor_reading_moisture_percent"];
 
@@ -63,7 +67,7 @@ try {
         ]);
         exit;
     }
-    // REMOVER OUTLIERS
+    // REMOVER OUTLIERS usando o método IQR (intervalos interquartis)
     $moistures = array_column($filtered, "sensor_reading_moisture_percent");
     sort($moistures);
     $count = count($moistures);
@@ -105,6 +109,7 @@ try {
 
     $base_time = strtotime($sorted_rows[0]["sensor_reading_recorded_at"]);
 
+    // Acumuladores para calcular a regressão linear (mínimos quadrados)
     $sum_x  = 0.0;
     $sum_y  = 0.0;
     $sum_xy = 0.0;
@@ -133,6 +138,7 @@ try {
         exit;
     }
 
+    // Fórmulas standard da regressão linear (y = slope*x + intercept)
     $slope     = (($n * $sum_xy) - ($sum_x * $sum_y)) / $denominator;
     $intercept = ($sum_y - $slope * $sum_x) / $n;
     // CALCULAR R², OU SEJA, QUALIDADE DOS DADOS
@@ -173,7 +179,7 @@ try {
         ]);
         exit;
     }
-    // CALCULAR TEMPO ATÉ SECAR
+    // CALCULAR TEMPO ATÉ SECAR: extrapola a partir do slope quando vamos chegar ao min
     $rate_per_second  = abs($slope);
     $current_moisture = (float)$latest["sensor_reading_moisture_percent"];
     $min_moisture     = (float)$latest["plant_type_min_moisture"];
@@ -198,7 +204,7 @@ try {
     $newest_time   = strtotime($sorted_rows[$n - 1]["sensor_reading_recorded_at"]);
     $dry_timestamp = $newest_time + $seconds_int;
 
-    // CONFIANÇA DA PREVISÃO
+    // CONFIANÇA DA PREVISÃO: combina número de leituras, intervalo de tempo e R²
     $oldest_time = strtotime($sorted_rows[0]["sensor_reading_recorded_at"]);
     $span_hours  = ($newest_time - $oldest_time) / 3600;
 
