@@ -3,14 +3,8 @@
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
 
-// Lê o corpo JSON da request
-$data = json_decode(file_get_contents("php://input"), true);
-
-if (!$data) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Invalid JSON body"]);
-    exit;
-}
+// Lê o corpo JSON da request (devolve 400 se faltar/inválido)
+$data = requireJsonBody();
 
 $name     = trim($data["name"] ?? "");
 $email    = trim($data["email"] ?? "");
@@ -18,23 +12,17 @@ $password = $data["password"] ?? "";
 
 // VALIDAÇÃO DOS CAMPOS
 if (!$name || !$email || !$password) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "name, email and password are required"]);
-    exit;
+    jsonError(400, "name, email and password are required");
 }
 
 // Email tem de ter formato válido
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Invalid email"]);
-    exit;
+    jsonError(400, "Invalid email");
 }
 
 // Password mínima de 6 caracteres
 if (strlen($password) < 6) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Password must be at least 6 characters"]);
-    exit;
+    jsonError(400, "Password must be at least 6 characters");
 }
 
 try {
@@ -43,9 +31,7 @@ try {
     $stmt->execute(["email" => $email]);
 
     if ($stmt->fetch()) {
-        http_response_code(409);
-        echo json_encode(["success" => false, "message" => "Email already in use"]);
-        exit;
+        jsonError(409, "Email already in use");
     }
 
     // CRIA A CONTA (gera hash bcrypt da password)

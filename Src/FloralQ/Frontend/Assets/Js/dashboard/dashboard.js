@@ -20,14 +20,34 @@ const CONFIDENCE_COLORS = {
   low: "#E05555",
 };
 
+// Wrapper para chamada API + toast automático.
+// Devolve `data` se sucesso (e mostra toast de sucesso se `successMsg` passado).
+// Devolve `null` se falhou e mostra toast de erro com a mensagem do servidor (ou fallback).
+async function apiToast(
+  promise,
+  successMsg = null,
+  errorFallback = "Something went wrong",
+) {
+  const data = await promise.catch((err) => ({
+    success: false,
+    message: err.message,
+  }));
+  if (data?.success) {
+    if (successMsg) showToast(successMsg, "success");
+    return data;
+  }
+  showToast(data?.message ?? errorFallback, "error");
+  return null;
+}
+
 // Cache em memória das plantas carregadas (usada pelo click handler dos cards)
 let plantsCache = [];
 
 // Estado da modal Add/Edit Plant
 // editingPlantId != null → modal está em modo Edit; senão é Add
 let editingPlantId = null;
-let selectedPlantImageFile = null;  // ficheiro escolhido pelo user (pendente de upload)
-let removeImagePending = false;     // user clicou em Remove e o submit ainda não ocorreu
+let selectedPlantImageFile = null; // ficheiro escolhido pelo user (pendente de upload)
+let removeImagePending = false; // user clicou em Remove e o submit ainda não ocorreu
 
 // Base path para servir imagens de plantas (relativo a Frontend/Pages/)
 const PLANT_IMAGE_BASE = "../Assets/Uploads/";
@@ -210,22 +230,24 @@ document.getElementById("plant-image-file").addEventListener("change", (e) => {
 });
 
 // Click no Remove: marca a imagem para ser apagada no submit
-document
-  .getElementById("plant-image-remove")
-  .addEventListener("click", () => {
-    removeImagePending = true;
-    selectedPlantImageFile = null;
-    document.getElementById("plant-image-file").value = "";
-    document.getElementById("plant-image-preview").classList.add("hidden");
-    document.getElementById("plant-image-label").textContent = "Choose image";
-    document.getElementById("plant-image-remove").classList.add("hidden");
-  });
+document.getElementById("plant-image-remove").addEventListener("click", () => {
+  removeImagePending = true;
+  selectedPlantImageFile = null;
+  document.getElementById("plant-image-file").value = "";
+  document.getElementById("plant-image-preview").classList.add("hidden");
+  document.getElementById("plant-image-label").textContent = "Choose image";
+  document.getElementById("plant-image-remove").classList.add("hidden");
+});
 
 // Carrega todas as plantas do user e (re)constrói o grid de cards
 async function loadPlants() {
   const grid = document.getElementById("plants-grid");
   const data = await api.getPlants().catch(() => null);
 
+  // Destruir charts antigos antes de remover os canvases do DOM
+  grid.querySelectorAll("canvas").forEach((canvas) => {
+    canvas._chartInstance?.destroy();
+  });
   grid.innerHTML = "";
 
   if (!data?.success || data.plants.length === 0) {
@@ -434,17 +456,15 @@ async function openPlantModal(plant) {
 
     // Quando carrega "Yes, Remove"
     document.getElementById("confirm-yes-btn").onclick = async () => {
-      const res = await api.deletePlant(plant.plant_id).catch((err) => ({
-        success: false,
-        message: err.message,
-      }));
-      if (res?.success) {
+      const res = await apiToast(
+        api.deletePlant(plant.plant_id),
+        "Plant deleted",
+        "Could not delete plant",
+      );
+      if (res) {
         closeModal("confirm-modal-overlay");
         closeModal("plant-modal-overlay");
-        showToast("Plant deleted", "success");
         loadPlants();
-      } else {
-        showToast(res?.message ?? "Could not delete plant", "error");
       }
     };
 
@@ -457,6 +477,18 @@ document
   .getElementById("open-add-plant")
   .addEventListener("click", async () => {
     await populateAddPlantDropdowns();
+
+    // Verifica se o user tem devices disponíveis (sem planta associada).
+    // Sem devices, criar planta vai sempre falhar.
+    const deviceSelect = document.getElementById("plant-device");
+    if (deviceSelect.options.length === 0) {
+      showToast(
+        "No sensors available. Redeem a sensor first in Settings.",
+        "info",
+      );
+      return;
+    }
+
     setAddPlantMode("add");
     openModal("add-plant-modal-overlay");
   });
@@ -469,52 +501,65 @@ document
     const errorMsg = document.getElementById("add-plant-error");
     errorMsg.textContent = "";
 
-    const body = {
-      plant_name: document.getElementById("plant-name").value,
-      plant_location_label: document.getElementById("plant-location").value,
-      plant_type_id: parseInt(document.getElementById("plant-type").value),
-      plant_is_grown: document.getElementById("plant-is-grown").checked,
-    };
+    // Desativar botão para impedir double-submit
+    const submitBtn = e.target.querySelector(
+      'button[type="submit"], .submit-btn',
+    );
+    submitBtn.disabled = true;
 
-    const onErr = (err) => ({ success: false, message: err.message });
-    let data;
-    if (editingPlantId) {
-      body.plant_id = editingPlantId;
-      if (removeImagePending) body.remove_image = true;
-      data = await api.updatePlant(body).catch(onErr);
-    } else {
-      body.device_id = parseInt(document.getElementById("plant-device").value);
-      data = await api.createPlant(body).catch(onErr);
-    }
+    try {
+      const body = {
+        plant_name: document.getElementById("plant-name").value,
+        plant_location_label: document.getElementById("plant-location").value,
+        plant_type_id: parseInt(document.getElementById("plant-type").value),
+        plant_is_grown: document.getElementById("plant-is-grown").checked,
+      };
 
-    if (data?.success) {
-      const wasCreating = !editingPlantId;
-      const plantId = editingPlantId ?? data.plant_id;
-
-      // Upload da imagem se o user selecionou uma
-      if (selectedPlantImageFile && plantId) {
-        try {
-          await api.uploadPlantImage(plantId, selectedPlantImageFile);
-        } catch (err) {
-          showToast(
-            `Plant saved but image upload failed: ${err.message}`,
-            "error",
-          );
-        }
-      }
-
-      closeModal("add-plant-modal-overlay");
-      showToast(editingPlantId ? "Plant updated" : "Plant created", "success");
-      if (wasCreating) {
-        showToast(
-          "Sensor measures every 5 min. Wait a bit for the first readings.",
-          "info",
+      const onErr = (err) => ({ success: false, message: err.message });
+      let data;
+      if (editingPlantId) {
+        body.plant_id = editingPlantId;
+        if (removeImagePending) body.remove_image = true;
+        data = await api.updatePlant(body).catch(onErr);
+      } else {
+        body.device_id = parseInt(
+          document.getElementById("plant-device").value,
         );
-        document.dispatchEvent(new CustomEvent("plant-created"));
+        data = await api.createPlant(body).catch(onErr);
       }
-      loadPlants();
-    } else {
-      errorMsg.textContent = data?.message ?? "Something went wrong.";
+
+      if (data?.success) {
+        // Capturar estado ANTES de closeModal()
+        const wasCreating = !editingPlantId;
+        const plantId = editingPlantId ?? data.plant_id;
+
+        // Upload da imagem se o user selecionou uma
+        if (selectedPlantImageFile && plantId) {
+          try {
+            await api.uploadPlantImage(plantId, selectedPlantImageFile);
+          } catch (err) {
+            showToast(
+              `Plant saved but image upload failed: ${err.message}`,
+              "error",
+            );
+          }
+        }
+
+        closeModal("add-plant-modal-overlay");
+        showToast(wasCreating ? "Plant created" : "Plant updated", "success");
+        if (wasCreating) {
+          showToast(
+            "Sensor measures every 5 min. Wait a bit for the first readings.",
+            "info",
+          );
+          document.dispatchEvent(new CustomEvent("plant-created"));
+        }
+        loadPlants();
+      } else {
+        errorMsg.textContent = data?.message ?? "Something went wrong.";
+      }
+    } finally {
+      submitBtn.disabled = false;
     }
   });
 
@@ -530,19 +575,28 @@ document.getElementById("redeem-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const errorMsg = document.getElementById("redeem-error");
   errorMsg.textContent = "";
-  const code = document.getElementById("activation-code").value;
 
-  const data = await api.redeemDevice(code).catch((err) => ({
-    success: false,
-    message: err.message,
-  }));
-  if (data?.success) {
-    closeModal("redeem-modal-overlay");
-    showToast("Device redeemed successfully", "success");
-    document.dispatchEvent(new CustomEvent("redeem-success"));
-    loadPlants();
-  } else {
-    errorMsg.textContent = data?.message ?? "Something went wrong.";
+  // Desativar botão para impedir double-submit
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+
+  try {
+    const code = document.getElementById("activation-code").value;
+
+    const data = await api.redeemDevice(code).catch((err) => ({
+      success: false,
+      message: err.message,
+    }));
+    if (data?.success) {
+      closeModal("redeem-modal-overlay");
+      showToast("Device redeemed successfully", "success");
+      document.dispatchEvent(new CustomEvent("redeem-success"));
+      loadPlants();
+    } else {
+      errorMsg.textContent = data?.message ?? "Something went wrong.";
+    }
+  } finally {
+    submitBtn.disabled = false;
   }
 });
 
@@ -613,16 +667,15 @@ document.querySelectorAll(".chart-position-option").forEach((opt) => {
     const newValue = opt.dataset.value;
     if (newValue === userChartPosition) return;
 
-    const data = await api
-      .updateUserSettings({ chart_position: newValue })
-      .catch((err) => ({ success: false, message: err.message }));
-    if (data?.success) {
+    const data = await apiToast(
+      api.updateUserSettings({ chart_position: newValue }),
+      "Presentation mode updated",
+      "Could not save",
+    );
+    if (data) {
       userChartPosition = newValue;
       renderChartPositionSelection();
-      showToast("Presentation mode updated", "success");
       loadPlants();
-    } else {
-      showToast(data?.message ?? "Could not save", "error");
     }
   });
 });
@@ -632,43 +685,36 @@ document
   .getElementById("alert-threshold")
   .addEventListener("change", async (e) => {
     const newThreshold = parseInt(e.target.value);
-    const data = await api
-      .updateUserSettings({ alert_threshold: newThreshold })
-      .catch((err) => ({ success: false, message: err.message }));
-    if (data?.success) {
-      userAlertThreshold = newThreshold;
-      showToast("Alert threshold updated", "success");
-    } else {
-      showToast(data?.message ?? "Could not save", "error");
-    }
+    const data = await apiToast(
+      api.updateUserSettings({ alert_threshold: newThreshold }),
+      "Alert threshold updated",
+      "Could not save",
+    );
+    if (data) userAlertThreshold = newThreshold;
   });
 
 document
   .getElementById("alert-email-enabled")
   .addEventListener("change", async (e) => {
-    const data = await api
-      .updateUserSettings({ alert_email_enabled: e.target.checked })
-      .catch((err) => ({ success: false, message: err.message }));
-    if (!data?.success) {
-      // Reverte o checkbox se falhou
-      e.target.checked = !e.target.checked;
-      showToast(data?.message ?? "Could not save", "error");
-    }
+    // null successMsg → não mostra toast em sucesso, só em erro
+    const data = await apiToast(
+      api.updateUserSettings({ alert_email_enabled: e.target.checked }),
+      null,
+      "Could not save",
+    );
+    // Reverte o checkbox se falhou
+    if (!data) e.target.checked = !e.target.checked;
   });
 
 document
   .getElementById("confirm-email-btn")
   .addEventListener("click", async () => {
-    const data = await api.confirmEmail().catch((err) => ({
-      success: false,
-      message: err.message,
-    }));
-    if (data?.success) {
-      renderAccountEmailStatus(true);
-      showToast("Email confirmed", "success");
-    } else {
-      showToast(data?.message ?? "Could not confirm email", "error");
-    }
+    const data = await apiToast(
+      api.confirmEmail(),
+      "Email confirmed",
+      "Could not confirm email",
+    );
+    if (data) renderAccountEmailStatus(true);
   });
 
 // Change Password: abre modal próprio (fora do Account modal para foco mais claro)
@@ -686,29 +732,37 @@ document
     const errorMsg = document.getElementById("change-password-error");
     errorMsg.textContent = "";
 
-    const current = document.getElementById("current-password").value;
-    const next = document.getElementById("new-password").value;
-    const repeat = document.getElementById("repeat-new-password").value;
+    // Desativar botão para impedir double-submit
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
 
-    if (next !== repeat) {
-      errorMsg.textContent = "New passwords don't match";
-      return;
-    }
-    if (next === current) {
-      errorMsg.textContent = "New password must be different from current";
-      return;
-    }
+    try {
+      const current = document.getElementById("current-password").value;
+      const next = document.getElementById("new-password").value;
+      const repeat = document.getElementById("repeat-new-password").value;
 
-    const data = await api.changePassword(current, next).catch((err) => ({
-      success: false,
-      message: err.message,
-    }));
+      if (next !== repeat) {
+        errorMsg.textContent = "New passwords don't match";
+        return;
+      }
+      if (next === current) {
+        errorMsg.textContent = "New password must be different from current";
+        return;
+      }
 
-    if (data?.success) {
-      closeModal("change-password-modal-overlay");
-      showToast("Password changed successfully", "success");
-    } else {
-      errorMsg.textContent = data?.message ?? "Could not change password";
+      const data = await api.changePassword(current, next).catch((err) => ({
+        success: false,
+        message: err.message,
+      }));
+
+      if (data?.success) {
+        closeModal("change-password-modal-overlay");
+        showToast("Password changed successfully", "success");
+      } else {
+        errorMsg.textContent = data?.message ?? "Could not change password";
+      }
+    } finally {
+      submitBtn.disabled = false;
     }
   });
 

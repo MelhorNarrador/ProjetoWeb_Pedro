@@ -6,11 +6,9 @@ require_once "../Utils/init.php";
 require_once "../Middleware/auth.php";
 $user = requireAuth();
 
-$data = json_decode(file_get_contents("php://input"), true);
-if (!$data || !isset($data["plant_id"])) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "plant_id required"]);
-    exit;
+$data = requireJsonBody();
+if (!isset($data["plant_id"])) {
+    jsonError(400, "plant_id required");
 }
 
 $plant_id = (int)$data["plant_id"];
@@ -27,9 +25,7 @@ try {
     ]);
 
     if (!$stmt->fetch()) {
-        http_response_code(404);
-        echo json_encode(["success" => false, "message" => "Plant not found or not owned by user"]);
-        exit;
+        jsonError(404, "Plant not found or not owned by user");
     }
 
     // Ou apaga ambos, ou nenhum

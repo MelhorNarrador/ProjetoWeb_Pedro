@@ -7,12 +7,7 @@ require_once "../Utils/init.php";
 require_once "../Middleware/auth.php";
 $user = requireAuth();
 
-$data = json_decode(file_get_contents("php://input"), true);
-if (!$data) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Invalid JSON body"]);
-    exit;
-}
+$data = requireJsonBody();
 
 // Mapeia campos do payload para colunas da BD
 $allowed = [
@@ -28,9 +23,7 @@ $params  = ["user_id" => $user["user_id"]];
 if (isset($data["alert_threshold"])) {
     $t = $data["alert_threshold"];
     if (!is_numeric($t) || $t < 0 || $t > 100) {
-        http_response_code(400);
-        echo json_encode(["success" => false, "message" => "alert_threshold must be between 0 and 100"]);
-        exit;
+        jsonError(400, "alert_threshold must be between 0 and 100");
     }
     $updates[] = $allowed["alert_threshold"] . " = :alert_threshold";
     $params["alert_threshold"] = (int)$t;
@@ -38,9 +31,7 @@ if (isset($data["alert_threshold"])) {
 
 if (isset($data["alert_email_enabled"])) {
     if (!is_bool($data["alert_email_enabled"])) {
-        http_response_code(400);
-        echo json_encode(["success" => false, "message" => "alert_email_enabled must be boolean"]);
-        exit;
+        jsonError(400, "alert_email_enabled must be boolean");
     }
     $updates[] = $allowed["alert_email_enabled"] . " = :alert_email_enabled";
     $params["alert_email_enabled"] = $data["alert_email_enabled"] ? 1 : 0;
@@ -48,18 +39,14 @@ if (isset($data["alert_email_enabled"])) {
 
 if (isset($data["chart_position"])) {
     if (!in_array($data["chart_position"], ["card", "modal"], true)) {
-        http_response_code(400);
-        echo json_encode(["success" => false, "message" => "chart_position must be 'card' or 'modal'"]);
-        exit;
+        jsonError(400, "chart_position must be 'card' or 'modal'");
     }
     $updates[] = $allowed["chart_position"] . " = :chart_position";
     $params["chart_position"] = $data["chart_position"];
 }
 
 if (empty($updates)) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "No valid fields to update"]);
-    exit;
+    jsonError(400, "No valid fields to update");
 }
 
 try {

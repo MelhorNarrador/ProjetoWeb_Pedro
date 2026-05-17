@@ -6,23 +6,34 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
   const errorMsg = document.getElementById("error-msg");
   errorMsg.textContent = "";
 
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const repeatPassword = document.getElementById("repeat-password").value;
+  // Desativar botão para impedir double-submit
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
 
-  // Validação local: passwords têm de coincidir antes de chamar o backend
-  if (password !== repeatPassword) {
-    errorMsg.textContent = "Passwords do not match.";
-    return;
-  }
+  try {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const repeatPassword = document.getElementById("repeat-password").value;
 
-  // Cria a conta no backend
-  const data = await register(name, email, password).catch(() => null);
-  if (data?.success) {
-    // Sucesso → redireciona para o login
-    window.location.href = "login.html";
-  } else {
-    errorMsg.textContent = data?.message ?? "Could not connect to server.";
+    // Validação local: passwords têm de coincidir antes de chamar o backend
+    if (password !== repeatPassword) {
+      errorMsg.textContent = "Passwords do not match.";
+      return;
+    }
+
+    // Cria a conta no backend (catch preserva a mensagem de erro do backend)
+    const data = await register(name, email, password).catch((err) => ({
+      success: false,
+      message: err.message,
+    }));
+    if (data?.success) {
+      // Sucesso → redireciona para o login
+      window.location.href = "login.html";
+    } else {
+      errorMsg.textContent = data?.message ?? "Could not connect to server.";
+    }
+  } finally {
+    submitBtn.disabled = false;
   }
 });

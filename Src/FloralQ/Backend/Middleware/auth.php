@@ -7,9 +7,7 @@ function requireAuth(): array
     }
 
     if (empty($_SESSION["user_id"])) {
-        http_response_code(401);
-        echo json_encode(["success" => false, "message" => "Unauthorized"]);
-        exit;
+        jsonError(401, "Unauthorized");
     }
 
     return [
@@ -22,12 +20,6 @@ function requireAuth(): array
 function requireAdmin(): array
 {
     $user = requireAuth();
-
-    if ($user["user_role"] !== "admin") {
-        http_response_code(403);
-        echo json_encode(["success" => false, "message" => "Forbidden"]);
-        exit;
-    }
-
+    if ($user["user_role"] !== "admin") jsonError(403, "Forbidden");
     return $user;
 }

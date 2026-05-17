@@ -4,25 +4,13 @@
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
 
-$data = json_decode(file_get_contents("php://input"), true);
-
-if (!$data) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Invalid JSON body"]);
-    exit;
-}
+$data = requireJsonBody();
 
 $device_code     = $data["device_code"] ?? null;
 $is_professional = $data["is_professional"] ?? false;
 
 if (!$device_code) {
-    http_response_code(400);
-    echo json_encode([
-        "success" => false,
-        "message" => "device_code required"
-    ]);
-
-    exit;
+    jsonError(400, "device_code required");
 }
 // GERA UM CÓDIGO DE ATIVAÇÃO ÚNICO DE 8 CARACTERES
 $activation_code = strtoupper(bin2hex(random_bytes(4)));

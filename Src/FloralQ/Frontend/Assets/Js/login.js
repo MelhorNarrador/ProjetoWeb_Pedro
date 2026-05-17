@@ -14,20 +14,31 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
   const errorMsg = document.getElementById("error-msg");
   errorMsg.textContent = "";
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  // Desativar botão para impedir double-submit
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
 
-  // Chama o endpoint de login (catch para não rebentar se o servidor estiver down)
-  const data = await login(email, password).catch(() => null);
-  if (data?.success) {
-    // Guarda/limpa o email conforme o checkbox "Remember me"
-    if (document.getElementById("remember-me").checked) {
-      localStorage.setItem("rememberEmail", email);
+  try {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    // Chama o endpoint de login (catch preserva a mensagem de erro do backend)
+    const data = await login(email, password).catch((err) => ({
+      success: false,
+      message: err.message,
+    }));
+    if (data?.success) {
+      // Guarda/limpa o email conforme o checkbox "Remember me"
+      if (document.getElementById("remember-me").checked) {
+        localStorage.setItem("rememberEmail", email);
+      } else {
+        localStorage.removeItem("rememberEmail");
+      }
+      window.location.href = "dashboard.php";
     } else {
-      localStorage.removeItem("rememberEmail");
+      errorMsg.textContent = data?.message ?? "Could not connect to server.";
     }
-    window.location.href = "dashboard.php";
-  } else {
-    errorMsg.textContent = data?.message ?? "Could not connect to server.";
+  } finally {
+    submitBtn.disabled = false;
   }
 });

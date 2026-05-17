@@ -6,13 +6,8 @@ header('Content-Type: application/json');
 require_once "../Utils/init.php";
 require_once "../Middleware/auth.php";
 $user = requireAuth();
-$data = json_decode(file_get_contents("php://input"), true);
+$data = requireJsonBody();
 
-if (!$data) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Invalid JSON body"]);
-    exit;
-}
 $device_id = $data["device_id"] ?? null;
 $plant_type_id = $data["plant_type_id"] ?? null;
 $plant_name = $data["plant_name"] ?? null;
@@ -20,19 +15,13 @@ $plant_location_label = $data["plant_location_label"] ?? null;
 $plant_is_grown = $data["plant_is_grown"] ?? false;
 
 if (!$device_id || !$plant_type_id || !$plant_name) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "A device, plant type, and plant name are required"]);
-    exit;
+    jsonError(400, "A device, plant type, and plant name are required");
 }
 if (strlen($plant_name) > 30) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Plant name must be 30 characters or less"]);
-    exit;
+    jsonError(400, "Plant name must be 30 characters or less");
 }
 if ($plant_location_label !== null && strlen($plant_location_label) > 50) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Location must be 50 characters or less"]);
-    exit;
+    jsonError(400, "Location must be 50 characters or less");
 }
 
 try {
@@ -51,9 +40,7 @@ try {
     $device = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$device) {
-        http_response_code(404);
-        echo json_encode(["success" => false, "message" => "Device not found or not owned by user"]);
-        exit;
+        jsonError(404, "Device not found or not owned by user");
     }
     // INSERE A PLANTA ASSOCIADA AO DISPOSITIVO
     $stmt = $pdo->prepare("

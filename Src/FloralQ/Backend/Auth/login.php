@@ -3,23 +3,15 @@
 header('Content-Type: application/json');
 require_once "../Utils/init.php";
 
-// Lê o corpo JSON da request
-$data = json_decode(file_get_contents("php://input"), true);
-
-if (!$data) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Invalid JSON body"]);
-    exit;
-}
+// Lê o corpo JSON da request (devolve 400 se faltar/inválido)
+$data = requireJsonBody();
 
 $email    = trim($data["email"] ?? "");
 $password = $data["password"] ?? "";
 
 // Campos obrigatórios
 if (!$email || !$password) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "email and password are required"]);
-    exit;
+    jsonError(400, "email and password are required");
 }
 
 try {
@@ -35,9 +27,7 @@ try {
 
     // MENSAGEM GENÉRICA (não revela se foi email ou password que falhou)
     if (!$user || !password_verify($password, $user["user_account_password_hash"])) {
-        http_response_code(401);
-        echo json_encode(["success" => false, "message" => "Invalid credentials"]);
-        exit;
+        jsonError(401, "Invalid credentials");
     }
 
     // INICIA A SESSÃO E GUARDA OS DADOS DO UTILIZADOR

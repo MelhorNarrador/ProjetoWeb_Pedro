@@ -7,11 +7,9 @@ require_once "../Utils/init.php";
 require_once "../Middleware/auth.php";
 $user = requireAuth();
 
-$data = json_decode(file_get_contents("php://input"), true);
-if (!$data || !isset($data["plant_id"])) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "plant_id required"]);
-    exit;
+$data = requireJsonBody();
+if (!isset($data["plant_id"])) {
+    jsonError(400, "plant_id required");
 }
 
 $plant_id = (int)$data["plant_id"];
@@ -22,19 +20,13 @@ $plant_is_grown = $data["plant_is_grown"] ?? false;
 $remove_image = $data["remove_image"] ?? false;
 
 if (!$plant_name || !$plant_type_id) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "plant_name and plant_type_id are required"]);
-    exit;
+    jsonError(400, "plant_name and plant_type_id are required");
 }
 if (strlen($plant_name) > 30) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Plant name must be 30 characters or less"]);
-    exit;
+    jsonError(400, "Plant name must be 30 characters or less");
 }
 if ($plant_location_label !== null && strlen($plant_location_label) > 50) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Location must be 50 characters or less"]);
-    exit;
+    jsonError(400, "Location must be 50 characters or less");
 }
 
 try {
@@ -49,9 +41,7 @@ try {
     ]);
 
     if (!$stmt->fetch()) {
-        http_response_code(404);
-        echo json_encode(["success" => false, "message" => "Plant not found or not owned by user"]);
-        exit;
+        jsonError(404, "Plant not found or not owned by user");
     }
 
     // Remover imagem se pedido: apaga ficheiro do disco e mete o path a NULL

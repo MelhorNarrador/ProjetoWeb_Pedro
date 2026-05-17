@@ -8,7 +8,7 @@ require_once "../Middleware/auth.php";
 $user = requireAuth();
 
 try {
-    // Marca o flag de verificação como TRUE
+    // Marca o flag de verificação como TRUE (sem body necessário; só usa $user da sessão)
     $stmt = $pdo->prepare("
         UPDATE user_account
         SET user_account_email_verified = TRUE

@@ -6,16 +6,8 @@ header('Content-Type: application/json');
 
 require_once "../Utils/init.php";
 
-$data = json_decode(file_get_contents("php://input"), true);
+$data = requireJsonBody();
 
-if (!$data) {
-    http_response_code(400);
-    echo json_encode([
-        "success" => false,
-        "message" => "Invalid JSON body"
-    ]);
-    exit;
-}
 // VALIDAÇÃO DE CAMPOS
 $device_code = $data["device_code"] ?? null;
 $moisture = $data["moisture"] ?? null;
@@ -23,31 +15,17 @@ $latitude = $data["latitude"] ?? null;
 $longitude = $data["longitude"] ?? null;
 
 if (!$device_code || $moisture === null) {
-    http_response_code(400);
-    echo json_encode([
-        "success" => false,
-        "message" => "device_code and moisture are required"
-    ]);
-    exit;
+    jsonError(400, "device_code and moisture are required");
 }
 if (!is_numeric($moisture) || $moisture < 0 || $moisture > 100) {
-    http_response_code(400);
-    echo json_encode([
-        "success" => false,
-        "message" => "moisture must be a number between 0 and 100"
-    ]);
-    exit;
+    jsonError(400, "moisture must be a number between 0 and 100");
 }
 // VALIDAÇÃO DE LATITUDE E LONGITUDE SE FOREM FORNECIDOS
 if ($latitude !== null && (!is_numeric($latitude) || $latitude < -90 || $latitude > 90)) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "latitude must be between -90 and 90"]);
-    exit;
+    jsonError(400, "latitude must be between -90 and 90");
 }
 if ($longitude !== null && (!is_numeric($longitude) || $longitude < -180 || $longitude > 180)) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "longitude must be between -180 and 180"]);
-    exit;
+    jsonError(400, "longitude must be between -180 and 180");
 }
 try {
     $stmt = $pdo->prepare("
@@ -63,12 +41,7 @@ try {
     $device = $stmt->fetch(PDO::FETCH_ASSOC);
     // VER SE O DEVICE EXISTE
     if (!$device) {
-        http_response_code(404);
-        echo json_encode([
-            "success" => false,
-            "message" => "Device not found"
-        ]);
-        exit;
+        jsonError(404, "Device not found");
     }
     // INSERIR LEITURA
     $stmt = $pdo->prepare("

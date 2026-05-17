@@ -5,13 +5,7 @@ header('Content-Type: application/json');
 require_once "../Utils/init.php";
 require_once "../Middleware/auth.php";
 $user = requireAuth();
-$data = json_decode(file_get_contents("php://input"), true);
-
-if (!$data) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Invalid JSON body"]);
-    exit;
-}
+$data = requireJsonBody();
 $activation_code = $data["activation_code"] ?? null;
 
 try {
@@ -29,9 +23,7 @@ try {
     $device = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$device) {
-        http_response_code(404);
-        echo json_encode(["success" => false, "message" => "Invalid activation code"]);
-        exit;
+        jsonError(404, "Invalid activation code");
     }
     // ASSOCIA O DISPOSITIVO AO UTILIZADOR
     $stmt = $pdo->prepare("
