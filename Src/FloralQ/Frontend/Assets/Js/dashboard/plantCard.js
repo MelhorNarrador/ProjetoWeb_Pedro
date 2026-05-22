@@ -1,10 +1,13 @@
 // Constrói o card de uma planta a partir do template HTML
 // Recebe os dados da planta + se o gráfico de linhas deve aparecer no card ou só no modal
 import { getMoistureColor, formatDryPrediction } from "./utils/moisture.js";
-import { getDryPrediction } from "../apiClient.js";
 import { loadHistoryChart } from "./chartController.js";
 
-export function buildPlantCard(plant, chartPosition = "card") {
+export function buildPlantCard(
+  plant,
+  chartPosition = "card",
+  prediction = null,
+) {
   // Clona o <template> do card para um novo elemento DOM
   const template = document.getElementById("plant-card-template");
   const card = template.content.cloneNode(true).querySelector(".plant-card");
@@ -45,18 +48,11 @@ export function buildPlantCard(plant, chartPosition = "card") {
   metaEl.textContent =
     plant.sensor_status === "offline" ? `${timeAgo} · Sensor Offline` : timeAgo;
 
-  // Previsão de secagem: pede ao backend e preenche assincronamente
+  // Previsão de secagem: recebida do dashboard
   const predictionEl = card.querySelector(".card-prediction");
-  getDryPrediction(plant.device_id)
-    .then((data) => {
-      predictionEl.textContent =
-        data.success && data.data
-          ? formatDryPrediction(data.data)
-          : "Not enough data";
-    })
-    .catch(() => {
-      predictionEl.textContent = "Not enough data";
-    });
+  predictionEl.textContent = prediction
+    ? formatDryPrediction(prediction)
+    : "Not enough data";
 
   // Gráfico de histórico, só renderiza se o modo for "card"
   const historySection = card.querySelector(".card-history");

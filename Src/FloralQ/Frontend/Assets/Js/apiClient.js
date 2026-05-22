@@ -29,9 +29,9 @@ export async function getUserDevices() {
   return request(`${BASE}/get_user_devices.php`);
 }
 
-// GET: previsão de quanto tempo até a planta secar
-export async function getDryPrediction(deviceId) {
-  return request(`${BASE}/get_dry_prediction.php?device_id=${deviceId}`);
+// GET: previsões de todas as plantas do user
+export async function getUserPredictions() {
+  return request(`${BASE}/get_user_predictions.php`);
 }
 
 // GET: últimas coordenadas GPS do sensor (para o mapa)

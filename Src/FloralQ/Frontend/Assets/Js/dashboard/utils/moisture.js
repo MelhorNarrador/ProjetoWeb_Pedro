@@ -23,9 +23,10 @@ export function getPredictionLabel(key) {
   const labels = {
     drying: "Drying",
     recently_watered: "Recently watered",
-    increasing_moisture: "Moisture increasing",
+    increasing_moisture: "Moisture is increasing",
     insufficient_data: "Not enough data",
     unstable_data: "Unstable data",
+    stable: "Moisture is stable",
   };
   return labels[key] ?? "Unknown";
 }

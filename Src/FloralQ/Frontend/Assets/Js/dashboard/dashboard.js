@@ -37,6 +37,7 @@ async function apiToast(
 
 // Cache em memória das plantas carregadas (usada pelo click handler dos cards)
 let plantsCache = [];
+let predictionsCache = {};
 
 // Estado da modal Add/Edit Plant
 // editingPlantId != null → modal está em modo Edit; senão é Add
@@ -206,8 +207,12 @@ document.getElementById("plant-image-remove").addEventListener("click", () => {
 // Carrega todas as plantas do user e (re)constrói o grid de cards
 async function loadPlants() {
   const grid = document.getElementById("plants-grid");
-  const data = await api.getPlants().catch(() => null);
-
+  const [data, predictionsData] = await Promise.all([
+    api.getPlants().catch(() => null),
+    api.getUserPredictions().catch(() => null),
+  ]);
+  const predictionsMap = predictionsData?.predictions || {};
+  predictionsCache = predictionsMap;
   // Destruir charts antigos antes de remover os canvases do DOM
   grid.querySelectorAll("canvas").forEach((canvas) => {
     canvas._chartInstance?.destroy();
@@ -237,7 +242,11 @@ async function loadPlants() {
 
   plantsCache = data.plants;
   data.plants.forEach((plant) => {
-    const card = buildPlantCard(plant, userChartPosition);
+    const card = buildPlantCard(
+      plant,
+      userChartPosition,
+      predictionsMap[plant.device_id],
+    );
     grid.appendChild(card);
     drawMoistureChart(
       card.querySelector("canvas"),
@@ -327,12 +336,9 @@ async function openPlantModal(plant) {
 
   openModal("plant-modal-overlay");
 
-  // Previsão de secagem
-  const predData = await api
-    .getDryPrediction(plant.device_id)
-    .catch(() => null);
-  if (predData?.success && predData.data) {
-    const d = predData.data;
+  // Previsão de secagem lê da cache
+  const d = predictionsCache[plant.device_id];
+  if (d) {
     predictionEl.textContent = getPredictionLabel(d.prediction);
     if (d.prediction === "drying") {
       dryAtEl.textContent = d.dry_at;

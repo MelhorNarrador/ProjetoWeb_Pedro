@@ -6,16 +6,8 @@ header('Content-Type: application/json');
 require_once "../Utils/init.php";
 require_once "../Middleware/auth.php";
 $user = requireAuth();
-
-$device_id = $_GET["device_id"] ?? null;
-if (!$device_id || !is_numeric($device_id)) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "device_id required"]);
-    exit;
-}
-
-try {
-
+function calculatePrediction($pdo, $device_id, $user_id): array
+{
     // Vai buscar as últimas 20 leituras (ordem desc, depois invertemos)
     $stmt = $pdo->prepare("
         SELECT
@@ -32,7 +24,7 @@ try {
 
     $stmt->execute([
         "device_id" => (int)$device_id,
-        "user_id"   => $user["user_id"]
+        "user_id"   => $user_id
     ]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     // FILTRAR NULOS
@@ -43,14 +35,10 @@ try {
     ));
 
     if (count($filtered) < 3) {
-        echo json_encode([
-            "success" => true,
-            "data"    => [
-                "prediction" => "insufficient_data",
-                "message"    => "At least 3 readings required"
-            ]
-        ]);
-        exit;
+        return [
+            "prediction" => "insufficient_data",
+            "message"    => "At least 3 readings required"
+        ];
     }
     // REGA RECENTE: se houve um salto grande de humidade entre as 2 últimas leituras,
     // não vale a pena prever — a planta foi regada agora mesmo
@@ -58,14 +46,10 @@ try {
         - (float)$filtered[1]["sensor_reading_moisture_percent"];
 
     if ($spike >= 10) {
-        echo json_encode([
-            "success" => true,
-            "data"    => [
-                "prediction"       => "recently_watered",
-                "spike_detected"   => round($spike, 1)
-            ]
-        ]);
-        exit;
+        return [
+            "prediction"       => "recently_watered",
+            "spike_detected"   => round($spike, 1)
+        ];
     }
     // REMOVER OUTLIERS usando o método IQR (intervalos interquartis)
     $moistures = array_column($filtered, "sensor_reading_moisture_percent");
@@ -89,14 +73,10 @@ try {
     }
 
     if (count($filtered) < 3) {
-        echo json_encode([
-            "success" => true,
-            "data"    => [
-                "prediction" => "insufficient_data",
-                "message"    => "At least 3 readings required"
-            ]
-        ]);
-        exit;
+        return [
+            "prediction" => "insufficient_data",
+            "message"    => "At least 3 readings required"
+        ];
     }
     // ORDENAR DO MAIS ANTIGO PARA O MAIS RECENTE
     $sorted_rows = array_reverse($filtered);
@@ -128,14 +108,10 @@ try {
     $denominator = ($n * $sum_x2) - ($sum_x * $sum_x);
 
     if (abs($denominator) < PHP_FLOAT_EPSILON) {
-        echo json_encode([
-            "success" => true,
-            "data"    => [
-                "prediction" => "unstable_data",
-                "message"    => "Data without variation"
-            ]
-        ]);
-        exit;
+        return [
+            "prediction" => "unstable_data",
+            "message"    => "Data without variation"
+        ];
     }
 
     // Fórmulas standard da regressão linear (y = slope*x + intercept)
@@ -156,28 +132,30 @@ try {
     }
 
     $r_squared = ($ss_tot > 0) ? 1 - ($ss_res / $ss_tot) : 0;
+    $stddev = sqrt($ss_tot / $n);
 
     if ($r_squared < 0.5) {
-        echo json_encode([
-            "success" => true,
-            "data"    => [
+        if ($stddev < 3) {
+            return [
+                "prediction"       => "stable",
+                "current_moisture" => (float)$latest["sensor_reading_moisture_percent"],
+                "stddev"           => round($stddev, 2),
+                "message"          => "Moisture stable, no trend detected"
+            ];
+        } else {
+            return [
                 "prediction" => "unstable_data",
                 "message"    => "Inconsistent trend (low R²)",
                 "r_squared"  => round($r_squared, 3)
-            ]
-        ]);
-        exit;
+            ];
+        }
     }
     // HUMIDADE AUMENTA, SLOPE POSITIVO
     if ($slope > 0) {
-        echo json_encode([
-            "success" => true,
-            "data"    => [
-                "prediction" => "increasing_moisture",
-                "r_squared"  => round($r_squared, 3)
-            ]
-        ]);
-        exit;
+        return [
+            "prediction" => "increasing_moisture",
+            "r_squared"  => round($r_squared, 3)
+        ];
     }
     // CALCULAR TEMPO ATÉ SECAR: extrapola a partir do slope quando vamos chegar ao min
     $rate_per_second  = abs($slope);
@@ -187,14 +165,10 @@ try {
     $seconds_until_dry = ($current_moisture - $min_moisture) / $rate_per_second;
 
     if ($seconds_until_dry <= 0 || $seconds_until_dry > 172800) {
-        echo json_encode([
-            "success" => true,
-            "data"    => [
-                "prediction" => "unstable_data",
-                "message"    => "Prediction outside acceptable range"
-            ]
-        ]);
-        exit;
+        return [
+            "prediction" => "unstable_data",
+            "message"    => "Prediction outside acceptable range"
+        ];
     }
     // FORMATAÇÃO PARA VALOR AMIGAVEL PARA USER
     $seconds_int  = (int)round($seconds_until_dry);
@@ -216,22 +190,34 @@ try {
         $confidence = "low";
     }
     // RESPOSTA
+    return [
+        "prediction" => "drying",
+        "current_moisture" => $current_moisture,
+        "min_moisture" => $min_moisture,
+        "average_moisture" => round($average, 1),
+        "dry_in_hours" => round($seconds_until_dry / 3600, 2),
+        "dry_in_friendly"  => $dry_in_friendly,
+        "dry_at" => date("Y-m-d H:i:s", $dry_timestamp),
+        "trend_per_hour" => round($rate_per_second * 3600, 2),
+        "r_squared" => round($r_squared, 3),
+        "confidence" => $confidence,
+        "data_points_used" => $n,
+        "span_hours" => round($span_hours, 2)
+
+    ];
+}
+
+try {
+    $stmt = $pdo->prepare("SELECT device_id FROM device WHERE user_account_id = :user_id");
+    $stmt->execute(["user_id" => $user["user_id"]]);
+    $device_ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    $predictions = [];
+    foreach ($device_ids as $device_id) {
+        $predictions[$device_id] = calculatePrediction($pdo, $device_id, $user["user_id"]);
+    }
     echo json_encode([
         "success" => true,
-        "data"    => [
-            "prediction" => "drying",
-            "current_moisture" => $current_moisture,
-            "min_moisture" => $min_moisture,
-            "average_moisture" => round($average, 1),
-            "dry_in_hours" => round($seconds_until_dry / 3600, 2),
-            "dry_in_friendly"  => $dry_in_friendly,
-            "dry_at" => date("Y-m-d H:i:s", $dry_timestamp),
-            "trend_per_hour" => round($rate_per_second * 3600, 2),
-            "r_squared" => round($r_squared, 3),
-            "confidence" => $confidence,
-            "data_points_used" => $n,
-            "span_hours" => round($span_hours, 2)
-        ]
+        "predictions" => $predictions
     ]);
 } catch (PDOException $e) {
     dbError($e);
