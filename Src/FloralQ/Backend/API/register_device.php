@@ -6,7 +6,7 @@ require_once "../Utils/init.php";
 
 $data = requireJsonBody();
 
-$device_code     = $data["device_code"] ?? null;
+$device_code = $data["device_code"] ?? null;
 $is_professional = $data["is_professional"] ?? false;
 
 if (!$device_code) {
@@ -26,7 +26,7 @@ try {
     ");
 
     $stmt->execute([
-        "device_code"     => $device_code,
+        "device_code" => $device_code,
         "is_professional" => $is_professional ? 1 : 0,
         "activation_code" => $activation_code
     ]);
@@ -34,7 +34,7 @@ try {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     echo json_encode([
-        "success"         => true,
+        "success" => true,
         "activation_code" => $row["activation_code"]
     ]);
 } catch (PDOException $e) {

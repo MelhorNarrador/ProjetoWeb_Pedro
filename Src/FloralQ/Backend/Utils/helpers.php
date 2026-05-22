@@ -44,6 +44,24 @@ function getSensorStatus($timestamp)
     return ($seconds_since_last > SENSOR_TIMEOUT) ? "offline" : "online";
 }
 
+// Normaliza moisture absoluta (0-100) para % relativa ao range da espécie.
+function normalizeMoisture($raw, $min, $max)
+{
+    if ($raw === null) return null;
+    $range = $max - $min;
+    return $range > 0 ? round((($raw - $min) / $range) * 100) : round((float)$raw);
+}
+
+// Devolve a categoria de estado da moisture: "no-data" | "dry" | "healthy" | "overwatered"
+function getMoistureState($raw, $min, $max)
+{
+    $normalized = normalizeMoisture($raw, $min, $max);
+    if ($normalized === null) return "no-data";
+    if ($normalized <= 40)    return "dry";
+    if ($normalized > 100)    return "overwatered";
+    return "healthy";
+}
+
 // Trata erros de PDO sem expor detalhes da BD
 function dbError(PDOException $e)
 {
@@ -61,6 +79,20 @@ function jsonError(int $code, string $message): void
     http_response_code($code);
     echo json_encode(["success" => false, "message" => $message]);
     exit;
+}
+
+// HttpOnly impede acesso via document.cookie (defesa contra XSS).
+// SameSite=Strict impede cookie em cross-site requests (defesa contra CSRF).
+function startSecureSession(): void
+{
+    if (session_status() === PHP_SESSION_ACTIVE) return;
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'httponly' => true,
+        'samesite' => 'Strict',
+        'secure'   => false,
+    ]);
+    session_start();
 }
 
 // Lê o body JSON da request, ou devolve 400 se inválido

@@ -42,7 +42,7 @@ try {
         WHERE user_account_id = :user_id
     ");
     $stmt->execute([
-        "hash"    => $new_hash,
+        "hash" => $new_hash,
         "user_id" => $user["user_id"]
     ]);
 

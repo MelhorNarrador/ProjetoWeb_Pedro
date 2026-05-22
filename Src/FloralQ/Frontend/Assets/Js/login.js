@@ -34,7 +34,7 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
       } else {
         localStorage.removeItem("rememberEmail");
       }
-      window.location.href = "dashboard.php";
+      window.location.href = data.user?.role === "admin" ? "admin.php" : "dashboard.php";
     } else {
       errorMsg.textContent = data?.message ?? "Could not connect to server.";
     }

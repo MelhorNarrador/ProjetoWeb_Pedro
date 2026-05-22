@@ -6,8 +6,8 @@ import { getReadingsHistory } from "../apiClient.js";
 export function drawMoistureChart(canvas, moisture, min, max) {
   const isNoData = moisture === "--";
   const percent = isNoData ? 0 : getNormalizedMoisture(moisture, min, max);
-  // Garantir valor entre 0 e 100 para o doughnut (e nunca 0 para não desaparecer)
-  const displayValue = Math.max(0, Math.min(percent, 100)) || 1;
+  // Clamp entre 0 e 100 para o doughnut. 0% mostra anel cinzento completo
+  const displayValue = Math.max(0, Math.min(percent, 100));
   const color = getMoistureColor(moisture, min, max);
 
   const label = isNoData ? "--" : `${Math.max(0, percent)}%`;

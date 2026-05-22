@@ -6,12 +6,7 @@ import { openModal, closeModal, setupModalClosers } from "./modalManager.js";
 import { buildPlantCard } from "./plantCard.js";
 import { drawMoistureChart, loadHistoryChart } from "./chartController.js";
 import { maybeStartOnboarding, replayOnboarding } from "./onboarding.js";
-import {
-  getPredictionLabel,
-  getMoistureStatus,
-  getNormalizedMoisture,
-  getMoistureColor,
-} from "./utils/moisture.js";
+import { getPredictionLabel, getMoistureColor } from "./utils/moisture.js";
 
 // Cores do nível de confiança da previsão
 const CONFIDENCE_COLORS = {
@@ -72,41 +67,10 @@ let userAlertThreshold = 30;
 // Posição do gráfico de histórico: "card" ou "modal"
 let userChartPosition = "card";
 
-// Plantas conhecidas sem leituras, para detetar a chegada da primeira
-const plantsWithoutReadings = new Set();
-
-// Deteta plantas que recebem a primeira leitura entre carregamentos e mostra toast
-function checkFirstReadings(plants) {
-  plants.forEach((plant) => {
-    const hasReading = plant.sensor_reading_moisture_percent !== null;
-    if (!hasReading) {
-      plantsWithoutReadings.add(plant.plant_id);
-    } else if (plantsWithoutReadings.has(plant.plant_id)) {
-      // Transição: planta que não tinha leituras agora tem
-      showToast(`First reading received for ${plant.plant_name}!`, "success");
-      plantsWithoutReadings.delete(plant.plant_id);
-    }
-  });
-}
-
 // Percorre as plantas e mostra toast de alerta para as que estão abaixo do threshold
 function checkPlantAlerts(plants) {
-  console.log(
-    "[ALERTS] threshold:",
-    userAlertThreshold,
-    "plants:",
-    plants.length,
-  );
   plants.forEach((plant) => {
-    const moisture = plant.sensor_reading_moisture_percent;
-    if (moisture === null || moisture === undefined) return;
-
-    const normalized = getNormalizedMoisture(
-      moisture,
-      plant.plant_type_min_moisture,
-      plant.plant_type_max_moisture,
-    );
-    console.log("[ALERTS]", plant.plant_name, "normalized:", normalized);
+    const normalized = plant.normalized_moisture;
     if (normalized === null) return;
 
     if (normalized <= userAlertThreshold) {
@@ -288,11 +252,7 @@ async function loadPlants() {
     dry = 0,
     overwatered = 0;
   data.plants.forEach((plant) => {
-    const status = getMoistureStatus(
-      plant.sensor_reading_moisture_percent ?? "--",
-      plant.plant_type_min_moisture,
-      plant.plant_type_max_moisture,
-    );
+    const status = plant.moisture_state;
     if (status === "healthy") healthy++;
     else if (status === "dry") dry++;
     else if (status === "overwatered") overwatered++;
@@ -335,11 +295,7 @@ async function openPlantModal(plant) {
     iconImg.classList.add("hidden");
     iconSvg.style.display = "";
   }
-  const status = getMoistureStatus(
-    moisture,
-    plant.plant_type_min_moisture,
-    plant.plant_type_max_moisture,
-  );
+  const status = plant.moisture_state;
   body.querySelector(".modal-stage").textContent =
     status.charAt(0).toUpperCase() + status.slice(1);
   body.querySelector(".modal-growth").textContent = plant.plant_is_grown
@@ -351,11 +307,7 @@ async function openPlantModal(plant) {
   body.querySelector(".modal-device").textContent = plant.device_is_professional
     ? "FloraIQ Professional"
     : "FloraIQ Home";
-  const normalized = getNormalizedMoisture(
-    moisture,
-    plant.plant_type_min_moisture,
-    plant.plant_type_max_moisture,
-  );
+  const normalized = plant.normalized_moisture;
   const moistureEl = body.querySelector(".modal-moisture");
   moistureEl.textContent = normalized === null ? "--" : `${normalized}%`;
   moistureEl.style.color = getMoistureColor(
@@ -605,6 +557,7 @@ const logoutBtn = document.getElementById("logout-btn");
 if (logoutBtn) {
   logoutBtn.addEventListener("click", async () => {
     await api.logout();
+    localStorage.removeItem("rememberEmail");
     window.location.href = "login.html";
   });
 }

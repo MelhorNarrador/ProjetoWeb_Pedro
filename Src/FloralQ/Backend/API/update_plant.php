@@ -80,11 +80,11 @@ try {
     }
 
     $stmt->execute([
-        "plant_name"           => $plant_name,
+        "plant_name" => $plant_name,
         "plant_location_label" => $plant_location_label,
-        "plant_type_id"        => $plant_type_id,
-        "plant_is_grown"       => $plant_is_grown ? 1 : 0,
-        "plant_id"             => $plant_id,
+        "plant_type_id" => $plant_type_id,
+        "plant_is_grown" => $plant_is_grown ? 1 : 0,
+        "plant_id" => $plant_id,
     ]);
 
     echo json_encode(["success" => true, "message" => "Plant updated successfully"]);

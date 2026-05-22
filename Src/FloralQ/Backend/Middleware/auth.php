@@ -2,9 +2,7 @@
 // VERIFICA SE O UTILIZADOR ESTÁ AUTENTICADO
 function requireAuth(): array
 {
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
+    startSecureSession();
 
     if (empty($_SESSION["user_id"])) {
         jsonError(401, "Unauthorized");

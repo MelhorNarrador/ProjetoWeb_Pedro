@@ -10,9 +10,9 @@ $range = $_GET["range"] ?? "24h";
 
 // Configuração por range: bucket de agregação, janela temporal e limite de pontos
 $config = [
-    "24h"   => ["bucket" => null,    "interval" => "24 hours", "limit" => 288],
-    "week"  => ["bucket" => "hour",  "interval" => "7 days",   "limit" => 168],
-    "month" => ["bucket" => "day",   "interval" => "30 days",  "limit" => 30],
+    "24h"   => ["bucket" => null, "interval" => "24 hours", "limit" => 288],
+    "week"  => ["bucket" => "hour", "interval" => "7 days", "limit" => 168],
+    "month" => ["bucket" => "day", "interval" => "30 days", "limit" => 30],
     "year"  => ["bucket" => "month", "interval" => "365 days", "limit" => 12],
 ];
 
@@ -66,8 +66,8 @@ try {
 
     echo json_encode([
         "success" => true,
-        "range"   => $range,
-        "data"    => $stmt->fetchAll(PDO::FETCH_ASSOC),
+        "range" => $range,
+        "data" => $stmt->fetchAll(PDO::FETCH_ASSOC),
     ]);
 } catch (PDOException $e) {
     dbError($e);

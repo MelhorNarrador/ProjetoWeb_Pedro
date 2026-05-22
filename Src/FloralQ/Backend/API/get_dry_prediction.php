@@ -221,16 +221,16 @@ try {
         "data"    => [
             "prediction" => "drying",
             "current_moisture" => $current_moisture,
-            "min_moisture"     => $min_moisture,
+            "min_moisture" => $min_moisture,
             "average_moisture" => round($average, 1),
-            "dry_in_hours"     => round($seconds_until_dry / 3600, 2),
+            "dry_in_hours" => round($seconds_until_dry / 3600, 2),
             "dry_in_friendly"  => $dry_in_friendly,
-            "dry_at"           => date("Y-m-d H:i:s", $dry_timestamp),
-            "trend_per_hour"   => round($rate_per_second * 3600, 2),
-            "r_squared"        => round($r_squared, 3),
-            "confidence"       => $confidence,
+            "dry_at" => date("Y-m-d H:i:s", $dry_timestamp),
+            "trend_per_hour" => round($rate_per_second * 3600, 2),
+            "r_squared" => round($r_squared, 3),
+            "confidence" => $confidence,
             "data_points_used" => $n,
-            "span_hours"       => round($span_hours, 2)
+            "span_hours" => round($span_hours, 2)
         ]
     ]);
 } catch (PDOException $e) {

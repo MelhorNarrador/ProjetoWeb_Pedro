@@ -1,7 +1,8 @@
 <?php
 // Página principal do dashboard
 // Server-side: garante que só users autenticados acedem (caso contrário → login)
-session_start();
+require_once "../../Backend/Utils/init.php";
+startSecureSession();
 
 if (empty($_SESSION["user_id"])) {
   // Redirecionar para login se não autenticado

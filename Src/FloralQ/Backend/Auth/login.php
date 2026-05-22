@@ -31,7 +31,7 @@ try {
     }
 
     // INICIA A SESSÃO E GUARDA OS DADOS DO UTILIZADOR
-    session_start();
+    startSecureSession();
     $_SESSION["user_id"]   = $user["user_account_id"];
     $_SESSION["user_role"] = $user["user_account_role"];
 

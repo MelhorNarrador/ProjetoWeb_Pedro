@@ -38,9 +38,19 @@ try {
     $stmt->execute(['user_id' => $user['user_id']]);
     $plants = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Adiciona sensor_status calculado a cada planta
+    // Adiciona campos computados a cada planta
     foreach ($plants as &$plant) {
         $plant['sensor_status'] = getSensorStatus($plant['sensor_reading_recorded_at']);
+        $plant['normalized_moisture'] = normalizeMoisture(
+            $plant['sensor_reading_moisture_percent'],
+            $plant['plant_type_min_moisture'],
+            $plant['plant_type_max_moisture']
+        );
+        $plant['moisture_state'] = getMoistureState(
+            $plant['sensor_reading_moisture_percent'],
+            $plant['plant_type_min_moisture'],
+            $plant['plant_type_max_moisture']
+        );
     }
 
     echo json_encode(["success" => true, "plants" => $plants]);

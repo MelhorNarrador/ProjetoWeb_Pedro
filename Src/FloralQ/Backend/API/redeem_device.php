@@ -31,7 +31,7 @@ try {
         SET user_account_id = :user_id, activation_code = NULL
         WHERE device_id = :device_id");
     $stmt->execute([
-        "user_id"   => $user["user_id"],
+        "user_id" => $user["user_id"],
         "device_id" => $device["device_id"]
     ]);
 

@@ -1,5 +1,4 @@
-// Funções partilhadas para classificar/normalizar humidade
-// Source of truth dos thresholds — usado pelo card, modal, gráfico e status
+// Funções de apoio à apresentação visual da humidade.
 
 // Cores por estado de humidade (centralizadas para chart e status coincidirem)
 const MOISTURE_COLORS = {
@@ -9,16 +8,6 @@ const MOISTURE_COLORS = {
   blue: "#5599E0",
   gray: "#8A9480",
 };
-
-// Devolve a categoria de estado da planta (dry/healthy/overwatered/no-data)
-export function getMoistureStatus(moisture, min, max) {
-  const percent = getNormalizedMoisture(moisture, min, max);
-  if (percent === null) return "no-data";
-  if (percent <= 40) return "dry";
-  if (percent > 100) return "overwatered";
-  return "healthy";
-}
-
 // Cor para gráficos: 4 tons (vermelho / verde claro / verde escuro / azul)
 export function getMoistureColor(moisture, min, max) {
   const percent = getNormalizedMoisture(moisture, min, max);

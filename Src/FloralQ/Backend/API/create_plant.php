@@ -34,7 +34,7 @@ try {
 
     $stmt->execute([
         "device_id" => $device_id,
-        "user_id"     => $user["user_id"]
+        "user_id" => $user["user_id"]
     ]);
 
     $device = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -49,7 +49,7 @@ try {
         RETURNING plant_id
     ");
     $stmt->execute([
-        "device_id"     => $device["device_id"],
+        "device_id" => $device["device_id"],
         "plant_type_id" => $plant_type_id,
         "plant_location_label" => $plant_location_label,
         "plant_name" => $plant_name,

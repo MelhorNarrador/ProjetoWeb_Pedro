@@ -21,7 +21,7 @@ try {
     ");
     $stmt->execute([
         "plant_id" => $plant_id,
-        "user_id"  => $user["user_id"]
+        "user_id" => $user["user_id"]
     ]);
 
     if (!$stmt->fetch()) {

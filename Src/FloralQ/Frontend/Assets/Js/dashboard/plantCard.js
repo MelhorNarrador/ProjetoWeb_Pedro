@@ -1,10 +1,6 @@
 // Constrói o card de uma planta a partir do template HTML
 // Recebe os dados da planta + se o gráfico de linhas deve aparecer no card ou só no modal
-import {
-  getMoistureStatus,
-  getMoistureColor,
-  formatDryPrediction,
-} from "./utils/moisture.js";
+import { getMoistureColor, formatDryPrediction } from "./utils/moisture.js";
 import { getDryPrediction } from "../apiClient.js";
 import { loadHistoryChart } from "./chartController.js";
 
@@ -15,11 +11,7 @@ export function buildPlantCard(plant, chartPosition = "card") {
 
   // Calcula status e cor com base na última leitura
   const moisture = plant.sensor_reading_moisture_percent ?? "--";
-  const status = getMoistureStatus(
-    moisture,
-    plant.plant_type_min_moisture,
-    plant.plant_type_max_moisture,
-  );
+  const status = plant.moisture_state;
   const color = getMoistureColor(
     moisture,
     plant.plant_type_min_moisture,

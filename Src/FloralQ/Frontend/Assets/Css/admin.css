@@ -1,0 +1,377 @@
+/* Estilos do painel de administração
+   Partilha tokens de cor com dashboard.css via :root */
+
+:root {
+  --bg-cream: #f5f5dc;
+  --bg-cream-card: #fffff0;
+  --bg-cream-hover: #f0f0ce;
+  --green-dark: #0f2f1a;
+  --green-700: #1e4d2b;
+  --green-600: #2d6e3e;
+  --green-300: #a8d96c;
+  --text-dark: #1a1a1a;
+  --text-secondary: #5a6050;
+  --text-muted: #8a9480;
+  --red: #e05555;
+  --red-soft: #e0555526;
+  --blue: #5599e0;
+  --blue-soft: #5599e026;
+  --orange: #e0a555;
+  --border: #e0e0c0;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--bg-cream);
+  color: var(--text-dark);
+  font-family: "DM Sans", sans-serif;
+  min-height: 100vh;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+}
+
+/* === Navbar === */
+#navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 68px;
+  background-color: var(--bg-cream-card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#nav-logo {
+  height: 36px;
+}
+
+.admin-badge {
+  background: var(--green-700);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.btn-logout {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.btn-logout:hover {
+  background: var(--red-soft);
+  border-color: var(--red);
+  color: var(--red);
+}
+
+/* === Main content === */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.admin-header {
+  margin-bottom: 32px;
+}
+
+.admin-header h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.admin-header p {
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* === Tabs === */
+.admin-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 24px;
+}
+
+.admin-tab {
+  padding: 10px 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.admin-tab:hover {
+  color: var(--green-700);
+}
+
+.admin-tab.active {
+  color: var(--green-700);
+  border-bottom-color: var(--green-700);
+}
+
+/* === Tab content === */
+.tab-content {
+  display: block;
+}
+
+.tab-content.hidden {
+  display: none;
+}
+
+/* === Search bar === */
+.search-bar {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  padding: 9px 14px;
+  margin-bottom: 12px;
+  background: var(--bg-cream-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-dark);
+  font-size: 0.9rem;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.search-bar:focus {
+  border-color: var(--green-700);
+  box-shadow: 0 0 0 3px #1e4d2b1a;
+}
+
+/* === Table === */
+.admin-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-cream-card);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+thead th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: var(--bg-cream);
+}
+
+tbody td {
+  padding: 12px 16px;
+  color: var(--text-dark);
+  vertical-align: middle;
+}
+
+.td-muted {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* === Badges === */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.badge-admin {
+  background: var(--green-700);
+  color: #fff;
+}
+
+.badge-user {
+  background: var(--bg-cream);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.badge-online {
+  background: #c8f0d0;
+  color: #1e6b3a;
+}
+
+.badge-offline {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.badge-pro {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.badge-home {
+  background: var(--green-300);
+  color: var(--green-700);
+}
+
+.badge-code {
+  background: var(--bg-cream);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  font-family: monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+/* === Action buttons === */
+.action-btns {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-action {
+  padding: 5px 12px;
+  border-radius: var(--radius-xs);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.btn-promote {
+  background: var(--bg-cream);
+  border-color: var(--green-600);
+  color: var(--green-600);
+}
+
+.btn-promote:hover {
+  background: var(--green-600);
+  color: #fff;
+}
+
+.btn-demote {
+  background: var(--bg-cream);
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+.btn-demote:hover {
+  background: var(--orange);
+  color: #fff;
+}
+
+.btn-delete {
+  background: var(--bg-cream);
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.btn-delete:hover {
+  background: var(--red);
+  color: #fff;
+}
+
+.btn-action:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* === Loading / empty states === */
+.table-state {
+  text-align: center;
+  padding: 48px 16px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* === Mobile === */
+@media (max-width: 600px) {
+  #navbar {
+    padding: 0 16px;
+  }
+
+  main {
+    padding: 24px 16px;
+  }
+
+  .admin-tab {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  thead th,
+  tbody td {
+    padding: 10px 12px;
+  }
+}

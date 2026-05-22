@@ -26,7 +26,7 @@ try {
 
     $stmt->execute([
         "device_code" => $device_code,
-        "user_id"     => $user["user_id"]
+        "user_id" => $user["user_id"]
     ]);
 
     $reading = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -35,7 +35,7 @@ try {
     if (!$reading) {
         echo json_encode([
             "success" => true,
-            "data"    => null,
+            "data" => null,
             "message" => "No GPS data available"
         ]);
         exit;
@@ -44,9 +44,9 @@ try {
     // SUCESSO
     echo json_encode([
         "success" => true,
-        "data"    => [
-            "latitude"   => (float)$reading["sensor_reading_latitude"],
-            "longitude"  => (float)$reading["sensor_reading_longitude"],
+        "data" => [
+            "latitude" => (float)$reading["sensor_reading_latitude"],
+            "longitude" => (float)$reading["sensor_reading_longitude"],
             "recorded_at" => $reading["sensor_reading_recorded_at"]
         ]
     ]);
