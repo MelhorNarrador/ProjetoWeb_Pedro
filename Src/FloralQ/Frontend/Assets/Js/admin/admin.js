@@ -483,7 +483,6 @@ async function loadPlants() {
 // --- Tabs ---
 
 const loaders = { users: loadUsers, devices: loadDevices, plants: loadPlants };
-const loaded = new Set();
 
 function switchTab(name) {
   document
@@ -493,11 +492,8 @@ function switchTab(name) {
     .querySelectorAll(".tab-content")
     .forEach((c) => c.classList.toggle("hidden", c.id !== `tab-${name}`));
 
-  // Só carrega os dados da tab uma vez
-  if (!loaded.has(name)) {
-    loaded.add(name);
-    loaders[name]();
-  }
+  // Carrega os dados da tab se ainda não tiver carregado (ou recarrega ao voltar à tab)
+  loaders[name]();
 }
 
 // Tabs

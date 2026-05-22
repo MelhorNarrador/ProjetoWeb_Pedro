@@ -21,8 +21,11 @@ try {
         VALUES (:device_code, :is_professional, :activation_code)
         ON CONFLICT (device_code) DO UPDATE SET
             device_is_professional = EXCLUDED.device_is_professional,
-            activation_code = COALESCE(device.activation_code, EXCLUDED.activation_code)
-        RETURNING activation_code
+            activation_code = CASE
+        WHEN device.user_account_id IS NOT NULL THEN NULL
+        WHEN device.activation_code IS NOT NULL THEN device.activation_code
+        ELSE EXCLUDED.activation_code
+    END
     ");
 
     $stmt->execute([

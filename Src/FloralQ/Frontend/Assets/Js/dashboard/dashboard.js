@@ -207,6 +207,11 @@ document.getElementById("plant-image-remove").addEventListener("click", () => {
 // Carrega todas as plantas do user e (re)constrói o grid de cards
 async function loadPlants() {
   const grid = document.getElementById("plants-grid");
+  document.getElementById("stat-total").textContent = "-";
+  document.getElementById("stat-healthy").textContent = "-";
+  document.getElementById("stat-dry").textContent = "-";
+  document.getElementById("stat-overwatered").textContent = "-";
+  document.getElementById("plants-subtitle").textContent = "Loading...";
   const [data, predictionsData] = await Promise.all([
     api.getPlants().catch(() => null),
     api.getUserPredictions().catch(() => null),

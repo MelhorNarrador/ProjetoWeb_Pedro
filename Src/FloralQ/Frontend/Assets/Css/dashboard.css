@@ -1150,6 +1150,6 @@ main {
 }
 
 .toast-info {
-  border-left: 4px solid var(--blue);
-  color: var(--blue);
+  border-left: 4px solid var(--orange);
+  color: var(--orange);
 }

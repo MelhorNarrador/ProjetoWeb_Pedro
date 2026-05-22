@@ -10,32 +10,24 @@ $user = requireAuth();
 $plant_id = isset($_POST['plant_id']) ? (int)$_POST['plant_id'] : 0;
 
 if (!$plant_id) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "plant_id required"]);
-    exit;
+    jsonError(400, "plant_id required");
 }
 
 if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Image file is required"]);
-    exit;
+    jsonError(400, "Invalid image file");
 }
 
 $file = $_FILES['image'];
 
 // Limite de tamanho: 5 MB
 if ($file['size'] > 5 * 1024 * 1024) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Image must be 5MB or less"]);
-    exit;
+    jsonError(400, "Image must be 5MB or less");
 }
 
 // Validação do mime type real (lê os bytes do ficheiro em vez de confiar na extensão)
 $info = getimagesize($file['tmp_name']);
 if ($info === false) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "File is not a valid image"]);
-    exit;
+    jsonError(400, "File is not a valid image");
 }
 $mime = $info['mime'];
 
@@ -46,9 +38,7 @@ $allowed = [
 ];
 
 if (!isset($allowed[$mime])) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Only JPG, PNG, or WEBP images allowed"]);
-    exit;
+    jsonError(400, "Only JPG, PNG, or WEBP images allowed");
 }
 
 $ext = $allowed[$mime];
@@ -66,8 +56,7 @@ try {
     $plant = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$plant) {
-        http_response_code(404);
-        echo json_encode(["success" => false, "message" => "Plant not found or not owned by user"]);
+        jsonError(404, "Plant not found or not owned by user");
         exit;
     }
 
@@ -80,16 +69,14 @@ try {
     // Criar pasta plants/ se não existir
     if (!is_dir(dirname($disk_path))) {
         if (!mkdir(dirname($disk_path), 0775, true)) {
-            http_response_code(500);
-            echo json_encode(["success" => false, "message" => "Could not create uploads directory"]);
+            jsonError(500, "Could not create uploads directory");
             exit;
         }
     }
 
     // Mover ficheiro
     if (!move_uploaded_file($file['tmp_name'], $disk_path)) {
-        http_response_code(500);
-        echo json_encode(["success" => false, "message" => "Could not save image"]);
+        jsonError(500, "Could not save image");
         exit;
     }
 

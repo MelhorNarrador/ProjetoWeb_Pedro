@@ -22,9 +22,7 @@ try {
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$data) {
-        http_response_code(404);
-        echo json_encode(["success" => false, "message" => "User not found"]);
-        exit;
+        jsonError(404, "User not found");
     }
 
     echo json_encode(["success" => true, "data" => $data]);

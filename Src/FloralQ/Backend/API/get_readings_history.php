@@ -18,11 +18,7 @@ $config = [
 
 // Range tem de ser um dos suportados
 if (!isset($config[$range])) {
-    http_response_code(400);
-    echo json_encode([
-        "success" => false,
-        "message" => "Invalid range. Use: 24h, week, month, year"
-    ]);
+    jsonError(400, "Invalid range. Use: 24h, week, month, year");
     exit;
 }
 
