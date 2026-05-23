@@ -1,28 +1,5 @@
 /* Estilos do painel de administração
    Partilha tokens de cor com dashboard.css via :root */
-
-:root {
-  --bg-cream: #f5f5dc;
-  --bg-cream-card: #fffff0;
-  --bg-cream-hover: #f0f0ce;
-  --green-dark: #0f2f1a;
-  --green-700: #1e4d2b;
-  --green-600: #2d6e3e;
-  --green-300: #a8d96c;
-  --text-dark: #1a1a1a;
-  --text-secondary: #5a6050;
-  --text-muted: #8a9480;
-  --red: #e05555;
-  --red-soft: #e0555526;
-  --blue: #5599e0;
-  --blue-soft: #5599e026;
-  --orange: #e0a555;
-  --border: #e0e0c0;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --radius-xs: 6px;
-}
-
 * {
   margin: 0;
   padding: 0;

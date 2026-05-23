@@ -1,21 +1,6 @@
 /* Estilos partilhados pelas páginas login.html e register.html */
 
 /* Paleta de cores e tokens centrais (verde + creme) */
-:root {
-  --bg-cream: #f5f5dc;
-  --bg-cream-card: #fffff0;
-  --green-dark: #0f2f1a;
-  --green-700: #1e4d2b;
-  --green-700-soft: #1e4d2b1a;
-  --green-500: #2d6e3e;
-  --green-300: #a8d96c;
-  --green-300-soft: #a8d96c26;
-  --red: #c0392b;
-  --text-dark: #1a1a1a;
-  --text-muted: #5a6050;
-  --text-on-dark: #ffffff8c;
-  --border: #e0e0c0;
-}
 
 /* Reset global mínimo */
 * {
@@ -249,7 +234,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: var(--green-500);
+  background-color: var(--green-600);
 }
 
 /* Mensagem de erro abaixo do form (min-height evita layout shift quando aparece) */

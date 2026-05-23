@@ -21,6 +21,7 @@ if ($_SESSION["user_role"] !== "admin") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Panel - FloraIQ</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../Assets/Css/tokens.css" />
   <link rel="stylesheet" href="../Assets/Css/admin.css" />
 </head>
 

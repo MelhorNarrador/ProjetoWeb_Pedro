@@ -1,50 +1,6 @@
 /* Estilos do dashboard
    Organização: tokens → utilities → navbar → main/stats → cards → modais → settings → toasts */
 
-/* Tokens centrais (cores, raios, espaçamentos) */
-:root {
-  /* Fundo */
-  --bg-cream: #f5f5dc;
-  --bg-cream-card: #fffff0;
-  --bg-cream-hover: #f0f0ce;
-  --box-shadow: #00000014;
-
-  /* Verde */
-  --green-dark: #0f2f1a;
-  --green-700: #1e4d2b;
-  --green-600: #2d6e3e;
-  --green-500: #005819;
-  --green-300: #a8d96c;
-  --green-300-soft: #a8d96c26;
-  --green-700-soft: #1e4d2b1a;
-
-  /* Texto */
-  --text-dark: #1a1a1a;
-  --text-secondary: #5a6050;
-  --text-muted: #8a9480;
-
-  /* Estado */
-  --red: #e05555;
-  --blue: #5599e0;
-  --orange: #e0a555;
-
-  /* Variantes "soft" (15% opacidade) — usadas em backgrounds de badges/icons */
-  --red-soft: #e0555526;
-  --blue-soft: #5599e026;
-  --orange-soft: #e0a55526;
-  --red-hover: #c83e3e;
-
-  /* Outros */
-  --border: #e0e0c0;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --radius-xs: 6px;
-
-  /* Transitions reutilizadas em hovers e toggles */
-  --transition-fast: 0.2s;
-  --transition-medium: 0.25s;
-}
-
 /* Cores rápidas para os valores de stats no topo */
 .stat-value-green {
   color: var(--green-600);
@@ -128,7 +84,7 @@ body {
   transition: all var(--transition-fast);
   border: 1px solid var(--border);
   background: transparent;
-  color: var(--text-secondary);
+  color: var(--border);
 }
 
 .nav-btn:hover {
