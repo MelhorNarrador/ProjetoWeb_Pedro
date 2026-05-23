@@ -81,8 +81,8 @@ if (empty($_SESSION["user_id"])) {
           </button>
         </div>
       </div>
+    </div>
   </nav>
-  </div>
   <!-- Conteúdo principal: header + stats bar + grid de plantas -->
   <main>
     <div class="page-header">
