@@ -333,7 +333,7 @@ tbody td {
 }
 
 /* === Mobile === */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   #navbar {
     padding: 0 16px;
   }

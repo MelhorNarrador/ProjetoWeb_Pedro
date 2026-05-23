@@ -780,68 +780,6 @@ main {
   margin: 4px 8px;
 }
 
-/* === Responsivo para mobile (≤600px) === */
-@media (max-width: 600px) {
-  main {
-    padding: 16px;
-  }
-
-  #navbar {
-    padding: 12px 16px;
-  }
-
-  #nav-links {
-    gap: 8px;
-  }
-
-  .nav-btn {
-    padding: 5px 10px;
-    font-size: 0.85rem;
-  }
-
-  #plants-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .stats-bar {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-bottom: 24px;
-  }
-
-  .stat-card {
-    padding: 14px 12px;
-    gap: 10px;
-  }
-
-  [id$="-modal-overlay"] {
-    padding: 12px 8px;
-    align-items: flex-start;
-  }
-
-  .modal {
-    width: 100%;
-    max-width: 100%;
-    padding: 20px 16px;
-    border-radius: var(--radius-sm);
-    margin: 0;
-  }
-
-  .modal h2 {
-    font-size: 1.2rem;
-    margin-bottom: 14px;
-  }
-
-  .detail-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .account-row {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-}
-
 /* === Modal Account (email / password / alertas / presentation mode / tutorial) === */
 .account-rows {
   display: flex;
@@ -1108,4 +1046,66 @@ main {
 .toast-info {
   border-left: 4px solid var(--orange);
   color: var(--orange);
+}
+
+/* === Responsivo para mobile (≤768px) === */
+@media (max-width: 768px) {
+  main {
+    padding: 16px;
+  }
+
+  #navbar {
+    padding: 12px 16px;
+  }
+
+  #nav-links {
+    gap: 8px;
+  }
+
+  .nav-btn {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+  }
+
+  #plants-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    padding: 14px 12px;
+    gap: 10px;
+  }
+
+  [id$="-modal-overlay"] {
+    padding: 12px 8px;
+    align-items: flex-start;
+  }
+
+  .modal {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px 16px;
+    border-radius: var(--radius-sm);
+    margin: 0;
+  }
+
+  .modal h2 {
+    font-size: 1.2rem;
+    margin-bottom: 14px;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .account-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
 }

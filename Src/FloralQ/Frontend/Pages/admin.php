@@ -23,6 +23,7 @@ if ($_SESSION["user_role"] !== "admin") {
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../Assets/Css/tokens.css" />
   <link rel="stylesheet" href="../Assets/Css/admin.css" />
+  <link rel="icon" href="../Assets/Img/FloralQ_Icon.svg" />
 </head>
 
 <body data-user-id="<?= (int)$_SESSION['user_id'] ?>">

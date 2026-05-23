@@ -21,6 +21,7 @@ if (empty($_SESSION["user_id"])) {
   <link rel="stylesheet" href="../Assets/Css/tokens.css" />
   <link rel="stylesheet" href="../Assets/Css/dashboard.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.0/dist/driver.css" />
+  <link rel="icon" href="../Assets/Img/FloralQ_Icon.svg" />
 </head>
 
 <body>
