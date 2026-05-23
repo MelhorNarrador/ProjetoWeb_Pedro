@@ -12,12 +12,12 @@ if (empty($_SESSION["user_id"])) {
 ?>
 <!doctype html>
 <html lang="en">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard - FloraIQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../Assets/Css/tokens.css" />
   <link rel="stylesheet" href="../Assets/Css/dashboard.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.3.0/dist/driver.css" />
@@ -82,6 +82,7 @@ if (empty($_SESSION["user_id"])) {
         </div>
       </div>
   </nav>
+  </div>
   <!-- Conteúdo principal: header + stats bar + grid de plantas -->
   <main>
     <div class="page-header">
@@ -603,7 +604,6 @@ if (empty($_SESSION["user_id"])) {
         <button type="submit" class="submit-btn">Save Password</button>
       </form>
     </div>
-  </div>
   </div>
   <!-- Chart.js (gráficos doughnut e line) carregado via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
