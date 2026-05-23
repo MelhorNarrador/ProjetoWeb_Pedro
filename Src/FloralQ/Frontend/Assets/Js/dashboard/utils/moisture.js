@@ -9,12 +9,11 @@ const MOISTURE_COLORS = {
   gray: "#8A9480",
 };
 // Cor para gráficos: 4 tons (vermelho / verde claro / verde escuro / azul)
-export function getMoistureColor(moisture, min, max) {
-  const percent = getNormalizedMoisture(moisture, min, max);
-  if (percent === null) return MOISTURE_COLORS.gray;
-  if (percent <= 40) return MOISTURE_COLORS.red;
-  if (percent <= 80) return MOISTURE_COLORS.greenLight;
-  if (percent <= 100) return MOISTURE_COLORS.greenDark;
+export function getMoistureColor(normalized) {
+  if (normalized === null) return MOISTURE_COLORS.gray;
+  if (normalized <= 40) return MOISTURE_COLORS.red;
+  if (normalized <= 80) return MOISTURE_COLORS.greenLight;
+  if (normalized <= 100) return MOISTURE_COLORS.greenDark;
   return MOISTURE_COLORS.blue;
 }
 

@@ -15,11 +15,7 @@ export function buildPlantCard(
   // Calcula status e cor com base na última leitura
   const moisture = plant.sensor_reading_moisture_percent ?? "--";
   const status = plant.moisture_state;
-  const color = getMoistureColor(
-    moisture,
-    plant.plant_type_min_moisture,
-    plant.plant_type_max_moisture,
-  );
+  const color = getMoistureColor(plant.normalized_moisture);
 
   // Atributos e classes do card raiz
   card.dataset.plantId = plant.plant_id;

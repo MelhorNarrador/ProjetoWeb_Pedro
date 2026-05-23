@@ -3,12 +3,12 @@ import { getNormalizedMoisture, getMoistureColor } from "./utils/moisture.js";
 import { getReadingsHistory } from "../apiClient.js";
 
 // Desenha o gráfico doughnut com a humidade atual no centro
-export function drawMoistureChart(canvas, moisture, min, max) {
-  const isNoData = moisture === "--";
-  const percent = isNoData ? 0 : getNormalizedMoisture(moisture, min, max);
+export function drawMoistureChart(canvas, normalized) {
+  const isNoData = normalized === null;
+  const percent = isNoData ? 0 : normalized;
   // Clamp entre 0 e 100 para o doughnut. 0% mostra anel cinzento completo
   const displayValue = Math.max(0, Math.min(percent, 100));
-  const color = getMoistureColor(moisture, min, max);
+  const color = getMoistureColor(normalized);
 
   const label = isNoData ? "--" : `${Math.max(0, percent)}%`;
 

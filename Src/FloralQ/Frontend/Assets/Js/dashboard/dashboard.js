@@ -253,12 +253,7 @@ async function loadPlants() {
       predictionsMap[plant.device_id],
     );
     grid.appendChild(card);
-    drawMoistureChart(
-      card.querySelector("canvas"),
-      plant.sensor_reading_moisture_percent ?? "--",
-      plant.plant_type_min_moisture,
-      plant.plant_type_max_moisture,
-    );
+    drawMoistureChart(card.querySelector("canvas"), plant.normalized_moisture);
   });
 
   // Conta plantas por estado para preencher os widgets de stats no topo
@@ -324,11 +319,7 @@ async function openPlantModal(plant) {
   const normalized = plant.normalized_moisture;
   const moistureEl = body.querySelector(".modal-moisture");
   moistureEl.textContent = normalized === null ? "--" : `${normalized}%`;
-  moistureEl.style.color = getMoistureColor(
-    moisture,
-    plant.plant_type_min_moisture,
-    plant.plant_type_max_moisture,
-  );
+  moistureEl.style.color = getMoistureColor(normalized);
 
   const predictionEl = body.querySelector(".modal-prediction");
   const minMoistureEl = body.querySelector(".modal-min-moisture");
@@ -372,7 +363,7 @@ async function openPlantModal(plant) {
     const lineCanvas = body.querySelector(".modal-line-chart");
     const min = plant.plant_type_min_moisture;
     const max = plant.plant_type_max_moisture;
-    const color = getMoistureColor(moisture, min, max);
+    const color = getMoistureColor(plant.normalized_moisture);
 
     // Reset tabs para 24h
     body.querySelectorAll(".modal-tab").forEach((t, i) => {

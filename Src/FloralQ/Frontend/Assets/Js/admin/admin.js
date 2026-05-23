@@ -1,31 +1,24 @@
 // Controlador do painel de administração
 // Tabs: Utilizadores | Devices | Plantas
 // Ações: promover/revogar admin, apagar utilizador
-
+import { request } from "../apiClient.js";
 const BASE = "../../../Backend/API/admin";
 const AUTH = "../../../Backend/Auth";
 
 // --- API helpers ---
 
-async function apiFetch(url, options = {}) {
-  const res = await fetch(url, options);
-  const body = await res.json().catch(() => null);
-  if (!res.ok) throw new Error(body?.message ?? `HTTP ${res.status}`);
-  return body;
-}
-
 async function getUsers() {
-  return apiFetch(`${BASE}/get_all_users.php`);
+  return request(`${BASE}/get_all_users.php`);
 }
 async function getDevices() {
-  return apiFetch(`${BASE}/get_all_devices.php`);
+  return request(`${BASE}/get_all_devices.php`);
 }
 async function getPlants() {
-  return apiFetch(`${BASE}/get_all_plants.php`);
+  return request(`${BASE}/get_all_plants.php`);
 }
 
 async function updateRole(userId, role) {
-  return apiFetch(`${BASE}/update_user_role.php`, {
+  return request(`${BASE}/update_user_role.php`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ user_id: userId, role }),
@@ -33,7 +26,7 @@ async function updateRole(userId, role) {
 }
 
 async function deleteUser(userId) {
-  return apiFetch(`${BASE}/delete_user.php`, {
+  return request(`${BASE}/delete_user.php`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ user_id: userId }),
@@ -41,7 +34,7 @@ async function deleteUser(userId) {
 }
 
 async function deleteDevice(deviceId) {
-  return apiFetch(`${BASE}/delete_device.php`, {
+  return request(`${BASE}/delete_device.php`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ device_id: deviceId }),
@@ -49,7 +42,7 @@ async function deleteDevice(deviceId) {
 }
 
 async function deletePlant(plantId) {
-  return apiFetch(`${BASE}/delete_plant.php`, {
+  return request(`${BASE}/delete_plant.php`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ plant_id: plantId }),

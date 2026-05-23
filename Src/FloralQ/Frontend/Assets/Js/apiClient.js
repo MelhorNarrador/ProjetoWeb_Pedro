@@ -4,7 +4,7 @@ const BASE = "../../Backend/API";
 const AUTH = "../../Backend/Auth";
 
 // Wrapper genérico de fetch: parse JSON e lança erro se a resposta for != 2xx
-async function request(url, options = {}) {
+export async function request(url, options = {}) {
   const response = await fetch(url, options);
   // Parse JSON do body (catch para o caso de não ser JSON válido)
   const body = await response.json().catch(() => null);
