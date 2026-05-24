@@ -775,5 +775,10 @@ document.getElementById("replay-tutorial-btn").addEventListener("click", () => {
 });
 
 initDashboard();
-// Refresca o dashboard de 5 em 5 minutos para apanhar novas leituras dos sensores
-setInterval(loadPlants, 5 * 60 * 1000);
+// Server-Sent Events
+const sse = new EventSource("../../Backend/API/sse_plants.php");
+sse.addEventListener("plant-update", () => {
+  loadPlants();
+});
+
+//setInterval(loadPlants, 5 * 60 * 1000);
