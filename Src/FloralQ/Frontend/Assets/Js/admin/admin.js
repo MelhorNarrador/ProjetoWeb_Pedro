@@ -2,8 +2,8 @@
 // Tabs: Utilizadores | Devices | Plantas
 // Ações: promover/revogar admin, apagar utilizador
 import { request } from "../apiClient.js";
-const BASE = "../../../Backend/API/admin";
-const AUTH = "../../../Backend/Auth";
+const BASE = "../../Backend/API/admin";
+const AUTH = "../../Backend/Auth";
 
 // --- API helpers ---
 

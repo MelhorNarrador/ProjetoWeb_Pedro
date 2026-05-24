@@ -23,9 +23,9 @@ const char*   password       = WIFI_PASSWORD;
 const String  DEVICE_CODE    = "FloralQ-Home-002";
 const bool    IS_PROFESSIONAL = true;
 
-const char* serverReading  = "http://" SERVER_IP ":8000/Backend/API/insert_reading.php";
-const char* serverRegister = "http://" SERVER_IP ":8000/Backend/API/register_device.php";
-const char* serverState    = "http://" SERVER_IP ":8000/Backend/API/get_plant_state.php?device_code=";
+const char* serverReading  = "http://" SERVER_IP "/floralq/Backend/API/insert_reading.php";
+const char* serverRegister = "http://" SERVER_IP "/floralq/Backend/API/register_device.php";
+const char* serverState    = "http://" SERVER_IP "/floralq/Backend/API/get_plant_state.php?device_code=";
 
 const int  DRY_VALUE  = 2500;
 const int  WET_VALUE  = 700;
