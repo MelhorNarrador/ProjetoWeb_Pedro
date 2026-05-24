@@ -13,29 +13,6 @@ function requireDeviceCode()
     return $device_code;
 }
 
-// FORMATA SEGUNDOS PARA UM TEXTO LEGÍVEL
-function formatLastReading($seconds)
-{
-    if ($seconds < 60) {
-        return $seconds . "s";
-    }
-
-    $minutes = floor($seconds / 60);
-
-    if ($minutes < 60) {
-        return $minutes . "m";
-    }
-
-    $hours   = floor($minutes / 60);
-    $minutes = $minutes % 60;
-
-    if ($minutes == 0) {
-        return $hours . "h";
-    }
-
-    return $hours . "h " . $minutes . "m";
-}
-
 // Verifica se o sensor está online com base no timestamp da última leitura.
 function getSensorStatus($timestamp)
 {
