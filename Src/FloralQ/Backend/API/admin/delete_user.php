@@ -24,9 +24,12 @@ try {
         jsonError(400, "Cannot delete an admin. Demote first.");
     // 1. Obter os device_ids das plantas do utilizador
     $pdo->beginTransaction();
-    $stmt = $pdo->prepare("SELECT device_id FROM plant WHERE user_account_id = :id");
+
+    $stmt = $pdo->prepare("SELECT device_id, plant_image_path FROM plant WHERE user_account_id = :id");
     $stmt->execute(['id' => $target_id]);
-    $device_ids = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    $plants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $device_ids = array_column($plants, 'device_id');
+    $image_paths = array_filter(array_column($plants, 'plant_image_path'));
 
     // 2. Apagar leituras desses devices
     if ($device_ids) {
@@ -43,6 +46,14 @@ try {
     // 5. Apagar utilizador
     $pdo->prepare("DELETE FROM user_account WHERE user_account_id = :id")->execute(['id' => $target_id]);
     $pdo->commit();
+
+    // Apagar imagens do disco, se existirem
+    foreach ($image_paths as $image_path) {
+        $disk_path = __DIR__ . "/../../../Frontend/Assets/Uploads/" . $image_path;
+        if (file_exists($disk_path) && !unlink($disk_path)) {
+            error_log("Failed to delete plant image: $disk_path");
+        }
+    }
     echo json_encode(["success" => true]);
 } catch (PDOException $e) {
     if ($pdo->inTransaction()) {

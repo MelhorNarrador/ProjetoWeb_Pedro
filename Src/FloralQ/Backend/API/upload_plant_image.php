@@ -84,7 +84,9 @@ try {
     if ($plant['plant_image_path']) {
         $old_disk = "$uploads_root/" . $plant['plant_image_path'];
         if (file_exists($old_disk)) {
-            @unlink($old_disk);
+            if (!unlink($old_disk)) {
+                error_log("Failed to delete old plant image: $old_disk");
+            };
         }
     }
 

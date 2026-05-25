@@ -16,7 +16,7 @@ $plant_id = (int)$data["plant_id"];
 try {
     // Verifica que a planta existe e pertence ao utilizador
     $stmt = $pdo->prepare("
-        SELECT plant_id FROM plant
+        SELECT plant_id, plant_image_path FROM plant
         WHERE plant_id = :plant_id AND user_account_id = :user_id
     ");
     $stmt->execute([
@@ -24,7 +24,8 @@ try {
         "user_id" => $user["user_id"]
     ]);
 
-    if (!$stmt->fetch()) {
+    $plant = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$plant) {
         jsonError(404, "Plant not found or not owned by user");
     }
 
@@ -43,6 +44,13 @@ try {
     $stmt->execute(["plant_id" => $plant_id]);
 
     $pdo->commit();
+    // Apgar imagem di disco, quando exitir
+    if (!empty($plant['plant_image_path'])) {
+        $disk_path = __DIR__ . "/../../Frontend/Assets/Uploads/" . $plant['plant_image_path'];
+        if (file_exists($disk_path) && !unlink($disk_path)) {
+            error_log("Failed to delete plant image: $disk_path");
+        }
+    }
 
     echo json_encode(["success" => true, "message" => "Plant deleted successfully"]);
 } catch (PDOException $e) {

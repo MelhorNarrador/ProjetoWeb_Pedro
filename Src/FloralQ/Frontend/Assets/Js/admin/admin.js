@@ -502,3 +502,12 @@ attachDeviceActions();
 attachPlantActions();
 // Carrega a primeira tab
 switchTab("users");
+
+const sse = new EventSource("../../Backend/API/admin/sse_admin.php");
+sse.addEventListener("admin-update", () => {
+  // Descobre qual tab está ativa e chama o loader correspondente
+  const activeTab = document.querySelector(".admin-tab.active")?.dataset.tab;
+  if (activeTab && loaders[activeTab]) {
+    loaders[activeTab]();
+  }
+});
