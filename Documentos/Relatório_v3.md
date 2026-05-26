@@ -245,3 +245,69 @@ A arquitetura da FloralQ segue um modelo **Cliente-Servidor em quatro camadas**,
 | Ferramentas | VSCode, pgAdmin4, Postman, GitHub, Figma | Ferramentas standard de desenvolvimento |
 
 ---
+
+## 8. Base de Dados
+
+### 8.1 Diagrama Entidade-Relação (descrição)
+
+A base de dados PostgreSQL é composta por cinco tabelas
+[L3: Schema SQL](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/0104390cbb20322ac16dbacf3ea70c417e20a12e/Sql/Create2.0.sql)  
+
+### 8.2 Dicionário de Dados  
+
+#### Tabela user_account
+| Tabela | Campo | Tipo | Constraints | Descrição |
+|---|---|---|---|---|
+| `user_account` | `user_account_id` | SERIAL | PRIMARY KEY | Identificador único do utilizador |
+| `user_account` | `user_account_name` | VARCHAR(100) | NOT NULL | Nome de utilizador |
+| `user_account` | `user_account_email` | VARCHAR(255) | UNIQUE NOT NULL | Email de login |
+| `user_account` | `user_account_password_hash` | TEXT | NOT NULL | Hash da password |
+| `user_account` | `user_account_role` | VARCHAR(20) | CHECK IN ('user','admin') | Papel no sistema |
+| `user_account` | `user_account_email_verified` | BOOLEAN | DEFAULT FALSE | Flag de email confirmado |
+| `user_account` | `user_account_alert_threshold` | INT | DEFAULT 30 | Limiar de alerta (%) configurado |
+| `user_account` | `user_account_alert_email_enabled` | BOOLEAN | DEFAULT FALSE | Ativa alertas por email |
+| `user_account` | `user_account_chart_position` | VARCHAR(10) | CHECK IN ('card','modal') | Posição do gráfico de histórico |
+| `user_account` | `user_created_at` | TIMESTAMP | DEFAULT NOW() | Data de criação da conta |
+|---|---|---|---|---|  
+
+#### Tabela plant_type
+| Tabela | Campo | Tipo | Constraints | Descrição |
+| `plant_type` | `plant_type_id` | SERIAL | PRIMARY KEY | Identificador único do tipo |
+| `plant_type` | `plant_type_name` | VARCHAR(150) | NOT NULL | Nome da espécie |
+| `plant_type` | `plant_type_min_moisture` | INT | NOT NULL | Limiar mínimo de humidade (%) |
+| `plant_type` | `plant_type_max_moisture` | INT | NOT NULL, CHECK(min≤max) | Limiar máximo de humidade (%) |
+|---|---|---|---|---|  
+
+#### Tabela device
+| Tabela | Campo | Tipo | Constraints | Descrição |
+|---|---|---|---|---|
+| `device` | `device_id` | SERIAL | PRIMARY KEY | Identificador único do dispositivo |
+| `device` | `device_code` | VARCHAR(100) | UNIQUE NOT NULL | Identificador do ESP32 |
+| `device` | `device_is_professional` | BOOLEAN | DEFAULT FALSE | True se o dispositivo tem GPS |
+| `device` | `activation_code` | VARCHAR(10) | UNIQUE | Código de 8 chars para resgate |
+| `device` | `user_account_id` | INT | FK -> user_account | Utilizador proprietário |
+|---|---|---|---|---|  
+
+#### Tabela plant
+| Tabela | Campo | Tipo | Constraints | Descrição |
+| `plant` | `plant_id` | SERIAL | PRIMARY KEY | Identificador único da planta |
+| `plant` | `user_account_id` | INT | NOT NULL FK -> user_account | Dono da planta |
+| `plant` | `plant_type_id` | INT | NOT NULL FK -> plant_type | Espécie da planta |
+| `plant` | `device_id` | INT | UNIQUE FK -> device | Dispositivo ligado a planta |
+| `plant` | `plant_name` | VARCHAR(30) | NOT NULL | Nome dado pelo utilizador |
+| `plant` | `plant_location_label` | VARCHAR(50) | - | Etiqueta de localização |
+| `plant` | `plant_image_path` | VARCHAR(255) | - | Caminho relativo para imagem |
+| `plant` | `plant_is_grown` | BOOLEAN | DEFAULT FALSE | Define imagem no ecrã do dispositivo |
+| `plant` | `created_at` | TIMESTAMP | DEFAULT NOW() | Data de criação |
+|---|---|---|---|---|  
+
+#### Tabela sensor_reading
+| Tabela | Campo | Tipo | Constraints | Descrição |
+| `sensor_reading` | `sensor_reading_id` | SERIAL | PRIMARY KEY | Identificador único da leitura |
+| `sensor_reading` | `device_id` | INT | NOT NULL FK -> device | Dispositivo que gerou a leitura |
+| `sensor_reading` | `sensor_reading_moisture_percent` | INT | CHECK 0–100 | Percentagem de humidade |
+| `sensor_reading` | `sensor_reading_latitude` | DECIMAL(9,6) | NULLABLE | Latitude GPS |
+| `sensor_reading` | `sensor_reading_longitude` | DECIMAL(9,6) | NULLABLE | Longitude GPS |
+| `sensor_reading` | `sensor_reading_recorded_at` | TIMESTAMPTZ | DEFAULT NOW() | Timestamp com fuso horário |
+|---|---|---|---|---|  
+
