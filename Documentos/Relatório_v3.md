@@ -52,7 +52,7 @@ O desenvolvimento decorreu ao longo de **14 semanas**, organizado em quatro fase
 - **Fase 3 – Implementação** (7 semanas): implementação do backend, testes de API, algoritmo predictivo, implementação de Iot, mockups, design system, documentação intermedia e protótipo funcional.
 - **Fase 4 – Polimento** (3 semanas): implementação da UI final, backoffice, testes de usabilidade, refatoração de código e documentação final.
 Este documento agrega e atualiza os conteúdos das entregas anteriores, incorporando as melhorias sugeridas pela docente, e apresenta o estado final da solução  
-<img src="Imgs/Gantt_25_05.jpg" alt="Gantt 27/04" width="2000">
+<img src="Imgs/Gantt_25_05.jpg" alt="Gantt 25/05" width="2000">
 
 
 
