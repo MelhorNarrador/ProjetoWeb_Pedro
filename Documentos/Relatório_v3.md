@@ -172,3 +172,6 @@ O sistema da FloralQ tem cinco atores principais:
 - **Dispositivo IoT (ESP32):** Ator externo que envia leituras de humidade e GPS via API REST, sem autenticação de sessão.  
 
 <img src="Imgs/Use_Case_FloralQ_Updated.jpg" alt="Use Case Diagram" width="500">
+
+### 6.2 Modelo de Domínio  
+<img src="Imgs/Modelo_de_Domínio_FloralQ.jpg" alt="Use Case Diagram" width="500">
