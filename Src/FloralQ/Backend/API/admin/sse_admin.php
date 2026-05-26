@@ -51,7 +51,7 @@ while (true) {
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Assinatura concatenada: "5|12|34"
+        // Assinatura concatenada"
         $signature = "{$row['u']}|{$row['d']}|{$row['p']}";
 
         if ($signature !== $lastSignature) {

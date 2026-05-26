@@ -26,6 +26,7 @@ try {
         WHEN device.activation_code IS NOT NULL THEN device.activation_code
         ELSE EXCLUDED.activation_code
     END
+    RETURNING activation_code
     ");
 
     $stmt->execute([

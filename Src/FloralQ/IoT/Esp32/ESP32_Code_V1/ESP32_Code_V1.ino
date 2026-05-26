@@ -20,7 +20,7 @@
 // --- Configuração ---
 const char*   ssid           = WIFI_SSID;
 const char*   password       = WIFI_PASSWORD;
-const String  DEVICE_CODE    = "FloralQ-Home-002";
+const String  DEVICE_CODE    = "FloralQ-Professional/Home-001"; //Este device faz ambos os papeis, tem gps e ecrã
 const bool    IS_PROFESSIONAL = true;
 
 const char* serverReading  = "http://" SERVER_IP "/floralq/Backend/API/insert_reading.php";
