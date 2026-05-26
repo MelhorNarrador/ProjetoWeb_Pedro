@@ -428,8 +428,49 @@ A confiança é calculada com base em três fatores: número de leituras dispon�
 O algoritmo foi testado via Postman com dados simulados em PostgreSQL.
 Os resultados completos dos testes podem ser consultados no link abaixo. O ficheiro encontra-se ligeiramente desatualizado face à versão final do algoritmo, mas os resultados continuam a representar validamente o seu comportamento atual.  
 
-[Inserts dos testes](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/cf2ce973ab73eeee96d8087902bddb55d4d0169b/Sql/Inserts_teste_algoritmo.sql)
-[Resultados dos testes](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/cf2ce973ab73eeee96d8087902bddb55d4d0169b/Sql/insert_results.md)
+[L5: Inserts dos testes](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/cf2ce973ab73eeee96d8087902bddb55d4d0169b/Sql/Inserts_teste_algoritmo.sql)  
+[L6: Resultados dos testes](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/cf2ce973ab73eeee96d8087902bddb55d4d0169b/Sql/insert_results.md)  
 
 ---
 
+## 11. Dispositivos FloralQ Home e Professional
+
+A FloralQ oferece dois modelos de dispositivo físico, ambos baseados no microcontrolador ESP32, mas com hardware e propósito distintos. A escolha do modelo determina as funcionalidades disponíveis na plataforma web.
+
+### 11.1 FloralQ Home
+
+O **FloralQ Home** é o dispositivo destinado a utilizadores domésticos que querem monitorizar plantas em interior onde a localização GPS não é relevante.
+
+**Hardware:**
+| Componente | Modelo | Função |
+|---|---|---|
+| Microcontrolador | ESP32 | CPU principal, WiFi integrado |
+| Sensor de humidade | Capacitivo | Leitura da humidade do solo |
+| Ecrã | LCD 1.69" | Exibição da mascote animada |
+
+**Sem GPS**, a localização geográfica não é recolhida nem apresentada no dashboard.
+
+**Mascote animada:**
+O ecrã LCD exibe uma mascote estilo Tamagotchi que reflete visualmente o estado atual da planta, sem necessidade de aceder ao dashboard web. A mascote tem dez animações distintas, cobrindo todas as combinações de estado × crescimento:
+
+| Estado | Newborn | Grown |
+|---|---|---|
+| Healthy | ✅ | ✅ |
+| Dry | ✅ | ✅ |
+| Overwatered | ✅ | ✅ |
+| Recently Watered | ✅ | ✅ |
+| Sensor Offline | ✅ | ✅ |
+
+### Imagens da mascote FloralQ Home
+Para ver imagens animadas aceder a link abaixo:  
+[L7: Resultados dos testes](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/tree/d4ebe5f602dcdc2c4c754eee119d858b5208eff1/Documentos/Imgs/Mascote) 
+<img src="Imgs/Mascote/Grown_Healthy.gif" alt="Grown Healthy" width="200">
+<img src="Imgs/Mascote/Newborn_Healthy.gif" alt="Newborn Healthy" width="200">
+<img src="Imgs/Mascote/Grown_Overwatered.gif" alt="Grown Overwaterd" width="200">
+<img src="Imgs/Mascote/Newborn_Overwatered.gif" alt="Newborn Overwatered" width="200">
+<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="200">
+<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="200">
+<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="200">
+<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="200">
+<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="200">
+<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="200">
