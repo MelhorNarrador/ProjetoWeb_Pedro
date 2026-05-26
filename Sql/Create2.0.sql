@@ -34,8 +34,8 @@ CREATE TABLE plant (
     user_account_id INT NOT NULL REFERENCES user_account(user_account_id),
     plant_type_id INT NOT NULL REFERENCES plant_type(plant_type_id),
     device_id INT UNIQUE REFERENCES device(device_id),
-    plant_name VARCHAR(150) NOT NULL,
-    plant_location_label VARCHAR(150),
+    plant_name VARCHAR(30) NOT NULL,
+    plant_location_label VARCHAR(50),
     plant_image_path VARCHAR(255),
     plant_is_grown BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
