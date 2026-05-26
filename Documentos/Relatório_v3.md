@@ -386,3 +386,10 @@ O sistema utiliza SSE em dois contextos:
 
 ---
 
+## 10. Algoritmo Preditivo de Secagem
+
+### 10.1 Objetivo e Contexto
+
+O algoritmo preditivo é um dos elementos diferenciadores da FloralQ. Em vez de apenas alertar quando a planta **já está seca**, o sistema estima **quando vai secar**, permitindo ao utilizador agir de forma proativa.
+Ver apresentação abaixo para explicação dos calculos:
+[L4: Análise Estatística]([https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/0104390cbb20322ac16dbacf3ea70c417e20a12e/Sql/Create2.0.sql](https://canva.link/koj28fvdaczwtjb))  
