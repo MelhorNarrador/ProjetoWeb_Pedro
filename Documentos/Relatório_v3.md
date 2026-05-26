@@ -162,7 +162,7 @@ As personas e a user journey foram desenvolvidas com base numa investigação UI
 
 ### 6.1 Atores do Sistema
 
-O sistema da FloralQ tem quatro atores principais:
+O sistema da FloralQ tem cinco atores principais:
 
 - **Utilizador Anónimo:** Pode aceder à página de login, registar-se e criar uma conta.
 - **Utilizador Registado:** Pode gerir plantas, associar dispositivos, consultar o dashboard, configurar alertas, alterar palavra-passe e customizar modo de apresentação.
@@ -171,4 +171,4 @@ O sistema da FloralQ tem quatro atores principais:
 - **Sistema:** É responsável por emitir alertas automáticos (in-app e email) quando os limiares de humidade são ultrapassados.
 - **Dispositivo IoT (ESP32):** Ator externo que envia leituras de humidade e GPS via API REST, sem autenticação de sessão.  
 
-<img src="Imgs/Use_Case_FloralQ_Updated.jpg" alt="Use Case Diagram" width="2000">
+<img src="Imgs/Use_Case_FloralQ_Updated.jpg" alt="Use Case Diagram" width="1000">
