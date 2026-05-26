@@ -110,6 +110,6 @@ Para fundamentar o posicionamento da FloralQ, foram analisadas as principais sol
 
 | Plataforma | Tipo | Pontos Fortes | Pontos Fracos | Oportunidade para FloralQ |
 |---|---|---|---|---|
-| **Planta App** | App móvel | Interface intuitiva  recomendações personalizadas   identificação de espécies por imagem | Não utiliza sensores físicos; baseia-se exclusivamente em inputs manuais do utilizador; sem dados objetivos | Integração de sensores reais com dados automáticos, sem depender de input manual |
-| **Weenat** | Plataforma agro | Monitorização com sensores reais; dados ambientais detalhados (temperatura, humidade, chuva) | Foco exclusivo na agricultura profissional; sistema complexo e caro; interface pouco acessível ao utilizador comum | Solução mais simples, acessível e orientada ao utilizador doméstico e urbano |
-| **Greg App** | App móvel | Lembretes de rega baseados em espécie e localização | Sem sensores; baseado em calendário fixo, não em dados reais do solo | Dados reais do sensor substituem suposições baseadas em calendário |
+| **Planta App** | App móvel | Interface intuitiva  Recomendações personalizadas   Identificação de espécies por imagem | Não utiliza sensores físicos   Baseia-se exclusivamente em inputs manuais do utilizador   Sem dados objetivos | Integração de sensores reais com dados automáticos, sem depender de input manual |
+| **Weenat** | Plataforma agro | Monitorização com sensores reais   Dados ambientais detalhados (temperatura, humidade, chuva) | Foco exclusivo na agricultura profissional   sistema complexo e caro   interface pouco acessível ao utilizador comum | Solução mais simples, acessível e orientada ao utilizador doméstico e urbano |
+| **Greg App** | App móvel | Lembretes de rega baseados em espécie e localização | Sem sensores   Baseado em calendário fixo, não em dados reais do solo | Dados reais do sensor substituem suposições baseadas em calendário |
