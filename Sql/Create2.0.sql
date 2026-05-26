@@ -4,8 +4,13 @@ CREATE TABLE user_account (
     user_account_email VARCHAR(255) NOT NULL UNIQUE,
     user_account_password_hash TEXT NOT NULL,
     user_account_role VARCHAR(20) NOT NULL DEFAULT 'user',
+    user_account_email_verified BOOLEAN NOT NULL DEFAULT FALSE,
+    user_account_alert_threshold INT NOT NULL DEFAULT 30,
+    user_account_alert_email_enabled BOOLEAN NOT NULL DEFAULT FALSE,
+    user_account_chart_position VARCHAR(10) NOT NULL DEFAULT 'card',
     user_created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CHECK (user_account_role IN ('user','admin'))
+    CHECK (user_account_role IN ('user', 'admin')),
+    CHECK (user_account_chart_position IN ('card', 'modal'))
 );
 
 CREATE TABLE plant_type (
@@ -31,6 +36,7 @@ CREATE TABLE plant (
     device_id INT UNIQUE REFERENCES device(device_id),
     plant_name VARCHAR(150) NOT NULL,
     plant_location_label VARCHAR(150),
+    plant_image_path VARCHAR(255),
     plant_is_grown BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
