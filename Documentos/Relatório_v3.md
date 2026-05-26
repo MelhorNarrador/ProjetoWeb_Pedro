@@ -200,9 +200,48 @@ A arquitetura da FloralQ segue um modelo **Cliente-Servidor em quatro camadas**,
 - PHP + Apache (XAMPP, necessario para SSE(Workers))
 - API REST com endpoints de autenticação, CRUD, IoT e administração
 - Sessões PHP
-- Cookie protegido com HttpOnly = True, SameSite = Strict, Lifetime = 0
-- Prepared Statement em todos os endpoints para prevenir SQL Injection
+- Cookie protegido com `HttpOnly = True`, `SameSite = Strict`, `Lifetime = 0`
+- PDO com prepared statements em todos os endpoints para prevenção de SQL Injection
 - Operações destrutivas usam transações PDO para garantir integridade de dados
-- Endpoints privados protegidos pela função *RequireAuth* e *RequireAdmin* para endpoints de administrador
+- Endpoints privados protegidos por `RequireAuth` e `RequireAdmin` para endpoints de administrador
 - Server-Sent Events (SSE) para atualizações em tempo real no dashboard
-- Password com Hash Bcrypt
+- Password com Hash Bcrypt  
+
+**Base de Dados**
+- PostgreSQL com 5 tabelas
+- Acesso via PDO com prepared statements para prevenção de SQL Injection
+- Índice `idx_sensor_device_time` para otimização de queries temporais
+
+**Frontend Web**
+- HTML + CSS + JavaScript, sem frameworks
+- Gráficos: Chart.js (doughnut + linha)
+- Mapas: Google Maps iframe
+- Onboarding: Driver.js
+- Autenticação via sessão PHP server-side
+
+### 7.2 Padrões e Decisões de Arquitetura
+
+- **API REST sem estado (stateless exceto para sessão PHP):** Cada endpoint tem responsabilidade única, retorna sempre JSON.
+- **Separação de endpoints IoT e web:** Os endpoints IoT (`insert_reading.php`, `register_device.php`, `get_plant_state.php`) não requerem sessão PHP e validam apenas pelo `device_code` do dispositivo. Os endpoints web requerem sessão via `requireAuth()`.
+- **Server-Sent Events (SSE):** O dashboard usa `sse_plants.php` e o backoffice usa `sse_admin.php`, ambos verificando periodicamente alterações na base de dados e emitindo eventos sem necessidade de polling do frontend.
+- **Prepared statements PDO:** Em todos os acessos à base de dados, prevenindo SQL Injection.
+- **Bcrypt:** Para hash de passwords, com `password_hash()` / `password_verify()`.
+- **JS modular:** No frontend, com separação de responsabilidades: `apiClient.js`, `chartController.js`, `plantCard.js`, `modalManager.js`, `onboarding.js`, `toast.js`.
+
+### 7.3 Stack Tecnológica
+
+| Camada | Tecnologia | Justificação |
+|---|---|---|
+| Backend | PHP | Requisito do briefing   XAMPP necessário para suporte a SSE com Workers |
+| Base de Dados | PostgreSQL | Suporte a `SERIAL`, `TIMESTAMPTZ`, `DECIMAL`, `ON CONFLICT DO UPDATE`   Melhor para dados temporais |
+| Frontend | HTML + CSS + JavaScript | Sem framework, Requisito do briefing |
+| Gráficos | Chart.js | Suporta doughnut e line |
+| Mapas | Google Maps iframe | Integração via iframe com coordenadas GPS   Não requer API key |
+| Onboarding | Driver.js | Tour interativo passo a passo |
+| IoT | ESP32 (Arduino IDE) | Microcontrolador com WiFi integrado |
+| Sensor | Sensor de humidade | Necessario para medir humidade do solo |
+| GPS | Módulo GPS, TinyGPSPlus | Necessario para obter localização GPS |
+| Ecrã | LCD 1.69", TFT_eSPI | Display colorido para a mascote animada |
+| Ferramentas | VSCode, pgAdmin4, Postman, GitHub, Figma | Ferramentas standard de desenvolvimento |
+
+---
