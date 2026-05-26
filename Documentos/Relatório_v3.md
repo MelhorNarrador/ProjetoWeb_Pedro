@@ -1,8 +1,8 @@
-# FloralQ – Plataforma de Monitorização de Plantas
+# FloralQ - Plataforma de Monitorização de Plantas
 
 **Universidade Europeia / IADE**
-**Licenciatura em Engenharia Informática – Projeto de Desenvolvimento Web – 4.º Semestre (2025/2026)**  
-**Autor:** Pedro António – N.º 20241273  
+**Licenciatura em Engenharia Informática - Projeto de Desenvolvimento Web - 4.º Semestre (2025/2026)**  
+**Autor:** Pedro António - N.º 20241273  
 **GitHub**: [L1: Repositorio GitHub](https://github.com/MelhorNarrador/ProjetoWeb_Pedro)
 
 <img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="2000">
@@ -47,10 +47,10 @@ Este relatório documenta o desenvolvimento completo da **FloralQ**, uma platafo
 O projeto foi desenvolvido segundo a metodologia **Project-Based Learning (PBL)**, integrando as cinco unidades curriculares do semestre: Projeto de Desenvolvimento Web, Programação Web, Interfaces e Usabilidade, Estatística e Sistemas de Informação Geográficos, Algoritmos e Estruturas de Dados.
 
 O desenvolvimento decorreu ao longo de **14 semanas**, organizado em quatro fases:
-- **Fase 1 – Pesquisa pre-inicial** (1 semana1): definição do conceito, análise de mercado, público-alvo, e pre planeamento.
-- **Fase 2 – Conceitualização** (3 semanas): definição da arquitetura, desenvolvimento da base de dados(1.0), documentação e proposta da idea.
-- **Fase 3 – Implementação** (7 semanas): implementação do backend, testes de API, algoritmo predictivo, implementação de Iot, mockups, design system, documentação intermedia e protótipo funcional.
-- **Fase 4 – Polimento** (3 semanas): implementação da UI final, backoffice, testes de usabilidade, refatoração de código e documentação final.
+- **Fase 1 - Pesquisa pre-inicial** (1 semana1): definição do conceito, análise de mercado, público-alvo, e pre planeamento.
+- **Fase 2 - Conceitualização** (3 semanas): definição da arquitetura, desenvolvimento da base de dados(1.0), documentação e proposta da idea.
+- **Fase 3 - Implementação** (7 semanas): implementação do backend, testes de API, algoritmo predictivo, implementação de Iot, mockups, design system, documentação intermedia e protótipo funcional.
+- **Fase 4 - Polimento** (3 semanas): implementação da UI final, backoffice, testes de usabilidade, refatoração de código e documentação final.
 Este documento agrega e atualiza os conteúdos das entregas anteriores, incorporando as melhorias sugeridas pela docente, e apresenta o estado final da solução  
 <img src="Imgs/Gantt 25_05.jpg" alt="Gantt 25/05" width="2000">
 
@@ -113,3 +113,45 @@ Para fundamentar o posicionamento da FloralQ, foram analisadas as principais sol
 | **Planta App** | App móvel | Interface intuitiva  Recomendações personalizadas   Identificação de espécies por imagem | Não utiliza sensores físicos   Baseia-se exclusivamente em inputs manuais do utilizador   Sem dados objetivos | Integração de sensores reais com dados automáticos, sem depender de input manual |
 | **Weenat** | Plataforma agro | Monitorização com sensores reais   Dados ambientais detalhados (temperatura, humidade, chuva) | Foco exclusivo na agricultura profissional   sistema complexo e caro   interface pouco acessível ao utilizador comum | Solução mais simples, acessível e orientada ao utilizador doméstico e urbano |
 | **Greg App** | App móvel | Lembretes de rega baseados em espécie e localização | Sem sensores   Baseado em calendário fixo, não em dados reais do solo | Dados reais do sensor substituem suposições baseadas em calendário |
+
+### 4.2 Posicionamento da FloralQ
+
+A FloralQ diferencia-se por ser a única solução que combina, num produto acessível ao utilizador comum:
+
+1. **Sensores físicos de humidade** com leituras automáticas a cada 5 minutos.
+2. **Algoritmo preditivo** que estima quando a planta vai precisar de água (não apenas alerta quando já está seca).
+3. **Geolocalização GPS** para plantas em jardins ou espaços urbanos.
+4. **Interface web responsiva** com dashboard visual, sem necessidade de app móvel (Possivel implementação futura).
+5. **Mascote animada** no ecrã do dispositivo, que torna a interação intuitiva mesmo sem aceder ao dashboard.
+
+---
+
+## 5. Público-Alvo e User Research
+
+### 5.1 Segmentos de Utilizadores
+
+A FloralQ dirige-se a três perfis distintos, com necessidades e contextos de utilização diferentes.
+
+**Utilizadores Domésticos**
+- **Perfil demográfico:** todas as idades, estudantes ou profissionais, residentes em apartamentos ou moradias com plantas.
+- **Hábitos e comportamentos:** Compram plantas por estética e bem-estar, mas têm pouco conhecimento técnico sobre cuidados. Utilizam smartphone diariamente e estão confortáveis com apps web.
+- **Necessidade principal:** Saber quando regar sem ter de verificar manualmente todos os dias.
+- **Frustração atual:** Plantas que morrem por excesso ou falta de água, sem perceber porquê.
+
+**Jardins Privados e Hortas Domésticas**
+- **Perfil demográfico:** todas as idades, proprietários de jardins ou pequenas hortas.
+- **Hábitos e comportamentos:** Gerem múltiplas plantas de espécies diferentes, com necessidades de rega distintas. Preferem soluções práticas a aplicações complexas. Valorizam dados históricos para perceber padrões sazonais.
+- **Necessidade principal:** Gestão centralizada de múltiplas plantas com alertas.
+- **Frustração atual:** Impossibilidade de monitorizar todas as plantas ao mesmo tempo, especialmente em jardins maiores.
+
+**estores de Espaços Verdes Urbanos**
+- **Perfil demográfico:** 30-50 anos, técnicos de jardinagem ou gestores municipais responsáveis por parques e jardins urbanos.
+- **Hábitos e comportamentos:** Gerem dezenas de plantas. Precisam de relatórios e dados estatísticos para justificar decisões de manutenção. Trabalham com sistemas de informação geográfica.
+- **Necessidade principal:** Visualização da localização e estado de todas as plantas num mapa.
+- **Frustração atual:** Ausência de ferramentas acessíveis que integrem IoT com SIG.
+
+### 5.2 Personas e User Journey
+
+As personas e a user journey foram desenvolvidas com base numa investigação UI/UX que foi feita através de entrevistas a 3 participantes selecionados por conveniência(representantes do público alvo). As entrevistas recolheram dados sobre hábitos, motivações, frustrações e expectativas.  
+
+[Ver UX Case Study completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/1770febdf1bf600f499eba23e7a905e824d92ba5/Documentos/UI_Assets_%26_Design_System/FloralQ-User-Research.pdf)
