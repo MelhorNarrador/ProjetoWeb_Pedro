@@ -155,3 +155,20 @@ A FloralQ dirige-se a três perfis distintos, com necessidades e contextos de ut
 As personas e a user journey foram desenvolvidas com base numa investigação UI/UX que foi feita através de entrevistas a 3 participantes selecionados por conveniência(representantes do público alvo). As entrevistas recolheram dados sobre hábitos, motivações, frustrações e expectativas.  
 
 [L2: Ver UX Case Study completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/1770febdf1bf600f499eba23e7a905e824d92ba5/Documentos/UI_Assets_%26_Design_System/FloralQ-User-Research.pdf)
+
+---
+
+## 6. Casos de Uso e Modelo de Domínio
+
+### 6.1 Atores do Sistema
+
+O sistema da FloralQ tem quatro atores principais:
+
+- **Utilizador Anónimo:** Pode aceder à página de login, registar-se e criar uma conta.
+- **Utilizador Registado:** Pode gerir plantas, associar dispositivos, consultar o dashboard, configurar alertas, alterar palavra-passe e customizar modo de apresentação.
+- **Utilizador Registado com Dispositivo Profissional:** Tem acesso adicional à localização GPS da planta no mapa.
+- **Administrador:** Gere utilizadores, dispositivos e plantas através do backoffice; tem acesso ao dashboard estatístico.
+- **Sistema:** É responsável por emitir alertas automáticos (in-app e email) quando os limiares de humidade são ultrapassados.
+- **Dispositivo IoT (ESP32):** Ator externo que envia leituras de humidade e GPS via API REST, sem autenticação de sessão.  
+
+<img src="Imgs/Use_Case_FloralQ_Updated.jpg" alt="Use Case Diagram" width="2000">
