@@ -174,4 +174,35 @@ O sistema da FloralQ tem cinco atores principais:
 <img src="Imgs/Use_Case_FloralQ_Updated.jpg" alt="Use Case Diagram" width="500">
 
 ### 6.2 Modelo de Domínio  
-<img src="Imgs/Modelo_de_Domínio_FloralQ.jpg" alt="Use Case Diagram" width="1000">
+<img src="Imgs/Modelo_de_Domínio_FloralQ.jpg" alt="Use Case Diagram" width="1000">  
+
+O modelo de domínio representa cinco entidades centrais e as suas relações:
+
+- **User_Account:** Representa um utilizador registado. Tem um papel (user/admin), email, password hash, configurações de alerta e preferências de dashboard.
+- **Device:** Representa um sensor ESP32. Pertence a um User_Account (após resgate) e pode ser do tipo Home ou Professional (com GPS). Tem um código de ativação único usado no registo inicial(Depois de uso -> NULL).
+- **Plant:** Representa uma planta monitorizada. Pertence a um User_Account, está associada a um Device e tem um Plant_Type. Pode ter uma imagem.
+- **Plant_Type:** Catálogo de espécies com limiares de humidade mínimo e máximo.
+- **Sensor_Reading:** Cada leitura enviada pelo sensor. Contém percentagem de humidade, coordenadas GPS (opcionais) e timestamp. Está associada ao Device que a gerou.
+
+---
+
+## 7. Arquitetura e Tecnologias
+
+### 7.1 Arquitetura do Sistema
+
+A arquitetura da FloralQ segue um modelo **Cliente-Servidor em quatro camadas**, com comunicação HTTP entre todas as camadas:
+
+**Dispositivo IoT**
+- ESP32 + Sensor de humidade + Módulo GPS (Professional) + Ecrã LCD (Home)
+- Comunicação com o backend via HTTP POST (JSON) a cada 5 minutos
+  
+**Backend**
+- PHP + Apache (XAMPP, necessario para SSE(Workers))
+- API REST com endpoints de autenticação, CRUD, IoT e administração
+- Sessões PHP
+- Cookie protegido com HttpOnly = True, SameSite = Strict, Lifetime = 0
+- Prepared Statement em todos os endpoints para prevenir SQL Injection
+- Operações destrutivas usam transações PDO para garantir integridade de dados
+- Endpoints privados protegidos pela função *RequireAuth* e *RequireAdmin* para endpoints de administrador
+- Server-Sent Events (SSE) para atualizações em tempo real no dashboard
+- Password com Hash Bcrypt
