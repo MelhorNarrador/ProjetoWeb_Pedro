@@ -232,11 +232,11 @@ A arquitetura da FloralQ segue um modelo **Cliente-Servidor em quatro camadas**,
 
 | Camada | Tecnologia | Justificação |
 |---|---|---|
-| Backend | PHP | Requisito do briefing   XAMPP necessário para suporte a SSE com Workers |
-| Base de Dados | PostgreSQL | Suporte a `SERIAL`, `TIMESTAMPTZ`, `DECIMAL`, `ON CONFLICT DO UPDATE`   Melhor para dados temporais |
+| Backend | PHP | Requisito do briefing  XAMPP necessário para suporte a SSE com Workers |
+| Base de Dados | PostgreSQL | Suporte a `SERIAL`, `TIMESTAMPTZ`, `DECIMAL`, `ON CONFLICT DO UPDATE`  Melhor para dados temporais |
 | Frontend | HTML + CSS + JavaScript | Sem framework, Requisito do briefing |
 | Gráficos | Chart.js | Suporta doughnut e line |
-| Mapas | Google Maps iframe | Integração via iframe com coordenadas GPS   Não requer API key |
+| Mapas | Google Maps iframe | Integração via iframe com coordenadas GPS  Não requer API key |
 | Onboarding | Driver.js | Tour interativo passo a passo |
 | IoT | ESP32 (Arduino IDE) | Microcontrolador com WiFi integrado |
 | Sensor | Sensor de humidade | Necessario para medir humidade do solo |
