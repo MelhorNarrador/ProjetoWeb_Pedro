@@ -27,16 +27,15 @@ IoT, sensores ambientais, monitorização de plantas, geolocalização, dashboar
 8. [Base de Dados](#8-base-de-dados)
 9. [Documentação da API REST](#9-documentação-da-api-rest)
 10. [Algoritmo Preditivo de Secagem](#10-algoritmo-preditivo-de-secagem)
-11. [Sistema de Informação Geográfica](#11-sistema-de-informação-geográfica)
-12. [Hardware IoT - ESP32](#12-hardware-iot--esp32)
-13. [UI/UX - Design System e Interfaces](#13-uiux--design-system-e-interfaces)
-14. [User Flow e User Stories](#14-user-flow-e-user-stories)
-15. [Backoffice de Administração](#15-backoffice-de-administração)
-16. [Dashboard Estatístico](#16-dashboard-estatístico)
-17. [Testes de Usabilidade](#17-testes-de-usabilidade)
-18. [Planeamento e Execução](#18-planeamento-e-execução)
-19. [Contribuição por Unidade Curricular](#19-contribuição-por-unidade-curricular)
-20. [Conclusão](#20-conclusão)
+11. [Hardware IoT - ESP32](#11-hardware-iot--esp32)
+12. [UI/UX - Design System e Interfaces](#12-uiux--design-system-e-interfaces)
+13. [User Flow e User Stories](#13-user-flow-e-user-stories)
+14. [Backoffice de Administração](#14-backoffice-de-administração)
+15. [Dashboard Estatístico](#15-dashboard-estatístico)
+16. [Testes de Usabilidade](#16-testes-de-usabilidade)
+17. [Planeamento e Execução](#17-planeamento-e-execução)
+18. [Contribuição por Unidade Curricular](#18-contribuição-por-unidade-curricular)
+19. [Conclusão](#19-conclusão)
 
 ---
 
@@ -393,3 +392,44 @@ O sistema utiliza SSE em dois contextos:
 O algoritmo preditivo é um dos elementos diferenciadores da FloralQ. Em vez de apenas alertar quando a planta **já está seca**, o sistema estima **quando vai secar**, permitindo ao utilizador agir de forma proativa.
 Ver apresentação abaixo para explicação dos calculos:  
 [L4: Análise Estatística](https://canva.link/koj28fvdaczwtjb)
+
+**Passo 1 – Recolha de dados**
+As últimas 20 leituras do sensor são recolhidas por ordem cronológica, incluindo o limiar mínimo de humidade da espécie.  
+
+**Passo 2 – Filtragem de nulos**
+Leituras com humidade nula são descartadas. Se ficarem menos de 3 leituras, retorna `insufficient_data`.  
+
+**Passo 3 – Deteção de rega recente**
+Se a diferença entre as duas últimas leituras for ≥ 10%, a planta foi regada recentemente e não faz sentido prever secagem. Retorna `recently_watered` com a magnitude do salto.  
+
+**Passo 4 – Remoção de outliers (IQR)**
+Calcula os quartis Q1 e Q3 das leituras. Remove outliers fora do intervalo `[Q1 - 1.5×IQR, Q3 + 1.5×IQR]`. Isto torna o algoritmo robusto a picos de humidade causados por erros do sensor.  
+
+**Passo 5 – Regressão Linear (mínimos quadrados)**
+Usa o eixo temporal (segundos desde a primeira leitura) como variável independente X e a humidade como variável dependente Y. Calcula slope (m) e intercept (b) da reta Y = mX + b  
+
+**Passo 6 – Cálculo de R² (coeficiente de determinação)**
+Mede a qualidade do ajuste da reta. Um R² baixo indica dados inconsistentes.  
+
+**Passo 7 – Extrapolação temporal**
+Com slope negativo (humidade a descer), calcula o tempo em segundos até atingir o limiar mínimo da espécie.  
+
+**Passo 8 – Cálculo de confiança**
+A confiança é calculada com base em três fatores: número de leituras disponíveis, intervalo temporal coberto e R²:
+
+| Confiança | Critério |
+|---|---|
+| `high` | n ≥ 8 leituras E span ≥ 2h E R² ≥ 0.75 |
+| `medium` | n ≥ 5 leituras E span ≥ 1h |
+| `low` | Abaixo dos critérios anteriores |
+
+### 10.3 Resultados dos Testes
+
+O algoritmo foi testado via Postman com dados simulados em PostgreSQL.
+Os resultados completos dos testes podem ser consultados no link abaixo. O ficheiro encontra-se ligeiramente desatualizado face à versão final do algoritmo, mas os resultados continuam a representar validamente o seu comportamento atual.  
+
+[Inserts dos testes](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/cf2ce973ab73eeee96d8087902bddb55d4d0169b/Sql/Inserts_teste_algoritmo.sql)
+[Resultados dos testes](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/cf2ce973ab73eeee96d8087902bddb55d4d0169b/Sql/insert_results.md)
+
+---
+
