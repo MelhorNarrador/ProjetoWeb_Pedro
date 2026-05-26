@@ -309,5 +309,80 @@ A base de dados PostgreSQL é composta por cinco tabelas
 | `sensor_reading_longitude` | DECIMAL(9,6) | NULLABLE | Longitude GPS |
 | `sensor_reading_recorded_at` | TIMESTAMPTZ | DEFAULT NOW() | Timestamp com fuso horário |  
 
+### 8.4 Índices e Optimizações
 
+Foi criado o índice `idx_sensor_device_time`, que otimiza as queries mais frequentes do sistema, obtenção da última leitura de um dispositivo e listagem do histórico por intervalo de tempo. Sem este índice, cada consulta ao dashboard faria um full scan da tabela `sensor_reading`, que cresce 288 registos por dia por dispositivo (leitura a cada 5 minutos).
+
+---
+
+## 9. Documentação da API REST
+
+O backend da FloralQ é uma API REST implementada em PHP. A autenticação é feita via sessão PHP server-side. Os endpoints IoT não requerem sessão mas validam o `device_code`.  
+
+### 9.1 Convenções
+
+- Todos os endpoints retornam `Content-Type: application/json`.
+- Respostas de sucesso incluem sempre `{ "success": true, ... }`.
+- Respostas de erro incluem `{ "success": false, "message": }` com o código HTTP adequado.
+- Endpoints que requerem sessão retornam `401 Unauthorized` se a sessão não existir.
+- Endpoints admin retornam `403 Forbidden` se o utilizador não for admin.
+
+### 9.2 Autenticação
+
+| Método | Endpoint | Body (JSON) | Resposta | Descrição |
+|---|---|---|---|---|
+| POST | `/Auth/register.php` | `{ name, email, password }` | `{ success, message }` | Cria nova conta. Valida formato de email e password mínima de 6 chars. Retorna 409 se email já existir. |
+| POST | `/Auth/login.php` | `{ email, password }` | `{ success, user: { id, name, email, role } }` | Autentica o utilizador e cria sessão PHP. Mensagem de erro genérica (não revela se foi email ou password). |
+| POST | `/Auth/logout.php` | — | `{ success }` | Destrói a sessão atual. |
+
+### 9.3 Plantas e Dispositivos (requerem sessão)
+
+| Método | Endpoint | Parâmetros | Descrição |
+|---|---|---|---|
+| GET | `/API/get_user_plants.php` | — | Devolve todas as plantas do utilizador com última leitura, estado calculado (`healthy/dry/overwatered/no-data`), humidade normalizada e status do sensor (`online/offline`). |
+| GET | `/API/get_plant_types.php` | — | Lista todos os tipos de planta disponíveis. |
+| GET | `/API/get_user_devices.php` | — | Lista dispositivos do utilizador sem planta associada (para dropdown "Add Plant"). |
+| GET | `/API/get_user_predictions.php` | — | Calcula previsões de secagem para todos os dispositivos do utilizador. |
+| GET | `/API/get_location.php` | `?device_code=X` | Última localização GPS válida (não nula) do dispositivo. |
+| GET | `/API/get_readings_history.php` | `?device_code=X&range=24h\|week\|month\|year` | Histórico de leituras. Para 24h: dados brutos (até 288 pontos). Para semana/mês/ano: médias agregadas por hora/dia/mês. |
+| GET | `/API/get_user_info.php` | — | Dados da conta (nome, email, verificação, threshold de alerta, alertas por email, posição do gráfico). |
+| GET | `/API/sse_plants.php` | — | SSE: emite evento `plant-update` quando há novas leituras para os dispositivos do utilizador. Desencadeia `loadPlants()` no frontend. |
+| POST | `/API/create_plant.php` | `{ device_id, plant_type_id, plant_name, plant_location_label, plant_is_grown }` | Cria nova planta. Valida ownership do device. Devolve `plant_id` (usado em seguida para upload da imagem). |
+| POST | `/API/update_plant.php` | `{ plant_id, plant_name, plant_location_label, plant_type_id, plant_is_grown, remove_image? }` | Atualiza dados de uma planta existente. |
+| POST | `/API/delete_plant.php` | `{ plant_id }` | Apaga planta, leituras associadas e imagem do disco. Usa transação PDO. |
+| POST | `/API/redeem_device.php` | `{ activation_code }` | Associa dispositivo à conta do utilizador. NULL o `activation_code` após resgate. |
+| POST | `/API/upload_plant_image.php` | `multipart/form-data: { plant_id, image }` | Upload de imagem (JPG/PNG/WEBP, máx. 5MB). Valida MIME type pelos bytes do ficheiro. |
+| POST | `/API/change_password.php` | `{ current_password, new_password }` | Altera password verificando a atual. Nova password tem de ter no mínimo 6 caracteres. |
+| POST | `/API/update_user_settings.php` | `{ alert_threshold?, alert_email_enabled?, chart_position? }` | Atualiza settings. |
+| POST | `/API/confirm_email.php` | — | Marca email como verificado. |
+
+### 9.4 IoT (sem sessão)
+
+| Método | Endpoint | Body / Parâmetros | Descrição |
+|---|---|---|---|
+| POST | `/API/register_device.php` | `{ device_code, is_professional }` | Regista o dispositivo na BD e devolve `activation_code` único de 8 chars. Usa `ON CONFLICT DO UPDATE` para idempotência. |
+| POST | `/API/insert_reading.php` | `{ device_code, moisture, latitude?, longitude? }` | Insere leitura de humidade (0-100) e GPS opcional. Valida ranges: moisture 0-100, latitude -90 a 90, longitude -180 a 180. |
+| GET | `/API/get_plant_state.php` | `?device_code=X` | Estado atual da planta (`healthy/dry/overwatered/offline`) e flag `is_grown`. Usado pelo ESP32 para determinar a animação da mascote. |
+
+### 9.5 Admin (requerem sessão admin)
+
+| Método | Endpoint | Descrição |
+|---|---|---|
+| GET | `/API/admin/get_all_users.php` | Todos os utilizadores com contagem de plantas e dispositivos. |
+| GET | `/API/admin/get_all_devices.php` | Todos os dispositivos com dono e última leitura. |
+| GET | `/API/admin/get_all_plants.php` | Todas as plantas com dono e dispositivo. |
+| POST | `/API/admin/update_user_role.php` | Promove/revoga admin. Impede revogar o último admin e alterar a própria role. |
+| POST | `/API/admin/delete_user.php` | Apaga utilizador, plantas, leituras e imagens. Dispositivos ficam disponíveis (`user_account_id = NULL`) para serem resgatados por outros utilizadores (Activation code matem NULL). Impede eliminar a própria conta ou outros admins. |
+| POST | `/API/admin/delete_device.php` | Apaga dispositivo, planta associada e leituras. |
+| POST | `/API/admin/delete_plant.php` | Apaga planta e leituras, mantendo o dispositivo. |
+| GET | `/API/admin/sse_admin.php` | SSE: emite evento `admin-update` quando o número de utilizadores, dispositivos ou plantas muda. |
+
+### 9.6 Server-Sent Events (SSE)
+
+O sistema utiliza SSE em dois contextos:
+
+- **`sse_plants.php`:** Utilizado pelo dashboard do utilizador (requer sessão). Verifica a cada 5 segundos o timestamp máximo das leituras dos dispositivos do utilizador. Emite o evento `plant-update` quando há novas leituras, desencadeando `loadPlants()` no frontend. Encerra após 5 minutos, o `EventSource` nativo do browser reconecta automaticamente 3 segundos depois.
+- **`sse_admin.php`:** Utilizado pelo backoffice (requer sessão admin). Verifica contagens globais de utilizadores, dispositivos e plantas. Emite `admin-update` quando há alterações, atualizando a tab ativa do backoffice automaticamente. Encerra após 5 minutos, o `EventSource` nativo do browser reconecta automaticamente 3 segundos depois.
+
+---
 
