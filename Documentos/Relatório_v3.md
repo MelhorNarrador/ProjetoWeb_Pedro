@@ -455,22 +455,24 @@ O ecrã LCD exibe uma mascote estilo Tamagotchi que reflete visualmente o estado
 
 | Estado | Newborn | Grown |
 |---|---|---|
-| Healthy | ✅ | ✅ |
-| Dry | ✅ | ✅ |
-| Overwatered | ✅ | ✅ |
-| Recently Watered | ✅ | ✅ |
-| Sensor Offline | ✅ | ✅ |
+| Healthy | ✓ | ✓ |
+| Dry | ✓ | ✓ |
+| Overwatered | ✓ | ✓ |
+| Recently Watered | ✓ | ✓ |
+| Sensor Offline | ✓ | ✓ |
 
 ### Imagens da mascote FloralQ Home
 Para ver imagens animadas aceder a link abaixo:  
-[L7: Resultados dos testes](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/tree/d4ebe5f602dcdc2c4c754eee119d858b5208eff1/Documentos/Imgs/Mascote) 
+[L7: Imagens animadas da mascote](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/tree/d4ebe5f602dcdc2c4c754eee119d858b5208eff1/Documentos/Imgs/Mascote)  
+(Os gifs são 3 vezes mais lentos no dispositvo)  
+
 <img src="Imgs/Mascote/Grown_Healthy.gif" alt="Grown Healthy" width="200">
 <img src="Imgs/Mascote/Newborn_Healthy.gif" alt="Newborn Healthy" width="200">
 <img src="Imgs/Mascote/Grown_Overwatered.gif" alt="Grown Overwaterd" width="200">
 <img src="Imgs/Mascote/Newborn_Overwatered.gif" alt="Newborn Overwatered" width="200">
-<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="200">
-<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="200">
-<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="200">
-<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="200">
-<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="200">
-<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="200">
+<img src="Imgs/Mascote/Grown_Recently_Watered.gif" alt="Grown Recently Watered" width="200">
+<img src="Imgs/Mascote/Newborn_Recently_Watered.gif" alt="Newborn Recently Watered" width="200">
+<img src="Imgs/Mascote/Grown_Dry.gif" alt="Grown Dry" width="200">
+<img src="Imgs/Mascote/Newborn_Dry.gif" alt="Newborn Dry" width="200">
+<img src="Imgs/Mascote/Grown_Sensor_Offline.gif" alt="Grown Offline" width="200">
+<img src="Imgs/Mascote/Newborn_Sensor_Offline.gif" alt="Newborn Offline" width="200">
