@@ -545,10 +545,10 @@ Paleta de cores, tipografia, iconografia, componentes de UI e regras de utiliza√
 ## 14. User Flow Task Flow
 
 ### 14.1 User Flow Principal
-<img src="Imgs/Fluxo_Principal.jpg" alt="Fluxo Principal" width="500">  
+<img src="Imgs/Fluxo_Principal.jpg" alt="Fluxo Principal" width="200">  
 
 ### 14.2 User Flow Ver Detalhes de Planta
-<img src="Imgs/Fluxo_Detalhes_de_Planta.jpg" alt="Fluxo Principal" width="500">  
+<img src="Imgs/Fluxo_Detalhes_de_Planta.jpg" alt="Fluxo Principal" width="200">  
 
 ### 14.3 User Flow Account
 <img src="Imgs/Fluxo_Account.jpg" alt="Fluxo Principal" width="500">  
