@@ -500,7 +500,7 @@ No dashboard, o campo `device_is_professional` (booleano na base de dados) deter
 **Arranque (setup):**
 1. Inicializa o ecrã (apenas no FloralQ Home) e mostra fundo creme.
 2. Liga ao WiFi com as credenciais do ficheiro `secrets.h`.
-3. Chama `registarDevice()` -> POST `/register_device.php` com `device_code` e flag `is_professional`.
+3. Envia POST para `/register_device.php` com `device_code` e flag `is_professional`.
 4. O servidor gera e devolve o `activation_code` único de 8 caracteres.
 5. Faz a primeira leitura de humidade imediatamente.  
 
