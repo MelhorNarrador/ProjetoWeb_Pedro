@@ -694,8 +694,8 @@ O repositório GitHub foi organizado com **Releases correspondentes a cada entre
 ### Estrutura do Repositório Github
 | Pasta | conteúdo | 
 |---|---|
-| /Documentos | Relatórios (Individuais e de Projeto), PDF e .md, imagens, manual de utilizador e apresentações. |
+| /Documentos | Relatórios, PDF e .md, imagens, manual de utilizador e Ui Assets e Design Systems. |
 | /Src | Código da aplicação, Backend, Frontend e Iot. |
-| /sql | Ficheiros para creação da base de dados com, create, populate e queries de exemplo. |  
+| /sql | Ficheiro para creação da base de dados, create, e queries de exemplo. |  
 
 ---
