@@ -47,7 +47,7 @@ Este relatório documenta o desenvolvimento completo da **FloralQ**, uma platafo
 O projeto foi desenvolvido segundo a metodologia **Project-Based Learning (PBL)**, integrando as cinco unidades curriculares do semestre: Projeto de Desenvolvimento Web, Programação Web, Interfaces e Usabilidade, Estatística e Sistemas de Informação Geográficos, Algoritmos e Estruturas de Dados.
 
 O desenvolvimento decorreu ao longo de **14 semanas**, organizado em quatro fases:
-- **Fase 1 - Pesquisa pre-inicial** (1 semana1): definição do conceito, análise de mercado, público-alvo, e pre planeamento.
+- **Fase 1 - Pesquisa pre-inicial** (1 semana): definição do conceito, análise de mercado, público-alvo e pre planeamento.
 - **Fase 2 - Conceitualização** (3 semanas): definição da arquitetura, desenvolvimento da base de dados(1.0), documentação e proposta da idea.
 - **Fase 3 - Implementação** (7 semanas): implementação do backend, testes de API, algoritmo predictivo, implementação de Iot, mockups, design system, documentação intermedia e protótipo funcional.
 - **Fase 4 - Polimento** (3 semanas): implementação da UI final, backoffice, testes de usabilidade, refatoração de código e documentação final.
@@ -538,7 +538,7 @@ Análise de utilizadores, definição de personas, cenários de utilização, jo
 
 **Fase 2: Web Style Guide (Estrutura Funcional e Visual):**
 Paleta de cores, tipografia, iconografia, componentes de UI e regras de utilização do logótipo, em light mode e dark mode.  
-[L8: Ver UX Case Study completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/e7a31f7edbcca4e5e88ece463519e2215626b35a/Documentos/UI_Assets_%26_Design_System/FloralQ-Web_Style-Guide.pdf)  
+[L8: Ver Web Style Guide Completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/e7a31f7edbcca4e5e88ece463519e2215626b35a/Documentos/UI_Assets_%26_Design_System/FloralQ-Web_Style-Guide.pdf)  
 
 ---
 
@@ -631,7 +631,7 @@ A agregação é feita server-side com `DATE_TRUNC()` em PostgreSQL, que reduz o
 No âmbito do projeto FloralQ foram realizadas três sessões de teste de usabilidade com participantes representativos do público-alvo, recorrendo à metodologia Walkthrough combinada com o método Think Aloud.
 As sessões foram documentadas através de screen recording com captura de áudio.
 Para ver os testes de usabilidade completos, links para videos, analise detalhada dos resultados e Wireframes, aceder ao link abaixo:
-[L9: Ver UX Case Study completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/e7a31f7edbcca4e5e88ece463519e2215626b35a/Documentos/UI_Assets_%26_Design_System/FloralQ-Web_Style-Guide.pdf)  
+[L9: Ver Design e Testes de Usabilidade Completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/f1b497d2f2c0cfd3635087e0ef4a0cceb6209b72/Documentos/UI_Assets_%26_Design_System/FloralQ-User-Testing.pdf)  
 
 ### 17.2 Tarefas Testadas
 
@@ -654,4 +654,47 @@ Não foram identificados problemas críticos em nenhuma das três sessões. As o
 | Tarefa | Observação | Tipo |
 |---|---|---|
 | T2 | Ausência de elemento visual animado nos cards de planta | Cosmético |
-| T2 | A stats bar no topo do dashboard não é interativa o participante sugeriu poder clicar num stat card para filtrar as plantas com aquele estado | Usabilidade |
+| T2 | A stats bar no topo do dashboard não é interativa o participante sugeriu poder clicar num stat card para filtrar as plantas com aquele estado | Usabilidade |  
+
+---
+
+## 18. Planeamento e Execução
+
+### 18.1 Estrutura de Fases
+
+| Fase | Período | Duração | Entregáveis principais |
+|---|---|---|---|
+| Fase 1 - Conceitualização pre-inicial| Semana 1 a 4 | 4 semanas | Definição do conceito, análise de mercado, público-alvo, pre planeamento, definição da arquitetura, desenvolvimento da base de dados(1.0), documentação e proposta da idea. |
+| Fase 2 - Implementação e Prototipagem | Semana 5 a 11 | 7 semanas | Implementação do backend, testes de API, algoritmo predictivo, implementação de Iot, mockups, design system, documentação intermedia e protótipo funcional. |
+| Fase 3 - Polimento | Maio | Semana 11 a 15 | Implementação da UI final, backoffice, testes de usabilidade, refatoração de código, vídeo promocional, poster A3 documentação final. |
+
+### 18.2 Cronograma (Gráfico de Gantt)
+
+O cronograma do projeto foi planeado em 15 semanas, organizadas em quatro fases: Pré-Inicial, Inicial, Intermédia e Final. Cada tarefa foi alocada a um espaço de tempo específico.  
+
+### Gantt primeira entrega
+<img src="Imgs/Gantt 08_03.jpg" alt="Gantt 08/03" width="1000">  
+
+### Gantt segunda entrega
+<img src="Imgs/Gantt 27_04.jpg" alt="Gantt 27/04" width="1000">  
+
+### Gantt terceira entrega
+<img src="Imgs/Gantt 25_05.jpg" alt="Gantt 25/05 2" width="1000">
+
+### 18.3 Gestão de Tarefas
+
+A gestão das tarefas foi realizada no **Trello**, organizada num quadro (`To Do`, `In Progress`, `Partially Done`, `In Review`, `Done`). Cada cartão representava uma tarefa do projeto com checklists internos para as subtarefas.
+Para aceder ao quadro siga o link abaixo:
+[L10: Link Trello FloralQ](https://trello.com/invite/b/69b6fef23d35228514453d2d/ATTI70d71e7036fd54914ceb179fae5fb9a9C4B7031A/floralq)  
+<img src="Imgs/Captura_Trello.jpg" alt="Quadro Trello" width="100%">  
+
+O repositório GitHub foi organizado com **Releases correspondentes a cada entrega**, contendo o código-fonte separado dos entregáveis documentais e outros.  
+
+###Estrutura
+| Pasta | Conteudo | 
+|---|---|
+| /Documentos | Relatórios (Individuais e de Projeto), PDF e .md, imagens, manual de utilizador e apresentações. |
+| /Src | Código da aplicação, Backend, Frontend e Iot. |
+| /sql | Ficheiros para creação da base de dados com, create, populate e queries de exemplo. |  
+
+---
