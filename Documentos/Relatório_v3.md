@@ -26,13 +26,13 @@ IoT, sensores ambientais, monitorização de plantas, geolocalização, dashboar
 7. [Arquitetura e Tecnologias](#7-arquitetura-e-tecnologias)
 8. [Base de Dados](#8-base-de-dados)
 9. [Documentação da API REST](#9-documentação-da-api-rest)
-10. [Algoritmo Preditivo de Secagem](#10-algoritmo-preditivo-de-secagem)
+10. [Algoritmo Preditivo de Secagem e Análise Estatística](#10-algoritmo-preditivo-de-secagem-e-análise-estatística)
 11. [Dispositivos FloralQ Home e Professional](#11-dispositivos-floralq-home-e-professional)
 12. [Hardware IoT - ESP32](#12-hardware-iot---esp32)
 13. [UI/UX Design System e Interfaces](#13-uiux-design-system-e-interfaces)
 14. [User Task Flow e Diagrama de Informação](#14-user-task-flow-e-diagrama-de-informação)
 15. [Backoffice de Administração](#15-backoffice-de-administração)
-16. [Dashboard Estatístico](#16-dashboard-estatístico)
+16. [Dashboard](#16-dashboard)
 17. [Testes de Usabilidade](#17-testes-de-usabilidade)
 18. [Planeamento e Execução](#18-planeamento-e-execução)
 19. [Contribuição por Unidade Curricular](#19-contribuição-por-unidade-curricular)
@@ -386,7 +386,7 @@ O sistema utiliza SSE em dois contextos:
 
 ---
 
-## 10. Algoritmo Preditivo de Secagem
+## 10. Algoritmo Preditivo de Secagem e Análise Estatística
 
 ### 10.1 Objetivo e Contexto
 
@@ -455,7 +455,7 @@ O **FloralQ Home** é o dispositivo destinado a utilizadores domésticos que que
 O ecrã LCD exibe uma mascote estilo Tamagotchi que reflete visualmente o estado atual da planta, sem necessidade de aceder ao dashboard web. A mascote tem dez animações distintas, cobrindo todas as combinações de estado e crescimento  
 
 ### Imagens da mascote FloralQ Home
-Para ver imagens animadas aceder a link abaixo:  
+Para ver imagens animadas aceder ao link abaixo:  
 [L7: Imagens animadas da mascote](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/236ad555307fd4c7dee57b192ffe3c50482b5b53/Documentos/Imgs/Mascote/Mascotes.md)  
 (Os gifs são 3 vezes mais lentos no dispositvo)  
 
@@ -555,5 +555,103 @@ Paleta de cores, tipografia, iconografia, componentes de UI e regras de utiliza�
 <img src="Imgs/Fluxo_Account.jpg" alt="Fluxo Principal" width="1000">  
 
 ### 14.2 Diagrama de Informação
-<img src="Imgs/Diagrama_de_Informação.jpg" alt="Fluxo Principal" width="1000">  
+<img src="Imgs/Diagrama_de_Informação.jpg" alt="Diagrama de Informação" width="1000">   
 
+---
+
+## 15. Backoffice de Administração
+
+### 15.1 Estrutura
+
+O backoffice (`admin.php`) é acessível apenas a utilizadores com `role = 'admin'`. A verificação é feita server-side no PHP e em cada endpoint pelo middleware `requireAdmin()`.
+
+O backoffice está organizado em três tabs:
+
+**Tab Users:**
+- Tabela com todos os utilizadores (nome, email, role, data de criação, numero de plantas, numero de dispositivos).
+- Barra de pesquisa que filtra em tempo real por qualquer campo.
+- Ações por linha: Promote/Demote (com proteção contra revogar o último admin e contra alterar a própria conta) e Delete (desativado para admins e para a própria conta).
+
+**Tab Devices:**
+- Tabela com todos os dispositivos (device code, tipo Home/Pro, dono, activation code, última leitura, status online/offline).
+- Ação de Delete que remove dispositivo, planta associada e leituras.
+
+**Tab Plants:**
+- Tabela com todas as plantas do sistema (nome, tipo, dono, device code, humidade atual, data de criação).
+- Ação de Delete que remove a planta e as leituras, mantendo o dispositivo disponível.
+
+### 15.2 Atualizações em Tempo Real
+
+O backoffice utiliza `sse_admin.php`, que emite o evento `admin-update` sempre que o número de utilizadores, dispositivos ou plantas se altera. Ao receber o evento, o JavaScript recarrega automaticamente a tab ativa, mantendo os dados sempre atualizados.
+
+### 15.3 Segurança
+
+- Não é possível eliminar a própria conta.
+- Não é possível alterar o próprio role.
+- Não é possível revogar o último administrador do sistema.
+- Não é possível eliminar um utilizador admin (é necessário primeiro fazer demote).
+- Todas as ações destrutivas pedem confirmação via `confirm()`.
+
+---
+
+## 16. Dashboard
+
+### 16.1 Dados Apresentados
+
+O dashboard estatístico é composto por dois níveis de análise:
+
+**Nível 1:  Stats Bar (topo do dashboard):**
+Quatro indicadores calculados dinamicamente a cada refresh:
+- **Total de Plantas:** Contagem de plantas do utilizador.
+- **Plantas Saudáveis:** Plantas com `moisture_state = 'healthy'`.
+- **Precisam de Água:** Plantas com `moisture_state = 'dry'`.
+- **Encharcadas:** Plantas com `moisture_state = 'overwatered'`.
+
+O estado é calculado server-side em `get_user_plants.php` usando a função `getMoistureState()`, que normaliza a humidade absoluta para uma percentagem relativa ao range da espécie.  
+
+**Nível 2: Gráficos (por planta):**
+Cada planta tem um gráfico circular que apresenta a humidade atual da planta e de linhas que apresenta a evolução da humidade ao longo do tempo. Os dados são agregados conforme o intervalo selecionado:
+
+| Intervalo | Agregação | Máx. pontos | Descrição |
+|---|---|---|---|
+| 24h | Nenhuma | 288 | Uma leitura a cada 5 min |
+| Semana | Média por hora | 168 | Uma média por hora durante 7 dias |
+| Mês | Média diária | 30 | Uma média por dia durante 30 dias |
+| Ano | Média mensal | 12 | Uma média por mês durante 12 meses |
+
+A agregação é feita server-side com `DATE_TRUNC()` em PostgreSQL, que reduz o número de pontos enviados ao frontend (uma média por bucket em vez de todas as leituras individuais). Como `DATE_TRUNC` e `INTERVAL` recebem keywords sintáticas do PostgreSQL que não podem ser parametrizadas via prepared statements, o bucket e o intervalo são validados antes de entrarem na query através de uma whitelist hardcoded.  
+<img src="Imgs/Dasboard.jpg" alt="Dashboard" width="1000"> 
+
+---
+
+## 17. Testes de Usabilidade
+
+### 17.1 Metodologia  
+
+No âmbito do projeto FloralQ foram realizadas três sessões de teste de usabilidade com participantes representativos do público-alvo, recorrendo à metodologia Walkthrough combinada com o método Think Aloud.
+As sessões foram documentadas através de screen recording com captura de áudio.
+Para ver os testes de usabilidade completos, links para videos, analise detalhada dos resultados e Wireframes, aceder ao link abaixo:
+[L9: Ver UX Case Study completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/e7a31f7edbcca4e5e88ece463519e2215626b35a/Documentos/UI_Assets_%26_Design_System/FloralQ-Web_Style-Guide.pdf)  
+
+### 17.2 Tarefas Testadas
+
+1. Criar conta, aceder ao dashboard e seguir o tutorial de onboarding.
+2. Criar uma planta sem recorrer ao tutorial ou auxílios.
+3. Em mobile, definir threshhold de alerta para 30%.  
+
+### 17.3 Resultados Obtidos
+
+| Tarefa | Concluiu? | Tempo | Erros |
+|---|---|---|---|
+| T1 | Sim | 3:45min. | 0 |
+| T2 | Sim | 1:45min. | 0 |
+| T3 | Sim | 36seg. | 0 |  
+
+### 17.4 Problemas Identificados e Oportunidades de Melhoria  
+
+Não foram identificados problemas críticos em nenhuma das três sessões. As observações abaixo correspondem a oportunidades de melhoria, fundamentadas nos comportamentos e verbalizações dos participantes.
+
+| Tarefa | Observação | Tipo |
+|---|---|---|
+| T2 | Ausência de elemento visual animado nos cards de planta | Cosmético |
+| T2 | A stats bar no topo do dashboard não é interativa o participante sugeriu poder clicar num stat card para filtrar as plantas com aquele estado | Usabilidade |
