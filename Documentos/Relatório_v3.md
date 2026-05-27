@@ -3,8 +3,8 @@
 **Universidade Europeia / IADE**
 **Licenciatura em Engenharia Informática - Projeto de Desenvolvimento Web - 4.º Semestre (2025/2026)**  
 **Autor:** Pedro António - N.º 20241273  
-**GitHub**: [L1: Repositorio GitHub](https://github.com/MelhorNarrador/ProjetoWeb_Pedro)  
 **Relatório em .md** [L0: Relatório .md](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/28830ebeaeb4d51cfa95d8d259b0206d506aa8e8/Documentos/Relat%C3%B3rio_v3.md)  
+**GitHub**: [L1: Repositorio GitHub](https://github.com/MelhorNarrador/ProjetoWeb_Pedro)  
 
 <img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="2000">
 
@@ -792,6 +792,8 @@ A FloralQ encontra-se num estado que considero alinhado com o seu propósito ini
 ---
 
 ## 21. Links
+L0: Relatório .md -   
+(https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/28830ebeaeb4d51cfa95d8d259b0206d506aa8e8/Documentos/Relat%C3%B3rio_v3.md)  
 L1: Repositorio GitHub -   
 https://github.com/MelhorNarrador/ProjetoWeb_Pedro  
 L2: Ver UX Case Study completo -   
