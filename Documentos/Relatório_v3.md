@@ -551,4 +551,4 @@ Paleta de cores, tipografia, iconografia, componentes de UI e regras de utiliza√
 <img src="Imgs/Fluxo_Detalhes_de_Planta.jpg" alt="Fluxo Principal" width="400">  
 
 ### 14.3 User Flow Account
-<img src="Imgs/Fluxo_Account.jpg" alt="Fluxo Principal" width="500">  
+<img src="Imgs/Fluxo_Account.jpg" alt="Fluxo Principal" width="1000">  
