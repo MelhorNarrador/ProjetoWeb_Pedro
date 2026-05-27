@@ -684,14 +684,15 @@ O cronograma do projeto foi planeado em 15 semanas, organizadas em quatro fases:
 ### 18.3 Gestão de Tarefas
 
 A gestão das tarefas foi realizada no **Trello**, organizada num quadro (`To Do`, `In Progress`, `Partially Done`, `In Review`, `Done`). Cada cartão representava uma tarefa do projeto com checklists internos para as subtarefas.
-Para aceder ao quadro siga o link abaixo:
+Para aceder ao quadro siga o link abaixo:  
+
 [L10: Link Trello FloralQ](https://trello.com/invite/b/69b6fef23d35228514453d2d/ATTI70d71e7036fd54914ceb179fae5fb9a9C4B7031A/floralq)  
 <img src="Imgs/Captura_Trello.jpg" alt="Quadro Trello" width="100%">  
 
 O repositório GitHub foi organizado com **Releases correspondentes a cada entrega**, contendo o código-fonte separado dos entregáveis documentais e outros.  
 
 ###Estrutura
-| Pasta | Conteudo | 
+| Pasta | conteúdo | 
 |---|---|
 | /Documentos | Relatórios (Individuais e de Projeto), PDF e .md, imagens, manual de utilizador e apresentações. |
 | /Src | Código da aplicação, Backend, Frontend e Iot. |
