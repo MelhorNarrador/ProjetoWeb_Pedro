@@ -37,6 +37,7 @@ IoT, sensores ambientais, monitorização de plantas, geolocalização, dashboar
 18. [Planeamento e Execução](#18-planeamento-e-execução)
 19. [Contribuição por Unidade Curricular](#19-contribuição-por-unidade-curricular)
 20. [Conclusão](#20-conclusão)
+21. [Links](#21-links)
 
 ---
 
@@ -699,3 +700,106 @@ O repositório GitHub foi organizado com **Releases correspondentes a cada entre
 | /sql | Ficheiro para creação da base de dados, create, e queries de exemplo. |  
 
 ---
+
+## 19. Contribuição por Unidade Curricular
+
+### 19.1 Projeto de Desenvolvimento Web
+
+**Contribuição:** Este relatório e todo o desenvolvimento global do projeto,  planeamento do sistema, definição da arquitetura, integração entre hardware, backend e frontend, documentação técnica e organização do trabalho.  
+
+**Entregáveis:** Relatório técnico (Fases 1, 2 e 3), apresentações PDF, documentação de arquitetura.   
+
+### 19.2 Programação Web
+
+**Contribuição:** Desenvolvimento completo do backend PHP, incluindo todos os endpoints REST, middleware de sessão, Server-Sent Events. Desenvolvimento do frontend com HTML, CSS e JavaScript.
+
+**Entregáveis:** Código-fonte no GitHub (pasta `Src/`), documentação API REST (Ponto 9), schema da base de dados.  
+
+### 19.3 Interfaces e Usabilidade
+
+**Contribuição:** UX Case Study com entrevista, personas, user journey, user task flow e diagrama de informação. Web Style Guide com regras e definição de logótipo, paleta de cores,  tipografia, iconografia, textfields e inputs, seletores, botões, componentes UI e cards de plantas. Mockups e wireframes no Figma  (Mid-Fi e Hi-Fi). Testes de usabilidade com 5 participantes usando o método Think-Aloud e Walkthrough.
+
+**Entregáveis:** Documento UX Case Study (PDF), Web Style Guide (PDF), design e testes de usabilidade  
+Links:
+[L2: Ver UX Case Study completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/1770febdf1bf600f499eba23e7a905e824d92ba5/Documentos/UI_Assets_%26_Design_System/FloralQ-User-Research.pdf)  
+[L8: Ver Web Style Guide Completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/e7a31f7edbcca4e5e88ece463519e2215626b35a/Documentos/UI_Assets_%26_Design_System/FloralQ-Web_Style-Guide.pdf)  
+[L9: Ver Design e Testes de Usabilidade Completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/f1b497d2f2c0cfd3635087e0ef4a0cceb6209b72/Documentos/UI_Assets_%26_Design_System/FloralQ-User-Testing.pdf)  
+[L11: Ver Documento 3 Fases Completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/9d26273b36b0bb0bd9dfa84e303e6311fc190fe0/Documentos/UI_Assets_%26_Design_System/Documento_3_Fases_Completo.pdf)   
+[L12: Protótipo Figma Hi-FI](https://www.figma.com/proto/GiLb2rGhWcpfJnE8jnYILL/FloralQ-Mockup?node-id=45-2&p=f&t=bEdYHEH4cU2yoyTU-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1)  
+
+### 19.4 Estatística
+
+**Contribuição** Dashboard estatístico dinâmico com stats bar, gráficos de histórico com agregação por intervalo (24h/semana/mês/ano), e métricas do algoritmo preditivo (média, desvio-padrão, IQR, regressão linear, R² e previsão de secagem em horas).
+
+**Entregáveis:** Páginas de dashboard com componentes estatísticos, apresentação explicativa dos calculos aplicados.  
+Links:
+[L4: Análise Estatística](https://canva.link/koj28fvdaczwtjb)  
+
+### 19.5 Sistemas de Informação Geográficos
+
+**Contribuição:** Integração do módulo GPS no dispositivo ESP32, armazenamento de coordenadas na base de dados (`sensor_reading_latitude`, `sensor_reading_longitude`), endpoint `get_location.php` para obter a última posição válida, e visualização no dashboard via Google Maps iframe no modal de detalhes da planta.
+
+**Entregáveis:** Código IoT com integração GPS, endpoint de geolocalização, mapa no dashboard.  
+
+### 19.6 Algoritmos e Estruturas de Dados
+
+**Contribuição** Diagramas de casos de uso e modelo de domínio. Manipulação de arrays dinâmicos em `get_user_predictions.php` no backend. No frontend, `plantsCache` e `predictionsCache` para iteração, pesquisa e cálculo de estatísticas sem voltar a chamar o backend. Renderização dinâmica do grid de plantas no dashboard, onde cada card é construído a partir de um template clonado e populado com os dados do array de plantas. Definição do índice `idx_sensor_device_time` na tabela `sensor_reading`, uma estrutura de dados que indexa por `(device_id, sensor_reading_recorded_at DESC)` para acelerar as queries temporais mais frequentes do sistema.
+
+**Entregáveis:** Diagramas de casos de uso e modelo de domínio, Código relevante (manipulação de arrays dinâmicos e estruturas de dados): `get_user_predictions.php`, `dashboard.js`, `plantCard.js`, `admin.js`.
+
+---
+
+## 20. Conclusão
+
+### 20.1 Síntese do Trabalho Desenvolvido
+
+A **FloralQ** evoluiu de uma ideia para uma plataforma web funcional ao longo de 15 semanas. O produto final integra:
+
+- Um **backend PHP completo** com 30 endpoints REST, autenticação segura por sessão, middleware de autenticação, transações na base de dados, Server-Sent Events e prepared statements PDO.
+- Uma **base de dados PostgreSQL** com 5 tabelas, constraints, índices de performance e suporte a dados georreferenciados.
+- Um **frontend web responsivo** com dashboard interativo, gráficos Chart.js, mapas Google Maps, sistema de toasts e onboarding tour, 100% funcional em mobile.
+- Um **dispositivo IoT ESP32** com sensor de humidade, módulo GPS, ecrã LCD com mascote animada com 10 estados visuais.
+- Um **algoritmo preditivo** de regressão linear com filtragem de outliers, cálculo de R² e sistema de confiança de previsão.
+- Um **backoffice de administração** com gestão de utilizadores, dispositivos e plantas.
+
+### 20.2 Trabalho Futuro
+
+Para além das funcionalidades implementadas, identificam-se as seguintes oportunidades de evolução da plataforma:
+
+- **Envio de emails via PHP Mail:** Sistema completo de notificações por email para alertas de rega e recuperação de password (a flag `user_account_alert_email_enabled` já existe na base de dados, falta a integração com o serviço de email).
+- **Dark mode:** Tema escuro alternativo ao modo light atual.
+- **Reordenação de cards por drag and drop:** Permitir ao utilizador organizar visualmente as plantas no dashboard pela ordem que preferir, com persistência da posição.
+- **Diagnóstico de doenças por imagem:** Integração com a API Plant.id para identificar doenças nas plantas a partir das fotografias carregadas pelo utilizador.
+- **Menu de escolha de espécie de planta:** Substituir o dropdown atual por um seletor visual com imagens e descrição de cada espécie, facilitando a identificação ao criar uma nova planta.
+- **UI diferenciada para utilizadores Home e Professional:** Interface dedicada para utilizadores professionais com dispositivo profissional, centralizada num mapa global com pins de todas as plantas georreferenciadas, em vez de cards individuais.
+- **Aplicação móvel:** Desenvolvimento de uma app móvel para oferecer uma melhor experiência em smartphones, com notificações push nativas e possível sistema de comunidade entre utilizadores.
+- **Dashboard público:** Este ponto estaria incluido no sistema de comunidade da app mobile, permitindo a espaços verdes urbanos, partilharem o seu mapa interativo de todas as plantas georreferenciadas, por exemplo mapa interativo de todas as plantas georreferenciadas de um parque.
+
+
+### 20.3 Reflexão Final
+
+O desenvolvimento da **FloralQ** foi uma experiência de aprendizagem completa, que permitiu integrar de forma concreta os conteúdos de quase todas as unidades curriculares do semestre.  
+
+A maior complexidade técnica foi, sem dúvida, a **integração entre os três componentes do sistema** (hardware, backend e frontend). Não é a minha primeira experiência com estas tecnologias, a minha PAP do secundário também foi um website desenvolvido em PHP e JavaScript, mas nunca tinha trabalhado com **hardware IoT**, muito menos com este nível de integração entre componentes, nem tinha desenvolvido um projeto com este grau de complexidade de código nestas linguagens. Foi-me possível aprender bastante ao longo deste processo.
+Do ponto de vista de design, as **entrevistas ao público-alvo** foram fundamentais para identificar problemas que não seriam imediatamente lógicos para mim. Por exemplo, o feedback da Matilde sobre a sobrecarga de informação nos cards, que motivou a implementação do **Presentation Mode** e o design geral dos cards.  
+
+Como em qualquer projeto, existem **limitações conhecidas**. A deteção de rega recente, por exemplo, compara apenas a última e a penúltima leitura para identificar um salto de humidade. Esta abordagem não cobre o cenário em que a rega ocorre na antepenúltima leitura: se as duas mais recentes forem próximas entre si, o pico real pode ser removido pelo filtro de outliers, levando a uma previsão inválida. É um *edge case* identificado.  
+No entanto, fora destes casos pontuais, a plataforma funciona como esperado e o seu propósito foi **validado pelos testes com utilizadores reais**. O resultado é particularmente satisfatório por ter sido um **projeto individual**, integrando hardware, backend e frontend.
+
+A FloralQ encontra-se num estado que considero alinhado com o seu propósito inicial.
+
+---
+
+## 21. Links
+L1: Repositorio GitHub - https://github.com/MelhorNarrador/ProjetoWeb_Pedro  
+L2: Ver UX Case Study completo - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/1770febdf1bf600f499eba23e7a905e824d92ba5/Documentos/UI_Assets_%26_Design_System/FloralQ-User-Research.pdf  
+L3: Schema SQL - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/0104390cbb20322ac16dbacf3ea70c417e20a12e/Sql/Create2.0.sql  
+L4: Análise Estatística - https://canva.link/koj28fvdaczwtjb  
+L5: Inserts dos testes - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/cf2ce973ab73eeee96d8087902bddb55d4d0169b/Sql/Inserts_teste_algoritmo.sql  
+L6: Resultados dos testes - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/cf2ce973ab73eeee96d8087902bddb55d4d0169b/Sql/insert_results.md  
+L7 Imagens animadas da mascote - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/236ad555307fd4c7dee57b192ffe3c50482b5b53/Documentos/Imgs/Mascote/Mascotes.md  
+L8: Ver Web Style Guide Completo - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/e7a31f7edbcca4e5e88ece463519e2215626b35a/Documentos/UI_Assets_%26_Design_System/FloralQ-Web_Style-Guide.pdf)  
+L9: Ver Design e Testes de Usabilidade Completo - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/f1b497d2f2c0cfd3635087e0ef4a0cceb6209b72/Documentos/UI_Assets_%26_Design_System/FloralQ-User-Testing.pdf)  
+L10: Link Trello FloralQ - https://trello.com/invite/b/69b6fef23d35228514453d2d/ATTI70d71e7036fd54914ceb179fae5fb9a9C4B7031A/floralq  
+L11: Ver Documento 3 Fases Completo - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/9d26273b36b0bb0bd9dfa84e303e6311fc190fe0/Documentos/UI_Assets_%26_Design_System/Documento_3_Fases_Completo.pdf  
+L12: Protótipo Figma Hi-FI - https://www.figma.com/proto/GiLb2rGhWcpfJnE8jnYILL/FloralQ-Mockup?node-id=45-2&p=f&t=bEdYHEH4cU2yoyTU-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1  
