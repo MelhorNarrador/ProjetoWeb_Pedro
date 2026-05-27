@@ -109,7 +109,7 @@ A FloralQ diferencia-se por ser a única solução que combina, num produto aces
 
 ---
 
-# 5. Guiões de Teste
+# 7. Guiões de Teste
 
 ### Guião 1 – Registar uma planta
 
@@ -145,47 +145,35 @@ A FloralQ diferencia-se por ser a única solução que combina, num produto aces
 
 ---
 
-# 6. Descrição da Solução
+# 8. Descrição da Solução
 
-## 6.1 Enquadramento nas UCs
+## 8.1 Enquadramento nas UCs
 
-### Sistemas de Informação Geográficos
-A aplicação inclui integração com sistemas de informação geográfica para visualizar a localização das plantas num mapa.  
-Os dados de latitude e longitude recolhidos pelo sensor GPS são apresentados numa interface com mapa interativo, permitindo localizar cada planta e visualizar as leituras associadas.
+**Sistemas de Informação Geográficos**
+A aplicação incluirá integração com sistemas de informação geográfica para visualizar a localização das plantas num mapa. Os dados de latitude e longitude recolhidos pelo sensor GPS serão apresentados numa interface com mapa interativo, permitindo localizar cada planta e visualizar as leituras associadas.
 
-### Programação Web
-A lógica principal da aplicação é desenvolvida em **PHP**, responsável por:
-- gerir utilizadores e autenticação,
-- receber dados enviados pelo dispositivo IoT,
-- armazenar leituras na base de dados,
+**Programação Web**
+A lógica principal da aplicação será desenvolvida em **PHP**, responsável por:
+- gerir utilizadores e autenticação;
+- receber dados enviados pelo dispositivo IoT;
+- armazenar leituras na base de dados;
 - disponibilizar dados através de endpoints para o dashboard.
 
-### Interfaces e Usabilidade
-A interface web do sistema é desenvolvida com **HTML, CSS e JavaScript**, com foco numa experiência de utilização simples e intuitiva.  
-O dashboard apresenta informação relevante de forma clara.
+**Interfaces e Usabilidade**
+A interface web do sistema será desenvolvida com **HTML, CSS e JavaScript**, com foco numa experiência simples e intuitiva. O dashboard apresentará a informação relevante de forma clara, validada por testes de usabilidade na fase final do projeto.
 
-### Estatística
-Os dados recolhidos pelos sensores permitem realizar análises simples, como:
-- média de humidade do solo,
-- evolução temporal das leituras,
-- comparação com valores ideais definidos para cada tipo de planta.
+**Estatística**
+Os dados recolhidos pelos sensores permitirão realizar análises como média de humidade do solo, evolução temporal das leituras e comparação com valores ideais definidos para cada tipo de planta.
 
-Estas análises permitem interpretar o estado da planta ao longo do tempo.
+**Algoritmos e Estrutura de Dados**
+O sistema incluirá lógica de processamento de dados para interpretar as leituras dos sensores. A partir das leituras de humidade, serão aplicados algoritmos para detetar padrões e prever situações de secura, auxiliando na manutenção das plantas.
 
-### Algoritmos e Estrutura de Dados
-O sistema inclui lógica de processamento de dados para interpretar as leituras dos sensores.  
-A partir das leituras de humidade, podem ser aplicados algoritmos simples para detetar padrões ou prever situações de secura, auxiliando na manutenção das plantas.
-
-### Projeto de Desenvolvimento Web
-Esta unidade curricular estrutura o desenvolvimento global do projeto, incluindo:
-- planeamento do sistema,
-- definição da arquitetura da aplicação,
-- integração entre hardware, backend e interface web,
-- documentação e organização do trabalho.
+**Projeto de Desenvolvimento Web**
+Esta unidade curricular estrutura o desenvolvimento global do projeto, incluindo planeamento do sistema, definição da arquitetura, integração entre hardware, backend e interface web, e documentação técnica.
 
 ---
 
-## 6.2 Requisitos
+## 8.2 Requisitos
 
 ### Requisitos Funcionais
 
@@ -204,7 +192,7 @@ Esta unidade curricular estrutura o desenvolvimento global do projeto, incluindo
 
 ---
 
-## 6.3 Arquitetura
+## 8.3 Arquitetura
 
 A arquitetura do sistema segue um modelo simples de três camadas:
 
@@ -233,7 +221,7 @@ Esta arquitetura permite separar claramente as responsabilidades entre recolha d
 
 ---
 
-## 6.4 Tecnologias a Utilizar
+## 8.4 Tecnologias a Utilizar
 
 ### Backend
 - PHP   
@@ -259,7 +247,7 @@ Esta arquitetura permite separar claramente as responsabilidades entre recolha d
 
 ---
 
-# 7. Planeamento
+# 9. Planeamento
 
 ## Grafico de Gantt (08/03/2026)
 
@@ -267,7 +255,7 @@ Esta arquitetura permite separar claramente as responsabilidades entre recolha d
 
 ---
 
-# 8. Conclusão
+# 10. Conclusão
 
 A **FloralQ** pretende demonstrar como a integração de **tecnologias IoT com aplicações web** pode facilitar a monitorização de plantas e melhorar a sua manutenção.
 
