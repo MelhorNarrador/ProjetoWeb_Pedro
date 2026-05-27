@@ -250,7 +250,7 @@ A arquitetura da FloralQ segue um modelo **Cliente-Servidor em quatro camadas**,
 
 ### 8.1 Diagrama Entidade-Relação (descrição)
 
-A base de dados PostgreSQL é composta por cinco tabelas
+A base de dados PostgreSQL é composta por cinco tabelas  
 [L3: Schema SQL](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/0104390cbb20322ac16dbacf3ea70c417e20a12e/Sql/Create2.0.sql)  
 
 ### 8.2 Dicionário de Dados  
