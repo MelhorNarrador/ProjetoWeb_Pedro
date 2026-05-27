@@ -30,7 +30,7 @@ IoT, sensores ambientais, monitorização de plantas, geolocalização, dashboar
 11. [Dispositivos FloralQ Home e Professional](#11-dispositivos-floralq-home-e-professional)
 12. [Hardware IoT - ESP32](#12-hardware-iot---esp32)
 13. [UI/UX Design System e Interfaces](#13-uiux-design-system-e-interfaces)
-14. [User Task Flow](#14-user-task-flow-e-user-stories)
+14. [User Task Flow e Diagrama de Informação](#14-user-task-flow-e-diagrama-de-informação)
 15. [Backoffice de Administração](#15-backoffice-de-administração)
 16. [Dashboard Estatístico](#16-dashboard-estatístico)
 17. [Testes de Usabilidade](#17-testes-de-usabilidade)
@@ -542,13 +542,18 @@ Paleta de cores, tipografia, iconografia, componentes de UI e regras de utiliza�
 
 ---
 
-## 14. User Flow Task Flow
+## 14. User Flow Task Flow e Diagrama de Informação
 
-### 14.1 User Flow Principal
+### 14.1 User Task Flow 
+### User Flow Principal
 <img src="Imgs/Fluxo_Principal.jpg" alt="Fluxo Principal" width="400">  
 
-### 14.2 User Flow Ver Detalhes de Planta
+### User Flow Ver Detalhes de Planta
 <img src="Imgs/Fluxo_Detalhes_de_Planta.jpg" alt="Fluxo Principal" width="400">  
 
-### 14.3 User Flow Account
+### User Flow Account
 <img src="Imgs/Fluxo_Account.jpg" alt="Fluxo Principal" width="1000">  
+
+### 14.2 Diagrama de Informação
+<img src="Imgs/Diagrama_de_Informação.jpg" alt="Fluxo Principal" width="1000">  
+
