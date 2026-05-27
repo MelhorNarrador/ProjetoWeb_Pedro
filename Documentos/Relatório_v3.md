@@ -27,8 +27,8 @@ IoT, sensores ambientais, monitorização de plantas, geolocalização, dashboar
 8. [Base de Dados](#8-base-de-dados)
 9. [Documentação da API REST](#9-documentação-da-api-rest)
 10. [Algoritmo Preditivo de Secagem](#10-algoritmo-preditivo-de-secagem)
-11. [Hardware IoT - ESP32](#11-hardware-iot--esp32)
-12. [UI/UX - Design System e Interfaces](#12-uiux--design-system-e-interfaces)
+11. [Hardware IoT - ESP32](#11-hardware-iot-esp32)
+12. [UI/UX - Design System e Interfaces](#12-uiux-design-system-e-interfaces)
 13. [User Flow e User Stories](#13-user-flow-e-user-stories)
 14. [Backoffice de Administração](#14-backoffice-de-administração)
 15. [Dashboard Estatístico](#15-dashboard-estatístico)
@@ -464,4 +464,77 @@ Para ver imagens animadas aceder a link abaixo:
 | **Dry** | <img src="Imgs/Mascote/Newborn_Dry.gif" width="150"> | <img src="Imgs/Mascote/Grown_Dry.gif" width="150"> |
 | **Overwatered** | <img src="Imgs/Mascote/Newborn_Overwatered.gif" width="150"> | <img src="Imgs/Mascote/Grown_Overwatered.gif" width="150"> |
 | **Recently Watered** | <img src="Imgs/Mascote/Newborn_Recently_Watered.gif" width="150"> | <img src="Imgs/Mascote/Grown_Recently_Watered.gif" width="150"> |
-| **Sensor Offline** | <img src="Imgs/Mascote/Newborn_Sensor_Offline.gif" width="150"> | <img src="Imgs/Mascote/Grown_Sensor_Offline.gif" width="150"> |
+| **Sensor Offline** | <img src="Imgs/Mascote/Newborn_Sensor_Offline.gif" width="150"> | <img src="Imgs/Mascote/Grown_Sensor_Offline.gif" width="150"> |  
+
+### 11.2 FloralQ Professional
+
+O **FloralQ Professional** é o dispositivo destinado a jardins, hortas ou espaços verdes onde a localização georreferenciada das plantas é relevante.
+
+**Hardware:**
+| Componente | Modelo | Função |
+|---|---|---|
+| Microcontrolador | ESP32 | CPU principal, WiFi integrado |
+| Sensor de humidade | Capacitivo | Leitura da humidade do solo |
+| Módulo GPS | NEO-6M (UART) | Coordenadas de latitude/longitude |
+
+**Sem ecrã**, não tem display nem mascote. A interação é feita exclusivamente através do dashboard web, onde as coordenadas GPS são apresentadas num mapa Google Maps no modal de detalhes da planta.
+
+### 11.3 Comparação entre Modelos
+
+| Funcionalidade | FloralQ Home | FloralQ Professional |
+|---|---|---|
+| Sensor de humidade | ✓ | ✓ |
+| WiFi (envio de leituras) | ✓ | ✓ |
+| Ecrã com mascote animada | ✓ | ✕ |
+| Módulo GPS | ✕ | ✓ |
+| Mapa no dashboard | ✕ | ✓ |
+
+No dashboard, o campo `device_is_professional` (booleano na base de dados) determina se o mapa GPS é apresentado no modal de detalhes da planta.
+
+---
+
+## 12. Hardware IoT - ESP32
+
+### 12.1 Fluxo de Operação (comum a ambos os modelos)
+
+**Arranque (setup):**
+1. Inicializa o ecrã (apenas no FloralQ Home) e mostra fundo creme.
+2. Liga ao WiFi com as credenciais do ficheiro `secrets.h`.
+3. Chama `registarDevice()` -> POST `/register_device.php` com `device_code` e flag `is_professional`.
+4. O servidor gera e devolve o `activation_code` único de 8 caracteres.
+5. Faz a primeira leitura de humidade imediatamente.  
+
+**Loop principal (a cada 5 minutos):**
+1. Lê o sensor de humidade analógico e converte para percentagem:
+2. No **FloralQ Professional**, obtém coordenadas GPS do módulo NEO-6M via UART (se disponíveis).
+3. Envia leitura via POST `/insert_reading.php` (com ou sem coordenadas).
+4. Consulta o estado atual via GET `/get_plant_state.php`.
+5. No **FloralQ Home**, atualiza a animação da mascote conforme o estado recebido.  
+
+**Animação (FloralQ Home):**
+O loop desenha frames sem bloquear o processador, usando `millis()` para controlar o timing de cada frame. A transição de `DRY` para `HEALTHY` exibe automaticamente `RECENTLY_WATERED` durante 60 segundos, sinalizando ao utilizador que a rega foi bem-sucedida.  
+
+**GPS em background (FloralQ Professional):**
+O módulo NEO-6M comunica por UART. O parsing é feito pela biblioteca TinyGPSPlus em background durante o loop principal.
+As coordenadas só são incluídas na leitura se `gps.location.isValid()` retornar `true`.  
+
+### 12.2 Segurança IoT
+
+- As credenciais WiFi e o IP do servidor estão isoladas em `secrets.h`.
+- O `activation_code` é gerado no servidor com `random_bytes(4)` (8 chars hex) e apagado da base de dados após o resgate pelo utilizador.
+
+---
+
+## 13. UI/UX – Design System e Interfaces
+
+### 13.1 Processo de Design
+
+O processo de design foi documentado em dois momentos distintos:
+
+**Fase 1:  UX Case Study (Estratégia e Pesquisa):**
+Análise de utilizadores, definição de personas, cenários de utilização, jornada de utilizador e diagrama de informação.  
+[L2: Ver UX Case Study completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/1770febdf1bf600f499eba23e7a905e824d92ba5/Documentos/UI_Assets_%26_Design_System/FloralQ-User-Research.pdf)
+
+**Fase 2: Web Style Guide (Estrutura Funcional e Visual):**
+Paleta de cores, tipografia, iconografia, componentes de UI e regras de utilização do logótipo, em light mode e dark mode.  
+[L8: Ver UX Case Study completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/e7a31f7edbcca4e5e88ece463519e2215626b35a/Documentos/UI_Assets_%26_Design_System/FloralQ-Web_Style-Guide.pdf)
