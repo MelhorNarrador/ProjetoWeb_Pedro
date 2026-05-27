@@ -29,7 +29,7 @@ IoT, sensores ambientais, monitorização de plantas, geolocalização, dashboar
 10. [Algoritmo Preditivo de Secagem](#10-algoritmo-preditivo-de-secagem)
 11. [Hardware IoT - ESP32](#11-hardware-iot-esp32)
 12. [UI/UX - Design System e Interfaces](#12-uiux-design-system-e-interfaces)
-13. [User Flow e User Stories](#13-user-flow-e-user-stories)
+13. [User Flow](#13-user-flow)
 14. [Backoffice de Administração](#14-backoffice-de-administração)
 15. [Dashboard Estatístico](#15-dashboard-estatístico)
 16. [Testes de Usabilidade](#16-testes-de-usabilidade)
