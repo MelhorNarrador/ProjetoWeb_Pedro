@@ -691,7 +691,7 @@ Para aceder ao quadro siga o link abaixo:
 
 O repositório GitHub foi organizado com **Releases correspondentes a cada entrega**, contendo o código-fonte separado dos entregáveis documentais e outros.  
 
-###Estrutura
+### Estrutura
 | Pasta | conteúdo | 
 |---|---|
 | /Documentos | Relatórios (Individuais e de Projeto), PDF e .md, imagens, manual de utilizador e apresentações. |
