@@ -791,15 +791,27 @@ A FloralQ encontra-se num estado que considero alinhado com o seu propósito ini
 ---
 
 ## 21. Links
-L1: Repositorio GitHub - https://github.com/MelhorNarrador/ProjetoWeb_Pedro  
-L2: Ver UX Case Study completo - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/1770febdf1bf600f499eba23e7a905e824d92ba5/Documentos/UI_Assets_%26_Design_System/FloralQ-User-Research.pdf  
-L3: Schema SQL - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/0104390cbb20322ac16dbacf3ea70c417e20a12e/Sql/Create2.0.sql  
-L4: Análise Estatística - https://canva.link/koj28fvdaczwtjb  
-L5: Inserts dos testes - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/cf2ce973ab73eeee96d8087902bddb55d4d0169b/Sql/Inserts_teste_algoritmo.sql  
-L6: Resultados dos testes - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/cf2ce973ab73eeee96d8087902bddb55d4d0169b/Sql/insert_results.md  
-L7 Imagens animadas da mascote - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/236ad555307fd4c7dee57b192ffe3c50482b5b53/Documentos/Imgs/Mascote/Mascotes.md  
-L8: Ver Web Style Guide Completo - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/e7a31f7edbcca4e5e88ece463519e2215626b35a/Documentos/UI_Assets_%26_Design_System/FloralQ-Web_Style-Guide.pdf)  
-L9: Ver Design e Testes de Usabilidade Completo - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/f1b497d2f2c0cfd3635087e0ef4a0cceb6209b72/Documentos/UI_Assets_%26_Design_System/FloralQ-User-Testing.pdf)  
-L10: Link Trello FloralQ - https://trello.com/invite/b/69b6fef23d35228514453d2d/ATTI70d71e7036fd54914ceb179fae5fb9a9C4B7031A/floralq  
-L11: Ver Documento 3 Fases Completo - https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/9d26273b36b0bb0bd9dfa84e303e6311fc190fe0/Documentos/UI_Assets_%26_Design_System/Documento_3_Fases_Completo.pdf  
-L12: Protótipo Figma Hi-FI - https://www.figma.com/proto/GiLb2rGhWcpfJnE8jnYILL/FloralQ-Mockup?node-id=45-2&p=f&t=bEdYHEH4cU2yoyTU-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1  
+L1: Repositorio GitHub -   
+https://github.com/MelhorNarrador/ProjetoWeb_Pedro  
+L2: Ver UX Case Study completo -   
+https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/1770febdf1bf600f499eba23e7a905e824d92ba5/Documentos/UI_Assets_%26_Design_System/FloralQ-User-Research.pdf  
+L3: Schema SQL -   
+https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/0104390cbb20322ac16dbacf3ea70c417e20a12e/Sql/Create2.0.sql  
+L4: Análise Estatística -   
+https://canva.link/koj28fvdaczwtjb  
+L5: Inserts dos testes -   
+https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/cf2ce973ab73eeee96d8087902bddb55d4d0169b/Sql/Inserts_teste_algoritmo.sql  
+L6: Resultados dos testes -   
+https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/cf2ce973ab73eeee96d8087902bddb55d4d0169b/Sql/insert_results.md  
+L7 Imagens animadas da mascote -   
+https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/236ad555307fd4c7dee57b192ffe3c50482b5b53/Documentos/Imgs/Mascote/Mascotes.md  
+L8: Ver Web Style Guide Completo -   
+https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/e7a31f7edbcca4e5e88ece463519e2215626b35a/Documentos/UI_Assets_%26_Design_System/FloralQ-Web_Style-Guide.pdf)  
+L9: Ver Design e Testes de Usabilidade Completo -   
+https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/f1b497d2f2c0cfd3635087e0ef4a0cceb6209b72/Documentos/UI_Assets_%26_Design_System/FloralQ-User-Testing.pdf)  
+L10: Link Trello FloralQ -   
+https://trello.com/invite/b/69b6fef23d35228514453d2d/ATTI70d71e7036fd54914ceb179fae5fb9a9C4B7031A/floralq  
+L11: Ver Documento 3 Fases Completo -   
+https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/9d26273b36b0bb0bd9dfa84e303e6311fc190fe0/Documentos/UI_Assets_%26_Design_System/Documento_3_Fases_Completo.pdf  
+L12: Protótipo Figma Hi-FI -   
+https://www.figma.com/proto/GiLb2rGhWcpfJnE8jnYILL/FloralQ-Mockup?node-id=45-2&p=f&t=bEdYHEH4cU2yoyTU-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1  
