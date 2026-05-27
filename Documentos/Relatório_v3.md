@@ -30,7 +30,7 @@ IoT, sensores ambientais, monitorização de plantas, geolocalização, dashboar
 11. [Dispositivos FloralQ Home e Professional](#11-dispositivos-floralq-home-e-professional)
 12. [Hardware IoT - ESP32](#12-hardware-iot---esp32)
 13. [UI/UX Design System e Interfaces](#13-uiux-design-system-e-interfaces)
-14. [User Flow e User Stories](#14-user-flow-e-user-stories)
+14. [User Task Flow](#14-user-task-flow-e-user-stories)
 15. [Backoffice de Administração](#15-backoffice-de-administração)
 16. [Dashboard Estatístico](#16-dashboard-estatístico)
 17. [Testes de Usabilidade](#17-testes-de-usabilidade)
@@ -496,7 +496,7 @@ No dashboard, o campo `device_is_professional` (booleano na base de dados) deter
 
 ## 12. Hardware IoT - ESP32
 
-### 12.1 Fluxo de Operação (comum a ambos os modelos)
+### 12.1 Fluxo de Operação
 
 **Arranque (setup):**
 1. Inicializa o ecrã (apenas no FloralQ Home) e mostra fundo creme.
@@ -538,4 +538,17 @@ Análise de utilizadores, definição de personas, cenários de utilização, jo
 
 **Fase 2: Web Style Guide (Estrutura Funcional e Visual):**
 Paleta de cores, tipografia, iconografia, componentes de UI e regras de utilização do logótipo, em light mode e dark mode.  
-[L8: Ver UX Case Study completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/e7a31f7edbcca4e5e88ece463519e2215626b35a/Documentos/UI_Assets_%26_Design_System/FloralQ-Web_Style-Guide.pdf)
+[L8: Ver UX Case Study completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/e7a31f7edbcca4e5e88ece463519e2215626b35a/Documentos/UI_Assets_%26_Design_System/FloralQ-Web_Style-Guide.pdf)  
+
+---
+
+## 14. User Flow Task Flow
+
+### 14.1 User Flow Principal
+<img src="Imgs/Fluxo_Principal.jpg" alt="Fluxo Principal" width="1000">  
+
+### 14.2 User Flow Ver Detalhes de Planta
+<img src="Imgs/Fluxo_Detalhes_de_Planta.jpg" alt="Fluxo Principal" width="1000">  
+
+### 14.3 User Flow Account
+<img src="Imgs/Fluxo_Account.jpg" alt="Fluxo Principal" width="1000">  
