@@ -455,7 +455,7 @@ O ecrã LCD exibe uma mascote estilo Tamagotchi que reflete visualmente o estado
 
 ### Imagens da mascote FloralQ Home
 Para ver imagens animadas aceder a link abaixo:  
-[L7: Imagens animadas da mascote](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/tree/d4ebe5f602dcdc2c4c754eee119d858b5208eff1/Documentos/Imgs/Mascote)  
+[L7: Imagens animadas da mascote](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/236ad555307fd4c7dee57b192ffe3c50482b5b53/Documentos/Imgs/Mascote/Mascotes.md)  
 (Os gifs são 3 vezes mais lentos no dispositvo)  
 
 | Estado | Newborn | Grown |
