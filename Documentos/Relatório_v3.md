@@ -28,7 +28,7 @@ IoT, sensores ambientais, monitorização de plantas, geolocalização, dashboar
 9. [Documentação da API REST](#9-documentação-da-api-rest)
 10. [Algoritmo Preditivo de Secagem](#10-algoritmo-preditivo-de-secagem)
 11. [Dispositivos FloralQ Home e Professional](#11-dispositivos-floralq-home-e-professional)
-12. [Hardware IoT - ESP32](#12-hardware-iot-esp32)
+12. [Hardware IoT - ESP32](#12-hardware-iot--esp32)
 13. [UI/UX – Design System e Interfaces](#13-uiux--design-system-e-interfaces)
 14. [User Flow e User Stories](#14-user-flow-e-user-stories)
 15. [Backoffice de Administração](#15-backoffice-de-administração)
