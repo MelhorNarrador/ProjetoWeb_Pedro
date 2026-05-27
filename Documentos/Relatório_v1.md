@@ -17,8 +17,29 @@ IoT, sensores ambientais, monitorização de plantas, geolocalização, dashboar
 
 ---
 
-# 1. Descrição e Problema
+## 1. Introdução
 
+Este relatório apresenta a proposta inicial do projeto **FloralQ**, desenvolvido no âmbito da unidade curricular de Projeto de Desenvolvimento Web do 4.º semestre da Licenciatura em Engenharia Informática.
+
+A **FloralQ** é uma plataforma web de monitorização de plantas que combina **sensores IoT** (humidade do solo e GPS) com uma **aplicação web**, permitindo aos utilizadores acompanhar o estado das suas plantas em tempo real, prever necessidades de rega e geolocalizar plantas em jardins ou espaços urbanos.
+
+Esta primeira fase do projeto centra-se na **pesquisa e definição do conceito**: análise do problema, estudo do mercado, identificação do público-alvo, definição de requisitos e planeamento das tarefas a desenvolver ao longo do semestre.
+
+---
+
+## 2. Metodologia
+O projeto está estruturado em **Quatro fases**, cada uma com entregáveis específicos:
+
+- **Fase 1 - Pesquisa pre-inicial** (1 semana): definição do conceito, análise de mercado, público-alvo e pre planeamento.
+- **Fase 2 - Conceitualização** (3 semanas): definição da arquitetura, desenvolvimento da base de dados(1.0), documentação e proposta da idea.
+- **Fase 3 - Implementação** (7 semanas): implementação do backend, testes de API, algoritmo predictivo, implementação de Iot, mockups, design system, documentação intermedia e protótipo funcional.
+- **Fase 4 - Polimento** (3 semanas): implementação da UI final, backoffice, testes de usabilidade, refatoração de código e documentação final.
+
+Este relatório corresponde aos entregáveis da Fase 1.
+
+---
+
+## 3. Descrição e Problema
 O cuidado de plantas e espaços verdes é frequentemente baseado em observação manual e experiência empírica.  
 Muitas pessoas têm dificuldade em perceber **quando regar uma planta**, o que pode levar a problemas como excesso ou falta de água.
 Além disso, a monitorização de plantas em jardins ou espaços urbanos não é normalmente acompanhada por dados objetivos em tempo real.
@@ -27,9 +48,9 @@ A **FloralQ** pretende resolver este problema através de uma plataforma que com
 
 ---
 
-# 2. Objetivos & Motivação
+# 4. Objetivos & Motivação
 
-## Objetivos
+## 4.1 Objetivos
 
 - Desenvolver uma aplicação web para monitorização de plantas.
 - Integrar sensores IoT para recolha de dados.
@@ -38,7 +59,7 @@ A **FloralQ** pretende resolver este problema através de uma plataforma que com
 - Mostrar a localização da planta num mapa interativo.
 - Permitir a gestão de múltiplas plantas por utilizador.
 
-## Motivação
+## 4.2 Motivação
 
 Mesmo com o crescimento de **espaços verdes urbanos** e com o geral interesse por plantas domésticas, prova-se dificil encontrar uma plataforma que disponha de ferramentas tecnológicas que ajudem na manutenção correta de plantas de forma acessível.
 
@@ -46,29 +67,45 @@ O FloralQ pretende tornar a monitorização **mais precisa, automatizada e acess
 
 ---
 
-# 3. Público-alvo
+# 5. Público-alvo
 
-O projeto dirige-se a diferentes perfis de utilizadores:
+A FloralQ dirige-se a três perfis distintos, com necessidades e contextos de utilização diferentes.
 
-- **Utilizadores domésticos**  
- Pessoas com plantas em casa ou pequenos jardins,
+**Utilizadores Domésticos**
+- **Perfil demográfico:** todas as idades, estudantes ou profissionais, residentes em apartamentos ou moradias com plantas.
+- **Hábitos e comportamentos:** Compram plantas por estética e bem-estar, mas têm pouco conhecimento técnico sobre cuidados. Utilizam smartphone diariamente e estão confortáveis com apps web.
+- **Necessidade principal:** Saber quando regar sem ter de verificar manualmente todos os dias.
+- **Frustração atual:** Plantas que morrem por excesso ou falta de água, sem perceber porquê.
 
-- **Jardins privados**  
-  Proprietários que desejam monitorização mais precisa.
+**Jardins Privados e Hortas Domésticas**
+- **Perfil demográfico:** todas as idades, proprietários de jardins ou pequenas hortas.
+- **Hábitos e comportamentos:** Gerem múltiplas plantas de espécies diferentes, com necessidades de rega distintas. Preferem soluções práticas a aplicações complexas. Valorizam dados históricos para perceber padrões sazonais.
+- **Necessidade principal:** Gestão centralizada de múltiplas plantas com alertas.
+- **Frustração atual:** Impossibilidade de monitorizar todas as plantas ao mesmo tempo, especialmente em jardins maiores.
 
-- **Gestores de espaços verdes urbanos**  
-  Gestão de espaços verdes municipais.
+**Gestores de Espaços Verdes Urbanos**
+- **Perfil demográfico:** 30-50 anos, técnicos de jardinagem ou gestores municipais responsáveis por parques e jardins urbanos.
+- **Hábitos e comportamentos:** Gerem dezenas de plantas. Precisam de relatórios e dados estatísticos para justificar decisões de manutenção. Trabalham com sistemas de informação geográfica.
+- **Necessidade principal:** Visualização da localização e estado de todas as plantas num mapa.
+- **Frustração atual:** Ausência de ferramentas acessíveis que integrem IoT com SIG.
 
 ---
 
-# 4. Pesquisa de Mercado
+# 6. Pesquisa de Mercado
 
-| Plataforma | Pontos fortes | Pontos fracos | Oportunidade para FloraIQ |
-|------------|---------------|-----------|---------------------------|
-| Planta App | Interface intuitiva, Recomendações personalizadas, Identificação por imagem | Não utiliza sensores físicos, Baseia-se apenas em inputs manuais | Integração de sensores reais com dados automáticos |
-| Weenat | Monitorização com sensores reais, Dados ambientais detalhados | Foco exclusivo na agricultura profissional, Sistema complexo e pouco acessível ao utilizador comum | Solução mais simples e acessível |
+| Plataforma | Tipo | Pontos Fortes | Pontos Fracos | Oportunidade para FloralQ |
+|---|---|---|---|---|
+| **Planta App** | App móvel | Interface intuitiva  Recomendações personalizadas   Identificação de espécies por imagem | Não utiliza sensores físicos   Baseia-se exclusivamente em inputs manuais do utilizador   Sem dados objetivos | Integração de sensores reais com dados automáticos, sem depender de input manual |
+| **Weenat** | Plataforma agro | Monitorização com sensores reais   Dados ambientais detalhados (temperatura, humidade, chuva) | Foco exclusivo na agricultura profissional   sistema complexo e caro   interface pouco acessível ao utilizador comum | Solução mais simples, acessível e orientada ao utilizador doméstico e urbano |
+| **Greg App** | App móvel | Lembretes de rega baseados em espécie e localização | Sem sensores   Baseado em calendário fixo, não em dados reais do solo | Dados reais do sensor substituem suposições baseadas em calendário | 
 
-O **FloraIQ** diferencia-se por integrar **sensores físicos** num **sistema acessível** a **utilizadores domesticos e urbanos** permitindo monitorizar niveis de **humidade em tempo real** com **localização GPS**.
+A FloralQ diferencia-se por ser a única solução que combina, num produto acessível ao utilizador comum:
+
+1. **Sensores físicos de humidade** com leituras automáticas a cada 5 minutos.
+2. **Algoritmo preditivo** que estima quando a planta vai precisar de água (não apenas alerta quando já está seca).
+3. **Geolocalização GPS** para plantas em jardins ou espaços urbanos.
+4. **Interface web responsiva** com dashboard visual, sem necessidade de app móvel (Possivel implementação futura).
+5. **Mascote animada** no ecrã do dispositivo, que torna a interação intuitiva mesmo sem aceder ao dashboard.
 
 ---
 
