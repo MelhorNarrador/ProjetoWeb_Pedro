@@ -815,6 +815,6 @@ https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/f1b497d2f2c0cfd3635087e0
 L10: Link Trello FloralQ -   
 https://trello.com/invite/b/69b6fef23d35228514453d2d/ATTI70d71e7036fd54914ceb179fae5fb9a9C4B7031A/floralq  
 L11: Ver Documento 3 Fases Completo -   
-https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/9d26273b36b0bb0bd9dfa84e303e6311fc190fe0/Documentos/UI_Assets_%26_Design_System/Documento_3_Fases_Completo.pdf  
+https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/1c6bffdf1a960a4473ce05afd394958d52d09584/Documentos/UI_Assets_%26_Design_System/Documento_3_Fases_Completo.pdf  
 L12: Protótipo Figma Hi-FI -   
 https://www.figma.com/proto/GiLb2rGhWcpfJnE8jnYILL/FloralQ-Mockup?node-id=45-2&p=f&t=bEdYHEH4cU2yoyTU-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1  
