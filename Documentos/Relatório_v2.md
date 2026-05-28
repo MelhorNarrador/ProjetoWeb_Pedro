@@ -64,15 +64,12 @@ O frontend consome a mesma API para apresentar os dados ao utilizador.
 ## 5. User Flows e Wireframes
 
 ### 5.1 User Flow  
-![UserFlow](Imgs/UserflowFloralQ.jpg)
 
-O user flow ilustra a navegação completa da aplicação. Após o login, o utilizador chega ao dashboard onde pode:
+### User Flow Principal
+<img src="Imgs/Fluxo_Principal.jpg" alt="User Flow Principal" width="400">  
 
-Aceitar o tutorial e ser guiado pelo website *(funcionalidade prevista para a terceira entrega)*  
-Adicionar uma nova planta preenchendo nome, localização, tipo, idade e associando um dispositivo  
-Interagir com os cards de planta visualizando o gráfico de humidade, abrindo os detalhes e consultando o mapa GPS (caso o dispositivo tenha GPS)  
-Editar ou remover uma planta a partir do modal de detalhes  
-O ecrã do dispositivo apresenta uma mascote (estilo Tamagochi) cujo estado reflete o estado da planta, utilizado em dispositivos **FloralQ Home**  
+### User Flow Detalhes de Planta
+<img src="Imgs/Fluxo_Detalhes_de_Planta.jpg" alt="User Flow Detalhes de Planta" width="400">
 
 ### 5.2 User Stories / Storyboards  
   #### 5.2.1 Criar Conta / Criar Planta  
@@ -101,7 +98,7 @@ Flow:
 ## 6. Base de Dados  
 
 A base de dados foi implementada em PostgreSQL, gerida com pgAdmin4.  
-Schema: [Schema Base de Dados FloralQ](../Sql/Create1.0.sql)  
+Schema: [Schema Base de Dados FloralQ](../Sql/Create1.0.sql) **!Ficheiro já não existe!**  
 
 ### 6.2 Dicionário de Dados  
 
@@ -178,9 +175,8 @@ Os endpoints IoT não requerem sessão mas validam o device_code
 ### 7.4 Testes do Algoritmo Preditivo
 Os seguintes resultados foram obtidos via GET no Postman com dados simulados
 
-Inserts de teste: [Inserts DB Algoritmo FloralQ](../Sql/Inserts_teste_algoritmo.sql)  
-
-Resultados dos testes [Resultados DB Algoritmo FloralQ](../Sql/insert_results.md)  
+[Inserts dos testes](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/cf2ce973ab73eeee96d8087902bddb55d4d0169b/Sql/Inserts_teste_algoritmo.sql)  
+[Resultados dos testes](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/cf2ce973ab73eeee96d8087902bddb55d4d0169b/Sql/insert_results.md)   
 
 ---
 
