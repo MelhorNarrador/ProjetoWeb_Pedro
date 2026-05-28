@@ -622,7 +622,7 @@ Cada planta tem um gráfico circular que apresenta a humidade atual da planta e 
 | Ano | Média mensal | 12 | Uma média por mês durante 12 meses |
 
 A agregação é feita server-side com `DATE_TRUNC()` em PostgreSQL, que reduz o número de pontos enviados ao frontend (uma média por bucket em vez de todas as leituras individuais). Como `DATE_TRUNC` e `INTERVAL` recebem keywords sintáticas do PostgreSQL que não podem ser parametrizadas via prepared statements, o bucket e o intervalo são validados antes de entrarem na query através de uma whitelist hardcoded.  
-<img src="Imgs/Dasboard.jpg" alt="Dashboard" width="1000"> 
+<img src="Imgs/Dashboard.jpg" alt="Dashboard" width="1000"> 
 
 ---
 
