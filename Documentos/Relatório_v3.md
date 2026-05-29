@@ -676,7 +676,7 @@ Não foram identificados problemas críticos em nenhuma das três sessões. As o
 O cronograma do projeto foi planeado em 15 semanas, organizadas em quatro fases: Pré-Inicial, Inicial, Intermédia e Final. Cada tarefa foi alocada a um espaço de tempo específico.  
 
 ### Gantt primeira entrega
-<img src="Imgs/Gantt_08_03.jpg" alt="Gantt 08/03" width="1000">  
+<img src="Imgs/Gantt_08_03.png" alt="Gantt 08/03" width="1000">  
 
 ### Gantt segunda entrega
 <img src="Imgs/Gantt_27_04.jpg" alt="Gantt 27/04" width="1000">  
