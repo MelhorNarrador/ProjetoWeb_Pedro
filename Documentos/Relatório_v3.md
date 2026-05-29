@@ -39,7 +39,8 @@ IoT, sensores ambientais, monitorização de plantas, geolocalização, dashboar
 18. [Planeamento e Execução](#18-planeamento-e-execução)
 19. [Contribuição por Unidade Curricular](#19-contribuição-por-unidade-curricular)
 20. [Conclusão](#20-conclusão)
-21. [Links](#21-links)
+21. [Poster Promocional](#21-links)
+22. [Links](#22-links)
 
 ---
 
@@ -793,7 +794,14 @@ A FloralQ encontra-se num estado que considero alinhado com o seu propósito ini
 
 ---
 
-## 21. Links
+## 21. Poster Promocional
+[L14: Link para poster](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/dfc2d881ce1145e90d0e6773dbd3a7f409a9ee40/Documentos/Imgs/Poster/Poster%20FloralQ%20A3.png)
+
+<img src="Imgs//Poster/Poster%20FloralQ%20A3.png" alt="Poster A3" width="100%">  
+
+---
+
+## 22. Links
 L0: Relatório .md -   
 (https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/28830ebeaeb4d51cfa95d8d259b0206d506aa8e8/Documentos/Relat%C3%B3rio_v3.md)  
 L1: Repositorio GitHub -   
@@ -822,3 +830,5 @@ L12: Protótipo Figma Hi-FI -
 https://www.figma.com/proto/GiLb2rGhWcpfJnE8jnYILL/FloralQ-Mockup?node-id=45-2&p=f&t=bEdYHEH4cU2yoyTU-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1  
 L13: Manual de Utilizador -  
 https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/0654d91843d3018806611f0a10ec89404da1650b/Documentos/Manuais_De_Utilizador/Manual_de_Utilizador.md#15-resolu%C3%A7%C3%A3o-de-problemas   
+L14: Link para poster - 
+https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/dfc2d881ce1145e90d0e6773dbd3a7f409a9ee40/Documentos/Imgs/Poster/Poster%20FloralQ%20A3.png
