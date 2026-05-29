@@ -52,7 +52,7 @@ O projeto foi desenvolvido segundo a metodologia **Project-Based Learning (PBL)*
 O desenvolvimento decorreu ao longo de **14 semanas**, organizado em quatro fases:
 - **Fase 1 - Pesquisa pré-inicial** (1 semana): definição do conceito, análise de mercado, público-alvo e pré planeamento.
 - **Fase 2 - Conceitualização** (3 semanas): definição da arquitetura, desenvolvimento da base de dados(1.0), documentação e proposta da idea.
-- **Fase 3 - Implementação** (7 semanas): implementação do backend, testes de API, algoritmo predictivo, implementação de Iot, mockups, design system, documentação intermedia e protótipo funcional.
+- **Fase 3 - Implementação** (7 semanas): implementação do backend, testes de API, algoritmo predictivo, implementação de Iot, mockups, design system, documentação intermédia e protótipo funcional.
 - **Fase 4 - Polimento** (3 semanas): implementação da UI final, backoffice, testes de usabilidade, refatoração de código e documentação final.
 Este documento agrega e atualiza os conteúdos das entregas anteriores, incorporando as melhorias sugeridas pela docente, e apresenta o estado final da solução  
 <img src="Imgs/Gantt 25_05.jpg" alt="Gantt 25/05" width="2000">
