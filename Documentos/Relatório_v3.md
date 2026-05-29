@@ -797,7 +797,7 @@ A FloralQ encontra-se num estado que considero alinhado com o seu propósito ini
 ## 21. Poster Promocional
 [L14: Link para poster](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/dfc2d881ce1145e90d0e6773dbd3a7f409a9ee40/Documentos/Imgs/Poster/Poster%20FloralQ%20A3.png)
 
-<img src="Imgs//Poster/Poster%20FloralQ%20A3.png" alt="Poster A3" width="100%">  
+<img src="Imgs//Poster/Poster_FloralQ_A3.png" alt="Poster A3" width="100%">  
 
 ---
 
