@@ -50,7 +50,7 @@ Este relatório documenta o desenvolvimento completo da **FloralQ**, uma platafo
 O projeto foi desenvolvido segundo a metodologia **Project-Based Learning (PBL)**, integrando as cinco unidades curriculares do semestre: Projeto de Desenvolvimento Web, Programação Web, Interfaces e Usabilidade, Estatística e Sistemas de Informação Geográficos, Algoritmos e Estruturas de Dados.
 
 O desenvolvimento decorreu ao longo de **14 semanas**, organizado em quatro fases:
-- **Fase 1 - Pesquisa pre-inicial** (1 semana): definição do conceito, análise de mercado, público-alvo e pre planeamento.
+- **Fase 1 - Pesquisa pré-inicial** (1 semana): definição do conceito, análise de mercado, público-alvo e pré planeamento.
 - **Fase 2 - Conceitualização** (3 semanas): definição da arquitetura, desenvolvimento da base de dados(1.0), documentação e proposta da idea.
 - **Fase 3 - Implementação** (7 semanas): implementação do backend, testes de API, algoritmo predictivo, implementação de Iot, mockups, design system, documentação intermedia e protótipo funcional.
 - **Fase 4 - Polimento** (3 semanas): implementação da UI final, backoffice, testes de usabilidade, refatoração de código e documentação final.
