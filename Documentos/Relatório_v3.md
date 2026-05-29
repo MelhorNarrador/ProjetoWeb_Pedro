@@ -141,13 +141,13 @@ A FloralQ dirige-se a três perfis distintos, com necessidades e contextos de ut
 - **Necessidade principal:** Saber quando regar sem ter de verificar manualmente todos os dias.
 - **Frustração atual:** Plantas que morrem por excesso ou falta de água, sem perceber porquê.
 
-**Jardins Privados e Hortas Domésticas**
+**proprietários de Jardins Privados e Hortas Domésticas**
 - **Perfil demográfico:** todas as idades, proprietários de jardins ou pequenas hortas.
 - **Hábitos e comportamentos:** Gerem múltiplas plantas de espécies diferentes, com necessidades de rega distintas. Preferem soluções práticas a aplicações complexas. Valorizam dados históricos para perceber padrões sazonais.
 - **Necessidade principal:** Gestão centralizada de múltiplas plantas com alertas.
 - **Frustração atual:** Impossibilidade de monitorizar todas as plantas ao mesmo tempo, especialmente em jardins maiores.
 
-**estores de Espaços Verdes Urbanos**
+**Gestores de Espaços Verdes Urbanos**
 - **Perfil demográfico:** 30-50 anos, técnicos de jardinagem ou gestores municipais responsáveis por parques e jardins urbanos.
 - **Hábitos e comportamentos:** Gerem dezenas de plantas. Precisam de relatórios e dados estatísticos para justificar decisões de manutenção. Trabalham com sistemas de informação geográfica.
 - **Necessidade principal:** Visualização da localização e estado de todas as plantas num mapa.
@@ -155,7 +155,7 @@ A FloralQ dirige-se a três perfis distintos, com necessidades e contextos de ut
 
 ### 5.2 Personas e User Journey
 
-As personas e a user journey foram desenvolvidas com base numa investigação UI/UX que foi feita através de entrevistas a 3 participantes selecionados por conveniência(representantes do público alvo). As entrevistas recolheram dados sobre hábitos, motivações, frustrações e expectativas.  
+As personas e a user journey foram desenvolvidas com base numa investigação UI/UX que foi feita através de entrevistas a 3 participantes selecionados por conveniência (representantes do público alvo). As entrevistas recolheram dados sobre hábitos, motivações, frustrações e expectativas.  
 
 [L2: Ver UX Case Study completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/1770febdf1bf600f499eba23e7a905e824d92ba5/Documentos/UI_Assets_%26_Design_System/FloralQ-User-Research.pdf)
 
@@ -455,7 +455,7 @@ O **FloralQ Home** é o dispositivo destinado a utilizadores domésticos que que
 **Sem GPS**, a localização geográfica não é recolhida nem apresentada no dashboard.
 
 **Mascote animada:**
-O ecrã LCD exibe uma mascote estilo Tamagotchi que reflete visualmente o estado atual da planta, sem necessidade de aceder ao dashboard web. A mascote tem dez animações distintas, cobrindo todas as combinações de estado e crescimento  
+O ecrã LCD exibe uma mascote estilo Tamagotchi que reflete visualmente o estado atual da planta, sem necessidade de aceder ao dashboard web. A mascote foi pensada e produzida com dez animações distintas, para cobrir todas as combinações de estado e crescimento  
 
 ### Imagens da mascote FloralQ Home
 Para ver imagens animadas aceder ao link abaixo:  
