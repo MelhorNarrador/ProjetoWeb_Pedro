@@ -285,6 +285,52 @@ Para alterar:
 Será redirecionado para a página de login.
 
 **Ecrã de referência (menu de definições):**
-<img src="../Imgs/ecrãs/Account_Modal_FloralQ.jpg" alt="Account Modal" width="2000">
+<img src="../Imgs/ecrãs/Settings_FloralQ.jpg" alt="Settings" width="2000">
+
+---
+
+## 14. Boas práticas
+
+- **Imagens das plantas:** Adicione uma fotografia para facilitar a identificação visual no dashboard. 
+- **Tipo de planta:** Escolha o tipo correto, define os limiares de humidade ideais e afeta a precisão dos alertas.
+- **Limiar de alerta:** Valores entre 25% e 30% são adequados para a maioria das plantas.
+- **Confiança da previsão:** previsões com confiança **High** são as mais fiáveis. Previsões **Low** podem indicar dados ainda insuficientes, aguarde mais algumas horas de leituras.
+- **Ativação de Dispositivo:** Antes de ligar o seu disposiivo insira-o na sua planta para a primeira leitura ser válida, o dispositvo envia imediatamente uma leitura ao ligar.
+
+---
+
+## 15. Resolução de problemas
+
+**O card da planta não mostra dados de humidade**
+- Confirme que o dispositivo está ligado e à rede WiFi.
+- O sensor faz leituras a cada 5 minutos, aguarde alguns minutos após adicionar a planta.
+- Se aparecer "Sensor Offline" no card, verifique a ligação do dispositivo.
+
+**Não consigo resgatar o dispositivo**
+- Confirme que está a inserir o código exatamente como aparece (sem espaços).
+- Cada código só pode ser usado uma vez. Se o código já foi usado, contacte o suporte.
+
+**Não consigo criar conta**
+- Verifique se o email já está registado.
+- A palavra-passe tem de ter no mínimo 6 caracteres.
+- Verifique se as duas palavras-passe coincidem.
+
+**Não consigo iniciar sessão**
+- Confirme que está a usar o email correto.
+- Verifique maiúsculas/minúsculas na palavra-passe.
+- Se esqueceu a palavra-passe, clique em "Forgot Password?".
+
+**A previsão mostra "Not enough data"**
+- É necessário pelo menos 3 leituras válidas para gerar uma previsão.
+- Aguarde alguns minutos para acumular dados suficientes.
+
+**O mapa GPS não aparece no modal de detalhes**
+- O mapa só está disponível para dispositivos do tipo **FloralQ Professional**.
+- O dispositivo precisa de ter pelo menos uma leitura GPS válida (com sinal).
+- Para obter uma leitura GPS, garanta que o sensor tem uma vista desimpedida do céu.
+
+**Os alertas não chegam por email**
+- Confirme que ativou a opção "Also send email alerts" em Account -> Alerts.
+- Confirme que o email da conta é o seu.
 
 ---
