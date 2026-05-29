@@ -124,7 +124,7 @@ A FloralQ diferencia-se por ser a única solução que combina, num produto aces
 1. **Sensores físicos de humidade** com leituras automáticas a cada 5 minutos.
 2. **Algoritmo preditivo** que estima quando a planta vai precisar de água (não apenas alerta quando já está seca).
 3. **Geolocalização GPS** para plantas em jardins ou espaços urbanos.
-4. **Interface web responsiva** com dashboard visual, sem necessidade de app móvel (Possivel implementação futura).
+4. **Interface web responsiva** com dashboard visual, sem necessidade de app móvel (Possível implementação futura).
 5. **Mascote animada** no ecrã do dispositivo, que torna a interação intuitiva mesmo sem aceder ao dashboard.
 
 ---
