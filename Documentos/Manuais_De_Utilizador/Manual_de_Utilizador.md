@@ -66,6 +66,6 @@ Dentro da plataforma consegue:
 4. Será redirecionado para a página de login para iniciar sessão.  
 
 **Ecrã de referência:**  
-<img src="Documentos/Imgs/ecr%C3%A3s/Register_FloralQ.jpg" alt="Regsiter" width="2000">
+<img src="Documentos/Imgs/ecrãs/Register_FloralQ.jpg" alt="Regsiter" width="2000">
 
 ---
