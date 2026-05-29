@@ -571,7 +571,7 @@ O backoffice (`admin.php`) é acessível apenas a utilizadores com `role = 'admi
 O backoffice está organizado em três tabs:
 
 **Tab Users:**
-- Tabela com todos os utilizadores (nome, email, role, data de criação, numero de plantas, numero de dispositivos).
+- Tabela com todos os utilizadores (nome, email, role, data de criação, número de plantas, número de dispositivos).
 - Barra de pesquisa que filtra em tempo real por qualquer campo.
 - Ações por linha: Promote/Demote (com proteção contra revogar o último admin e contra alterar a própria conta) e Delete (desativado para admins e para a própria conta).
 
@@ -633,7 +633,7 @@ A agregação é feita server-side com `DATE_TRUNC()` em PostgreSQL, que reduz o
 
 No âmbito do projeto FloralQ foram realizadas três sessões de teste de usabilidade com participantes representativos do público-alvo, recorrendo à metodologia Walkthrough combinada com o método Think Aloud.
 As sessões foram documentadas através de screen recording com captura de áudio.
-Para ver os testes de usabilidade completos, links para videos, analise detalhada dos resultados e Wireframes, aceder ao link abaixo:
+Para ver os testes de usabilidade completos, links para videos, análise detalhada dos resultados e Wireframes, aceder ao link abaixo:
 [L9: Ver Design e Testes de Usabilidade Completo](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/f1b497d2f2c0cfd3635087e0ef4a0cceb6209b72/Documentos/UI_Assets_%26_Design_System/FloralQ-User-Testing.pdf)  
 
 ### 17.2 Tarefas Testadas
@@ -676,10 +676,10 @@ Não foram identificados problemas críticos em nenhuma das três sessões. As o
 O cronograma do projeto foi planeado em 15 semanas, organizadas em quatro fases: Pré-Inicial, Inicial, Intermédia e Final. Cada tarefa foi alocada a um espaço de tempo específico.  
 
 ### Gantt primeira entrega
-<img src="Imgs/Gantt 08_03.jpg" alt="Gantt 08/03" width="1000">  
+<img src="Imgs/Gantt_08_03.jpg" alt="Gantt 08/03" width="1000">  
 
 ### Gantt segunda entrega
-<img src="Imgs/Gantt 27_04.jpg" alt="Gantt 27/04" width="1000">  
+<img src="Imgs/Gantt_27_04.jpg" alt="Gantt 27/04" width="1000">  
 
 ### Gantt terceira entrega
 <img src="Imgs/Gantt 25_05.jpg" alt="Gantt 25/05 2" width="1000">
