@@ -332,5 +332,3 @@ Será redirecionado para a página de login.
 **Os alertas não chegam por email**
 - Confirme que ativou a opção "Also send email alerts" em Account -> Alerts.
 - Confirme que o email da conta é o seu.
-
----
