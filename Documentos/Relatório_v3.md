@@ -5,6 +5,7 @@
 **Autor:** Pedro António - N.º 20241273  
 **Relatório em .md** [L0: Relatório .md](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/28830ebeaeb4d51cfa95d8d259b0206d506aa8e8/Documentos/Relat%C3%B3rio_v3.md)  
 **GitHub**: [L1: Repositorio GitHub](https://github.com/MelhorNarrador/ProjetoWeb_Pedro)  
+**Manual de Utilizador**: [L13: Manual de Utilizador](https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/0654d91843d3018806611f0a10ec89404da1650b/Documentos/Manuais_De_Utilizador/Manual_de_Utilizador.md#15-resolu%C3%A7%C3%A3o-de-problemas)  
 
 <img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="2000">
 
@@ -762,6 +763,7 @@ A **FloralQ** evoluiu de uma ideia para uma plataforma web funcional ao longo de
 - Um **dispositivo IoT ESP32** com sensor de humidade, módulo GPS, ecrã LCD com mascote animada com 10 estados visuais.
 - Um **algoritmo preditivo** de regressão linear com filtragem de outliers, cálculo de R² e sistema de confiança de previsão.
 - Um **backoffice de administração** com gestão de utilizadores, dispositivos e plantas.
+- Um **manual de utilizador** detalhado que documenta todas as funcionalidades da plataforma.  
 
 ### 20.2 Trabalho Futuro
 
@@ -818,3 +820,5 @@ L11: Ver Documento 3 Fases Completo -
 https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/1c6bffdf1a960a4473ce05afd394958d52d09584/Documentos/UI_Assets_%26_Design_System/Documento_3_Fases_Completo.pdf  
 L12: Protótipo Figma Hi-FI -   
 https://www.figma.com/proto/GiLb2rGhWcpfJnE8jnYILL/FloralQ-Mockup?node-id=45-2&p=f&t=bEdYHEH4cU2yoyTU-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1  
+L13: Manual de Utilizador -  
+https://github.com/MelhorNarrador/ProjetoWeb_Pedro/blob/0654d91843d3018806611f0a10ec89404da1650b/Documentos/Manuais_De_Utilizador/Manual_de_Utilizador.md#15-resolu%C3%A7%C3%A3o-de-problemas   
