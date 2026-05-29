@@ -731,9 +731,9 @@ Links:
 
 ### 19.4 Estatística
 
-**Contribuição** Dashboard estatístico dinâmico com stats bar, gráficos de histórico com agregação por intervalo (24h/semana/mês/ano), e métricas do algoritmo preditivo (média, desvio-padrão, IQR, regressão linear, R² e previsão de secagem em horas).
+**Contribuição:** Dashboard estatístico dinâmico com stats bar, gráficos de histórico com agregação por intervalo (24h/semana/mês/ano), e métricas do algoritmo preditivo (média, desvio-padrão, IQR, regressão linear, R² e previsão de secagem em horas).
 
-**Entregáveis:** Páginas de dashboard com componentes estatísticos, apresentação explicativa dos calculos aplicados.  
+**Entregáveis:** Páginas de dashboard com componentes estatísticos, apresentação explicativa dos cálculos aplicados.  
 Links:
 [L4: Análise Estatística](https://canva.link/koj28fvdaczwtjb)  
 
@@ -745,7 +745,7 @@ Links:
 
 ### 19.6 Algoritmos e Estruturas de Dados
 
-**Contribuição** Diagramas de casos de uso e modelo de domínio. Manipulação de arrays dinâmicos em `get_user_predictions.php` no backend. No frontend, `plantsCache` e `predictionsCache` para iteração, pesquisa e cálculo de estatísticas sem voltar a chamar o backend. Renderização dinâmica do grid de plantas no dashboard, onde cada card é construído a partir de um template clonado e populado com os dados do array de plantas. Definição do índice `idx_sensor_device_time` na tabela `sensor_reading`, uma estrutura de dados que indexa por `(device_id, sensor_reading_recorded_at DESC)` para acelerar as queries temporais mais frequentes do sistema.
+**Contribuição:** Diagramas de casos de uso e modelo de domínio. Manipulação de arrays dinâmicos em `get_user_predictions.php` no backend. No frontend, `plantsCache` e `predictionsCache` para iteração, pesquisa e cálculo de estatísticas sem voltar a chamar o backend. Renderização dinâmica do grid de plantas no dashboard, onde cada card é construído a partir de um template clonado e populado com os dados do array de plantas. Definição do índice `idx_sensor_device_time` na tabela `sensor_reading`, uma estrutura de dados que indexa por `(device_id, sensor_reading_recorded_at DESC)` para acelerar as queries temporais mais frequentes do sistema.
 
 **Entregáveis:** Diagramas de casos de uso e modelo de domínio, Código relevante (manipulação de arrays dinâmicos e estruturas de dados): `get_user_predictions.php`, `dashboard.js`, `plantCard.js`, `admin.js`.
 
@@ -774,9 +774,9 @@ Para além das funcionalidades implementadas, identificam-se as seguintes oportu
 - **Reordenação de cards por drag and drop:** Permitir ao utilizador organizar visualmente as plantas no dashboard pela ordem que preferir, com persistência da posição.
 - **Diagnóstico de doenças por imagem:** Integração com a API Plant.id para identificar doenças nas plantas a partir das fotografias carregadas pelo utilizador.
 - **Menu de escolha de espécie de planta:** Substituir o dropdown atual por um seletor visual com imagens e descrição de cada espécie, facilitando a identificação ao criar uma nova planta.
-- **UI diferenciada para utilizadores Home e Professional:** Interface dedicada para utilizadores professionais com dispositivo profissional, centralizada num mapa global com pins de todas as plantas georreferenciadas, em vez de cards individuais.
+- **UI diferenciada para utilizadores Home e Professional:** Interface dedicada para utilizadores profissionais com dispositivo profissional, centralizada num mapa global com pins de todas as plantas georreferenciadas, em vez de cards individuais.
 - **Aplicação móvel:** Desenvolvimento de uma app móvel para oferecer uma melhor experiência em smartphones, com notificações push nativas e possível sistema de comunidade entre utilizadores.
-- **Dashboard público:** Este ponto estaria incluido no sistema de comunidade da app mobile, permitindo a espaços verdes urbanos, partilharem o seu mapa interativo de todas as plantas georreferenciadas, por exemplo mapa interativo de todas as plantas georreferenciadas de um parque.
+- **Dashboard público:** Este ponto estaria incluído no sistema de comunidade da app mobile, permitindo a espaços verdes urbanos, partilharem o seu mapa interativo de todas as plantas georreferenciadas, por exemplo mapa interativo de todas as plantas georreferenciadas de um parque.
 
 
 ### 20.3 Reflexão Final
