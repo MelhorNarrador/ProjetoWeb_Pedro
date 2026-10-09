@@ -8,7 +8,9 @@
 
 ---
 
-<img src="Imgs/FloralQ_Logo.svg" alt="Logo FloralQ" width="2000">
+<p align="center">
+  <img src="../Imagens/Logo_Kairos_NoBG.png" alt="Logo Kairos" width="700">
+</p>
 
 ---
 
